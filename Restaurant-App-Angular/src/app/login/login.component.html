@@ -1,20 +1,15 @@
 <div class="container-fluid login-page">
   <div class="row">
     <div class="col-6 vh-100">
-      <div class="d-flex h-100 justify-center align-items-center">
-        <svg class="blob" id="sw-js-blob-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
-          <defs>
-            <linearGradient id="sw-gradient" x1="0" x2="1" y1="1" y2="0">
-              <stop id="stop1" stop-color="rgba(76, 175, 80, 1)" offset="0%"></stop>
-              <stop id="stop2" stop-color="rgba(129, 199, 132, 1)" offset="100%"></stop>
-            </linearGradient>
-          </defs>
-          <path fill="url(#sw-gradient)" d="M16.1,-24.9C21.3,-21.7,26.4,-18,28.7,-13.1C31,-8.2,30.4,-1.9,29.2,3.9C27.9,9.8,25.9,15.2,22.6,20.2C19.2,25.1,14.6,29.4,8.6,32.8C2.6,36.1,-4.7,38.4,-10.5,36.4C-16.2,34.3,-20.5,27.9,-26.4,22.2C-32.3,16.6,-39.7,11.7,-41,5.7C-42.2,-0.4,-37.2,-7.5,-32.7,-14C-28.3,-20.4,-24.3,-26.1,-19,-29.2C-13.6,-32.4,-6.8,-32.9,-0.7,-31.9C5.4,-30.8,10.8,-28,16.1,-24.9Z" width="100%" height="100%" transform="translate(50 50)" style="transition: 0.3s;" stroke-width="0"></path>
-        </svg>
+      <div class="position-relative d-flex h-100 justify-center align-items-center">
+        <div class="blob-image position-absolute z-1">
+          <img src="login_assets/food_image.png" alt="">
+        </div>
+        <svg class="blob" id="sw-js-blob-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">                    <defs>                         <linearGradient id="sw-gradient" x1="0" x2="1" y1="1" y2="0">                            <stop id="stop1" stop-color="rgba(176.934, 190.301, 173.592, 1)" offset="0%"></stop>                            <stop id="stop2" stop-color="rgba(218.957, 237.81, 214.244, 1)" offset="100%"></stop>                        </linearGradient>                    </defs>                <path fill="url(#sw-gradient)" d="M22.7,-30C30.4,-25.7,38.1,-20.3,41.6,-12.8C45.1,-5.2,44.3,4.5,41.4,13.4C38.5,22.4,33.4,30.7,26.1,36.5C18.9,42.2,9.4,45.4,0.5,44.7C-8.4,44,-16.8,39.3,-24.7,33.8C-32.6,28.2,-39.9,21.8,-42.9,13.7C-45.8,5.6,-44.2,-4.1,-40.5,-12.5C-36.8,-20.8,-31,-27.7,-23.9,-32.1C-16.8,-36.5,-8.4,-38.4,-0.4,-37.8C7.5,-37.2,15.1,-34.2,22.7,-30Z" width="100%" height="100%" transform="translate(50 50)" style="transition: 0.3s;" stroke-width="0"></path>              </svg>
       </div>
     </div>
     <div class="col-6 vh-100 d-flex align-items-center justify-content-center">
-      <div class="login-form-container d-flex flex-column align-items-center">
+      <div class="login-form-container bg-opacity-10 d-flex flex-column align-items-center">
         <div class="login-form-header d-flex flex-column align-items-center">
           <div class="login-form-image">
             <img [src]="chef_logo" alt="chef image">
@@ -47,35 +42,29 @@
     </div>
   </div>
 
-  @if (loginStatus() === "valid"){
-    <div class="alert alert-success mt-8" role="alert">
-      <div class="d-flex gap-4">
-        <span><i class="fa-solid fa-circle-check icon-success"></i></span>
-        <div>
-          Successfully logged in!
-        </div>
+  <div class="position-absolute top-10 left-1/2 translate-middle-x w-50 animate-pulse">
+    @if (loginStatus() === "valid"){
+      <div class="position-absolute mt-0 w-100 flex items-center justify-between p-3 leading-normal text-green-600 bg-green-100 rounded-lg" role="alert">
+        <p>Logged in Successfully</p>
+        <svg onclick="return this.parentNode.remove();" class="inline w-4 h-4 fill-current ml-2 hover:opacity-80 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464zM359.5 133.7c-10.11-8.578-25.28-7.297-33.83 2.828L256 218.8L186.3 136.5C177.8 126.4 162.6 125.1 152.5 133.7C142.4 142.2 141.1 157.4 149.7 167.5L224.6 256l-74.88 88.5c-8.562 10.11-7.297 25.27 2.828 33.83C157 382.1 162.5 384 167.1 384c6.812 0 13.59-2.891 18.34-8.5L256 293.2l69.67 82.34C330.4 381.1 337.2 384 344 384c5.469 0 10.98-1.859 15.48-5.672c10.12-8.562 11.39-23.72 2.828-33.83L287.4 256l74.88-88.5C370.9 157.4 369.6 142.2 359.5 133.7z"/>
+        </svg>
       </div>
-    </div>
-  } @else if (loginStatus() === "invalid") {
-    <div class="alert alert-danger mt-8" role="alert">
-      <div class="d-flex gap-4">
-        <span><i class="fa-solid fa-circle-exclamation icon-danger"></i></span>
-        <div class="d-flex flex-column gap-2">
-          <h6 class="mb-0">Error Logging in </h6>
-          <p class="mb-0">Try using the default username and password</p>
-        </div>
+    } @else if (loginStatus() === "invalid") {
+      <div class="position-absolute mt-0 w-100 flex items-center justify-between p-3 leading-normal text-red-600 bg-red-100 rounded-lg" role="alert">
+        <p>Error Trying To Log In</p>
+        <svg onclick="return this.parentNode.remove();" class="inline w-4 h-4 fill-current ml-2 hover:opacity-80 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464zM359.5 133.7c-10.11-8.578-25.28-7.297-33.83 2.828L256 218.8L186.3 136.5C177.8 126.4 162.6 125.1 152.5 133.7C142.4 142.2 141.1 157.4 149.7 167.5L224.6 256l-74.88 88.5c-8.562 10.11-7.297 25.27 2.828 33.83C157 382.1 162.5 384 167.1 384c6.812 0 13.59-2.891 18.34-8.5L256 293.2l69.67 82.34C330.4 381.1 337.2 384 344 384c5.469 0 10.98-1.859 15.48-5.672c10.12-8.562 11.39-23.72 2.828-33.83L287.4 256l74.88-88.5C370.9 157.4 369.6 142.2 359.5 133.7z"/>
+        </svg>
       </div>
-    </div>
-  }
-  @if (loggingIn()) {
-    <div class="alert alert-warning mt-8" role="alert">
-      <div class="d-flex gap-4">
-        <span><i class="fa-solid fa-circle-exclamation icon-warning"></i></span>
-        <div class="d-flex flex-column gap-2">
-          <h6 class="mb-0">Trying to log in...</h6>
-        </div>
+    }
+    @if (loggingIn()) {
+      <div class="position-absolute mt-0 flex w-100 items-center justify-between p-3 leading-normal text-blue-600 bg-blue-100 rounded-lg" role="alert">
+        <p>Logging in...</p>
+        <svg onclick="return this.parentNode.remove();" class="inline w-4 h-4 fill-current ml-2 hover:opacity-80 cursor-pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0zM256 464c-114.7 0-208-93.31-208-208S141.3 48 256 48s208 93.31 208 208S370.7 464 256 464zM359.5 133.7c-10.11-8.578-25.28-7.297-33.83 2.828L256 218.8L186.3 136.5C177.8 126.4 162.6 125.1 152.5 133.7C142.4 142.2 141.1 157.4 149.7 167.5L224.6 256l-74.88 88.5c-8.562 10.11-7.297 25.27 2.828 33.83C157 382.1 162.5 384 167.1 384c6.812 0 13.59-2.891 18.34-8.5L256 293.2l69.67 82.34C330.4 381.1 337.2 384 344 384c5.469 0 10.98-1.859 15.48-5.672c10.12-8.562 11.39-23.72 2.828-33.83L287.4 256l74.88-88.5C370.9 157.4 369.6 142.2 359.5 133.7z"/>
+        </svg>
       </div>
-    </div>
-  }
-
+    }
+  </div>
 </div>
