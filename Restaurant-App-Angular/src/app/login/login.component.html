@@ -1,0 +1,81 @@
+<div class="container-fluid login-page">
+  <div class="row">
+    <div class="col-6 vh-100">
+      <div class="d-flex h-100 justify-center align-items-center">
+        <svg class="blob" id="sw-js-blob-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">
+          <defs>
+            <linearGradient id="sw-gradient" x1="0" x2="1" y1="1" y2="0">
+              <stop id="stop1" stop-color="rgba(76, 175, 80, 1)" offset="0%"></stop>
+              <stop id="stop2" stop-color="rgba(129, 199, 132, 1)" offset="100%"></stop>
+            </linearGradient>
+          </defs>
+          <path fill="url(#sw-gradient)" d="M16.1,-24.9C21.3,-21.7,26.4,-18,28.7,-13.1C31,-8.2,30.4,-1.9,29.2,3.9C27.9,9.8,25.9,15.2,22.6,20.2C19.2,25.1,14.6,29.4,8.6,32.8C2.6,36.1,-4.7,38.4,-10.5,36.4C-16.2,34.3,-20.5,27.9,-26.4,22.2C-32.3,16.6,-39.7,11.7,-41,5.7C-42.2,-0.4,-37.2,-7.5,-32.7,-14C-28.3,-20.4,-24.3,-26.1,-19,-29.2C-13.6,-32.4,-6.8,-32.9,-0.7,-31.9C5.4,-30.8,10.8,-28,16.1,-24.9Z" width="100%" height="100%" transform="translate(50 50)" style="transition: 0.3s;" stroke-width="0"></path>
+        </svg>
+      </div>
+    </div>
+    <div class="col-6 vh-100 d-flex align-items-center justify-content-center">
+      <div class="login-form-container d-flex flex-column align-items-center">
+        <div class="login-form-header d-flex flex-column align-items-center">
+          <div class="login-form-image">
+            <img [src]="chef_logo" alt="chef image">
+          </div>
+
+          <div class="login-form-title mt-3">
+            <p>
+              BSS RESTAURANT
+            </p>
+          </div>
+        </div>
+        <div class="form-container w-100 mt-4">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3 w-100">
+              <label for="userNameInput" class="form-label login-text-input-label">Username</label>
+              <input type="email" class="form-control login-text-input-field" id="userNameInput" aria-describedby="emailHelp"
+                     [formControl]=this.loginForm.controls.email
+              >
+            </div>
+            <div class="mb-3 w-100">
+              <label for="inputPassword" class="form-label login-text-input-label">Password</label>
+              <input type="password" class="form-control login-text-input-field" id="inputPassword"
+                     [formControl]=this.loginForm.controls.password
+              >
+            </div>
+            <button type="submit" class="btn button-primary w-100 mb-3 mt-3">LOGIN</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (loginStatus() === "valid"){
+    <div class="alert alert-success mt-8" role="alert">
+      <div class="d-flex gap-4">
+        <span><i class="fa-solid fa-circle-check icon-success"></i></span>
+        <div>
+          Successfully logged in!
+        </div>
+      </div>
+    </div>
+  } @else if (loginStatus() === "invalid") {
+    <div class="alert alert-danger mt-8" role="alert">
+      <div class="d-flex gap-4">
+        <span><i class="fa-solid fa-circle-exclamation icon-danger"></i></span>
+        <div class="d-flex flex-column gap-2">
+          <h6 class="mb-0">Error Logging in </h6>
+          <p class="mb-0">Try using the default username and password</p>
+        </div>
+      </div>
+    </div>
+  }
+  @if (loggingIn()) {
+    <div class="alert alert-warning mt-8" role="alert">
+      <div class="d-flex gap-4">
+        <span><i class="fa-solid fa-circle-exclamation icon-warning"></i></span>
+        <div class="d-flex flex-column gap-2">
+          <h6 class="mb-0">Trying to log in...</h6>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
