@@ -12,6 +12,7 @@
     text-decoration-color: white;
     background: #c8e6c9;
   }
+  transition: all 0.3s ease-in-out;
 }
 
 :root {

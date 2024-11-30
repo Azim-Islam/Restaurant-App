@@ -1,14 +1,16 @@
+
 <div class="container-fluid login-page">
   <div class="row">
-    <div class="col-6 vh-100">
+    <div class="d-none d-lg-block col-lg-6 vh-100">
       <div class="position-relative d-flex h-100 justify-center align-items-center">
         <div class="blob-image position-absolute z-1">
           <img src="login_assets/food_image.png" alt="">
         </div>
-        <svg class="blob" id="sw-js-blob-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">                    <defs>                         <linearGradient id="sw-gradient" x1="0" x2="1" y1="1" y2="0">                            <stop id="stop1" stop-color="rgba(176.934, 190.301, 173.592, 1)" offset="0%"></stop>                            <stop id="stop2" stop-color="rgba(218.957, 237.81, 214.244, 1)" offset="100%"></stop>                        </linearGradient>                    </defs>                <path fill="url(#sw-gradient)" d="M22.7,-30C30.4,-25.7,38.1,-20.3,41.6,-12.8C45.1,-5.2,44.3,4.5,41.4,13.4C38.5,22.4,33.4,30.7,26.1,36.5C18.9,42.2,9.4,45.4,0.5,44.7C-8.4,44,-16.8,39.3,-24.7,33.8C-32.6,28.2,-39.9,21.8,-42.9,13.7C-45.8,5.6,-44.2,-4.1,-40.5,-12.5C-36.8,-20.8,-31,-27.7,-23.9,-32.1C-16.8,-36.5,-8.4,-38.4,-0.4,-37.8C7.5,-37.2,15.1,-34.2,22.7,-30Z" width="100%" height="100%" transform="translate(50 50)" style="transition: 0.3s;" stroke-width="0"></path>              </svg>
+        <img class="bg-table" src="login_assets/wood_table_transparent.png" alt="">
+<!--        <svg class="blob" id="sw-js-blob-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" version="1.1">                    <defs>                         <linearGradient id="sw-gradient" x1="0" x2="1" y1="1" y2="0">                            <stop id="stop1" stop-color="rgba(176.934, 190.301, 173.592, 1)" offset="0%"></stop>                            <stop id="stop2" stop-color="rgba(218.957, 237.81, 214.244, 1)" offset="100%"></stop>                        </linearGradient>                    </defs>                <path fill="url(#sw-gradient)" d="M22.7,-30C30.4,-25.7,38.1,-20.3,41.6,-12.8C45.1,-5.2,44.3,4.5,41.4,13.4C38.5,22.4,33.4,30.7,26.1,36.5C18.9,42.2,9.4,45.4,0.5,44.7C-8.4,44,-16.8,39.3,-24.7,33.8C-32.6,28.2,-39.9,21.8,-42.9,13.7C-45.8,5.6,-44.2,-4.1,-40.5,-12.5C-36.8,-20.8,-31,-27.7,-23.9,-32.1C-16.8,-36.5,-8.4,-38.4,-0.4,-37.8C7.5,-37.2,15.1,-34.2,22.7,-30Z" width="100%" height="100%" transform="translate(50 50)" style="transition: 0.3s;" stroke-width="0"></path>              </svg>-->
       </div>
     </div>
-    <div class="col-6 vh-100 d-flex align-items-center justify-content-center">
+    <div class="col-lg-6 col-12 vh-100 d-flex align-items-center justify-content-center">
       <div class="login-form-container bg-opacity-10 d-flex flex-column align-items-center">
         <div class="login-form-header d-flex flex-column align-items-center">
           <div class="login-form-image">
@@ -34,6 +36,10 @@
               <input type="password" class="form-control login-text-input-field" id="inputPassword"
                      [formControl]=this.loginForm.controls.password
               >
+            </div>
+            <div class="flex items-center ">
+              <input id="RememberMeCheckbox" type="checkbox" value="" class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500  focus:ring-2">
+              <label for="RememberMeCheckbox" class="ms-2 text-lg font-medium text-gray-900 dark:text-gray-300">Remember me</label>
             </div>
             <button type="submit" class="btn button-primary w-100 mb-3 mt-3">LOGIN</button>
           </form>
