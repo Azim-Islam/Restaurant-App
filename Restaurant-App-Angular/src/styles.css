@@ -9,7 +9,8 @@
   box-sizing: border-box;
   font-family: "Average Sans", sans-serif;
   ::selection{
-    text-decoration-color: white;
+    color: black;
+    /*text-decoration-color: white;*/
     background: #c8e6c9;
   }
   transition: all 0.3s ease-in-out;
@@ -20,8 +21,13 @@
   --bg-primary-600: #43a047;
   --bg-primary-700: #388e3c;
   --bg-secondary-light: #E8ECE7;
+  --bg-ternary-light: #F1FAF5;
   --text-primary: white;
+  --text-dark-primary: #424242;
+  --text-dark-secondary: #616161;
 }
+
+
 
 .button-primary {
   background-color: var(--bg-primary-600);
