@@ -1,12 +1,15 @@
-import {Component, computed, inject} from '@angular/core';
+import {Component, computed, effect, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {LoginService} from './login.service';
+import {NzCarouselModule} from 'ng-zorro-antd/carousel';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NzCarouselModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -25,4 +28,6 @@ export class LoginComponent {
     let formData = {userName: this.loginForm.value.email, password: this.loginForm.value.password};
     this.loginService.sendLoginRequest(formData);
   }
+
+  protected readonly effect = effect;
 }
