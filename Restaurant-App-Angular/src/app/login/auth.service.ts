@@ -1,12 +1,25 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
-export class LoginService {
+export class AuthService {
   private httpClientService = inject(HttpClient);
   loginStatus = signal('');
   isSendingRequest = signal(false);
 
+  constructor() {
+    if (localStorage.getItem('loginStatus') === 'valid') {
+      this.loginStatus.set('valid');
+    }
+    effect(() => {
+      if (this.loginStatus() === 'valid') {
+        localStorage.setItem('loginStatus', 'valid');
+      }
+      else if (this.loginStatus() === 'invalid') {
+        localStorage.removeItem('loginStatus');
+      }
+    });
+  }
 
   sendLoginRequest(formData: { userName: string | null | undefined; password: string | null | undefined }) {
     if (formData.password && formData.userName) {
