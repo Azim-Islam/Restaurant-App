@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Average+Sans&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+.trigger {
+  font-size: 18px;
+  line-height: 64px;
+  padding: 0 24px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: #1890ff;
+}
+
+.logo {
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 0px 0px 12px 0px;
+}
+
+nz-menu-item{
+}
+
+nz-header {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 0;
+  height: 80px;
+}
+
+nz-content {
+  margin: 0 16px;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 360px;
+}
+
+nz-footer {
+  text-align: center;
+}
+
+.ant-menu-item{
+  height: 52px;
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  color: white;
+  font-weight: 600;
+  &:hover{
+    color: lightgrey;
+  }
+}
+
+.ant-menu.ant-menu-dark .ant-menu-item-selected, .ant-menu-submenu-popup.ant-menu-dark .ant-menu-item-selected{
+  background: var(--bg-ternary-light);
+  span{
+    color: var(--text-dark-primary);
+  }
+}
+
+.ant-layout-sider{
+  background-color: var(--bg-primary-700);
+  padding-left: 0;
+  width: 500px;
+}
+.ant-menu {
+  background-color: var(--bg-primary-700);
+  padding-left: 10px
+}
+
+.anticon-menu-fold{
+  font-size: 20px;
+  &:hover{
+    color: var(--bg-primary-700);
+  }
+}
+
+.anticon-menu-unfold{
+  font-size: 20px;
+  &:hover{
+    color: var(--bg-primary-700);
+  }
+}
+
+.logout-button{
+  height: 52px;
+  background: var(--bg-ternary-light);
+  color: var(--text-dark-primary);
+  font-weight: 600;
+  &:hover{
+    background: var(--bg-warning-50);
+  }
+  &:active{
+    background: var(--bg-warning-200);
+  }
+}
+
+.logout-text{
+  transition: 1s ease-in;
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.01)
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+
