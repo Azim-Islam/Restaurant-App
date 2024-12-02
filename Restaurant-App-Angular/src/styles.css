@@ -25,6 +25,9 @@
   --text-primary: white;
   --text-dark-primary: #424242;
   --text-dark-secondary: #616161;
+  --bg-warning-50: #ffebee;
+  --bg-warning-100: #ffcdd2;
+  --bg-warning-200: #ef9a9a;
 }
 
 
@@ -39,3 +42,6 @@
     background-color: var(--bg-primary-700);
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
