@@ -18,7 +18,7 @@ import {Router} from '@angular/router';
 export class LoginComponent {
   private loginService = inject(AuthService);
   private router = inject(Router);
-  protected chef_logo = "./login_assets/chef_green.png";
+  protected chef_logo = "./chef_green.png";
   loginStatus = computed(this.loginService.loginStatus);
   loggingIn = computed(this.loginService.isSendingRequest);
   loginForm = new FormGroup({
