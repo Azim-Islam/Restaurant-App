@@ -47,4 +47,9 @@ export class AuthService {
         })
     }
   }
+
+  logOutAdmin() {
+    localStorage.removeItem('loginStatus');
+    this.loginStatus.set('');
+  }
 }
