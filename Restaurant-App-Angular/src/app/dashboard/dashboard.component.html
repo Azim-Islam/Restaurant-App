@@ -1,1 +1,55 @@
-<p>dashboard works!</p>
+<nz-layout class="vh-100">
+  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzWidth]="250">
+    <div class="d-flex vh-100 flex-col justify-content-between">
+      <div>
+        <div class="logo"></div>
+        <ul nz-menu nzTheme="dark" nzMode="inline">
+          @for (menuItem of sideBarItems; track  menuItem){
+            <li nz-menu-item (click)="setComponent(menuItem.ItemName)">
+              <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"  ></span>
+              <span>{{ menuItem.ItemName }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+        <button (click)="onLogout()" class="btn logout-button align-self-center mb-6 w-3/4 drop-shadow-lg overflow-clip text-nowrap">
+          <span nz-icon nzType="poweroff" nzTheme="outline"></span>
+          @if (!isCollapsed){
+            <span class="logout-text ms-1 overflow-clip text-nowrap">
+              Logout
+            </span>
+            }
+        </button>
+    </div>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+          <span
+            class="trigger"
+            nz-icon
+            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+            (click)="isCollapsed = !isCollapsed"
+          ></span>
+    </nz-header>
+    <nz-content>
+      @switch (currentComponent()){
+        @case ('Employees'){
+          <app-employees></app-employees>
+        }
+        @case ('Tables'){
+          <app-tables></app-tables>
+        }
+        @case ('Foods'){
+          <app-foods></app-foods>
+        }
+        @case ('New Order'){
+          <app-new-order></app-new-order>
+        }
+        @case ('Orders'){
+          <app-orders></app-orders>
+        }
+
+      }
+    </nz-content>
+  </nz-layout>
+</nz-layout>
