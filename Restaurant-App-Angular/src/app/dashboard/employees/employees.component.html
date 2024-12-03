@@ -1,1 +1,39 @@
-<p>employees works!</p>
+<nz-table
+  nzShowSizeChanger
+  [nzData]="listOfEmployees()"
+  [nzFrontPagination]="false"
+  [nzLoading]="backendService.isSendingRequest()"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageIndex"
+  (nzQueryParams)="onQueryParamsChange($event)"
+>
+  <thead>
+  <tr>
+    <th class="custom-table-title" nzColumnKey="image"></th>
+    <th class="custom-table-title" nzColumnKey="name">Name</th>
+    <th class="custom-table-title" nzColumnKey="email">Email</th>
+    <th class="custom-table-title" nzColumnKey="designation">Designation</th>
+    <th class="custom-table-title" nzColumnKey="joindate">Join Date</th>
+    <th class="custom-table-title" nzColumnKey="phone">Phone</th>
+    <th class="custom-table-title" nzColumnKey="action"></th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (data of listOfEmployees(); track data.id) {
+      <tr class="custom-table-row">
+        <td>
+          <div class="d-flex justify-content-center">
+            <nz-avatar [nzSize]="64" nzIcon="user" [nzSrc]=getImageUrl(data.user.image)></nz-avatar>
+          </div>
+        </td>
+        <td>{{ data.user.firstName }} {{ data.user.middleName }} {{ data.user.lastName }}</td>
+        <td>{{ data.user.email }}</td>
+        <td>{{ data.designation }}</td>
+        <td>{{ data.joinDate }}</td>
+        <td>{{ data.user.phoneNumber }}</td>
+        <td><button (click)="deleteUser(data.id)" class="btn delete-button w-100">Delete</button></td>
+      </tr>
+    }
+  </tbody>
+</nz-table>
