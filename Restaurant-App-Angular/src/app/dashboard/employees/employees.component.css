@@ -1,0 +1,35 @@
+.ant-table{
+  overflow-x: auto;
+}
+
+.delete-button{
+  height: 48px;
+  background: var(--bg-warning-400);
+  color: whitesmoke;
+  font-weight: 600;
+  &:hover{
+    background: var(--bg-warning-600);
+  }
+  &:active{
+    color: whitesmoke;
+    background: var(--bg-warning-600);
+  }
+}
+
+td{
+  font-size: 16px;
+}
+
+
+
+.custom-table-row:hover td{
+  background: var(--bg-ternary-light) !important;
+}
+.custom-table-row:hover{
+  background: var(--bg-ternary-light) !important;
+}
+
+.custom-table-title{
+  font-size: 18px;
+  color: darkgreen;
+}
