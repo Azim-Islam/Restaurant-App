@@ -76,6 +76,9 @@ nz-footer {
   background-color: var(--bg-primary-700);
   padding-left: 0px;
 }
+.ant-menu-inline{
+  padding-left: 12px;
+}
 
 .anticon-menu-fold{
   font-size: 20px;
@@ -106,6 +109,15 @@ nz-footer {
 
 .logout-text{
   transition: 1s ease-in;
+}
+
+.ant-layout-content{
+ margin: 0;
+}
+
+.ant-menu-title-content{
+  display:flex;
+  align-items: center;
 }
 
 @keyframes scaleUp {
