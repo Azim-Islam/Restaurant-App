@@ -48,6 +48,8 @@ nz-footer {
 }
 
 .ant-menu-item{
+  display: flex;
+  align-items: center;
   height: 52px;
   border-top-left-radius: 25px;
   border-bottom-left-radius: 25px;
