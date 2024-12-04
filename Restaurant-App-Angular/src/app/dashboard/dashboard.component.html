@@ -1,14 +1,25 @@
 <nz-layout class="vh-100">
   <nz-sider (mouseenter)="showSider()" (mouseleave)="hideSider()" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzWidth]="250">
     <div class="d-flex vh-100 flex-col justify-content-between">
-      <div>
-        <div class="logo"></div>
+      <div class="text-nowrap">
+        <div class="logo text-nowrap position-relative">
+          <img [ngClass]="{'position-absolute translate-y-50 translate-x-50': isCollapsed}" class="transition-all delay-500 duration-300 ease-out" src="./chef_green.png" alt="">
+          <p [ngClass]="{'opacity-0': isCollapsed}"  class="text-nowrap transition-opacity duration-75 ease-out ">BSS RESTAURANT</p>
+
+        </div>
         <ul nz-menu nzTheme="dark" nzMode="inline">
           @for (menuItem of sideBarItems; track  menuItem){
-            <li nz-menu-item (click)="setComponent(menuItem.ItemName)">
-              <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"  ></span>
-              <span>{{ menuItem.ItemName }}</span>
-            </li>
+            @if (menuItem.ItemName === "Employees") {
+              <li nz-menu-item nzSelected (click)="setComponent(menuItem.ItemName)">
+                <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"  ></span>
+                <span>{{ menuItem.ItemName }}</span>
+              </li>
+            } @else{
+              <li nz-menu-item (click)="setComponent(menuItem.ItemName)">
+                <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"  ></span>
+                <span>{{ menuItem.ItemName }}</span>
+              </li>
+            }
           }
         </ul>
       </div>
@@ -24,12 +35,36 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-          <span
-            class="trigger"
-            nz-icon
-            [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-            (click)="isCollapsed = !isCollapsed"
-          ></span>
+      <div class="d-flex align-items-center">
+        <span
+          class="trigger"
+          nz-icon
+          [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+          (click)="isCollapsed = !isCollapsed"
+        ></span>
+
+      </div>
+      <div class="header-title">
+        @switch (currentComponent()){
+          @case ('Employees'){
+            <p>Employee Management</p>
+          }
+          @case ('Tables'){
+            <p>Table Management</p>
+          }
+          @case ('Foods'){
+            <p>Food Item Management</p>
+          }
+          @case ('New Order'){
+            <p>Create New Order</p>
+          }
+          @case ('Orders'){
+            <p>Order Management</p>
+          }
+
+        }
+      </div>
+
     </nz-header>
     <nz-content>
       @switch (currentComponent()){
