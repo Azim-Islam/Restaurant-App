@@ -11,6 +11,7 @@ import {NewOrderComponent} from './new-order/new-order.component';
 import {OrdersComponent} from './orders/orders.component';
 import {FoodsComponent} from './foods/foods.component';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {NgClass} from '@angular/common';
 
 
 
@@ -31,6 +32,7 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
     NewOrderComponent,
     OrdersComponent,
     FoodsComponent,
+    NgClass,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -64,10 +66,11 @@ export class DashboardComponent implements OnInit {
 
   ]
   currentComponent = signal('Employees'); // Hardcoded initial value
-  isCollapsed = false;
+  isCollapsed = true;
   responsive = inject(BreakpointObserver);
 
     ngOnInit() {
+      this.isCollapsed = true;
       this.responsive.observe([Breakpoints.Large, ])
         .subscribe(result => {
           this.isCollapsed = true;
