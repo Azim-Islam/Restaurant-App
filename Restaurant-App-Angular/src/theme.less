@@ -35,6 +35,16 @@
 .ant-table-pagination.ant-pagination {
   margin: 16px 16px;
 }
+.ant-pagination.ant-pagination-mini .ant-pagination-item{
+  margin: 8px;
+}
+.ant-pagination.ant-pagination-mini .ant-pagination-prev, .ant-pagination.ant-pagination-mini .ant-pagination-next{
+  height: 40px;
+}
+
+.ant-pagination.ant-pagination-mini .ant-pagination-options {
+  margin-left: 10px;
+}
 
 .ant-pagination-item-link{
   background: #F1FAF5 !important;
@@ -45,10 +55,19 @@
 
 .ant-pagination-item {
   background: #F1FAF5 !important;
+  line-height: 40px !important;
+  font-size: 16px;
   height: 40px !important;
   width: 40px !important;
   border-radius: 8px !important;
   border: #66bb6a 1px solid !important;
+}
+.ant-pagination-item:hover a {
+  color: black !important;
+}
+
+.ant-pagination-item:hover {
+  background: #C8E6C9 !important;
 }
 
 .ant-pagination-prev, .ant-pagination-next, .ant-pagination-jump-prev, .ant-pagination-jump-next{
@@ -59,6 +78,10 @@
   line-height: 40px;
   font-size: 16px;
   height: 40px;
+}
+
+.ant-pagination-item-active{
+  background: #C8E6C9 !important;
 }
 
 .ant-pagination-options-size-changer.ant-select {
@@ -125,8 +148,17 @@
   padding-top: 8px;
 }
 
-.ng-star-inserted{
+.ant-pagination-item ng-star-inserted{
   color: var(--text-dark-primary);
+  a {
+    color: var(--text-dark-primary);
+    &:hover{
+      color: var(--text-dark-primary);
+    }
+  }
+  &:hover{
+    color: var(--text-dark-primary);
+  }
 }
 
 .ant-pagination-item-active:hover a {
@@ -135,4 +167,9 @@
 
 .ant-pagination-item-active a {
   color: black;
+}
+
+.ant-pagination-prev:hover .ant-pagination-item-link, .ant-pagination-next:hover .ant-pagination-item-link {
+  color: black;
+  border: #66bb6a 1px solid;
 }
