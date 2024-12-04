@@ -30,6 +30,7 @@ import {
   PlusSquareOutline,
   PieChartOutline,
   PoweroffOutline,
+  UserAddOutline,
 } from '@ant-design/icons-angular/icons';
 
 const icons: IconDefinition[] = [
@@ -49,6 +50,7 @@ const icons: IconDefinition[] = [
   PlusSquareOutline,
   PieChartOutline,
   PoweroffOutline,
+  UserAddOutline,
 ];
 
 export const appConfig: ApplicationConfig = {
