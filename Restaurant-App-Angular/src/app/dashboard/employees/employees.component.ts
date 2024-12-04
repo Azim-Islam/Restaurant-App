@@ -18,7 +18,6 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 })
 export class EmployeesComponent implements OnInit {
   protected backendService = inject(EmployeeBackendService);
-  private http = inject(HttpClient);
   listOfEmployees = this.backendService.listOfEmployees;
   imageBaseUrl = 'https://restaurantapi.bssoln.com/images/user/'
 
