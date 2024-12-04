@@ -2,13 +2,15 @@
   <div class="bg-white drop-shadow-lg rounded-lg pt-3">
     <nz-table
       nzShowSizeChanger
-      [nzScroll]="{ y: '70vh', x: '768px '}"
-      [nzWidthConfig]="['200px']"
+      nzSize="small"
+      nzPaginationType='default'
+      [nzScroll]="{ y: '70vh', x: '992px '}"
+      [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
       nzTableLayout="auto"
       [nzData]="listOfEmployees()"
       [nzFrontPagination]="false"
       [nzLoading]="backendService.isSendingRequest()"
-      [nzTotal]="total"
+      [nzTotal]="backendService.totalEmployees()"
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       (nzQueryParams)="onQueryParamsChange($event)"
@@ -31,16 +33,16 @@
         </th>
       </tr>
       </thead>
-      <tbody class="custom-table">
+      <tbody>
         @for (data of listOfEmployees(); track data.id) {
           <tr class="custom-table-row">
             <td>
               <div class="d-flex justify-content-center">
-                <nz-avatar [nzSize]="64" nzIcon="user" [nzSrc]=getImageUrl(data.user.image)></nz-avatar>
+                <nz-avatar [nzSize]="52" nzIcon="user" [nzSrc]=getImageUrl(data.user.image)></nz-avatar>
               </div>
             </td>
             <td>{{ data.user.firstName }} {{ data.user.middleName }} {{ data.user.lastName }}</td>
-            <td>{{ data.user.email }}</td>
+            <td >{{ data.user.email }}</td>
             <td>{{ data.designation }}</td>
             <td>{{ data.joinDate }}</td>
             <td>{{ data.user.phoneNumber }}</td>
