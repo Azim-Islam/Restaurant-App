@@ -4,6 +4,14 @@
   font-family: 'Inter', sans-serif;
 }
 
+.header-title{
+  p{
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--text-dark-primary);
+  }
+}
+
 .trigger {
   font-size: 18px;
   line-height: 64px;
@@ -17,9 +25,27 @@
 }
 
 .logo {
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
   height: 80px;
   background: rgba(255, 255, 255, 0.2);
   margin: 0px 0px 12px 0px;
+  img{
+    height: 52px;
+    width: auto;
+    object-fit: contain ;
+  }
+}
+
+.logo p{
+  overflow: hidden;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 2px;
+  text-shadow: #2e7d32 2px 0px 0px, #2e7d32 1.75517px .958851px 0px, #2e7d32 1.0806px 1.68294px 0px, #2e7d32 .141474px 1.99499px 0px, #2e7d32 -.832294px 1.81859px 0px, #2e7d32 -1.60229px 1.19694px 0px, #2e7d32 -1.97998px .28224px 0px, #2e7d32 -1.87291px -.701566px 0px, #2e7d32 -1.30729px -1.5136px 0px, #2e7d32 -.421592px -1.95506px 0px, #2e7d32 .567324px -1.91785px 0px, #2e7d32 1.41734px -1.41108px 0px, #2e7d32 1.92034px -.558831px 0px;
 }
 
 nz-menu-item{
@@ -56,7 +82,8 @@ nz-footer {
   color: white;
   font-weight: 600;
   &:hover{
-    color: lightgrey;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
   }
 }
 
