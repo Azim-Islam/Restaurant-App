@@ -34,6 +34,7 @@
   --bg-warning-300: #e57373;
   --bg-warning-400: #ef5350;
   --bg-warning-600: #e53935;
+  --bg-warning-700: #ff1744;
 }
 
 .drop-down-button{
@@ -44,9 +45,15 @@
   border: none;
   span{
     color: var(--text-dark-primary);
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 800;
     letter-spacing: 2px;
+  }
+  &:hover{
+    background-color: var(--bg-warning-600);
+    span{
+      color: white;
+    }
   }
 }
 
