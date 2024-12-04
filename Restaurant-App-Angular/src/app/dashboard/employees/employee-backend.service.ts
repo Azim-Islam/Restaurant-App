@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
-import {Employee, ResponseListOfEmployees} from './employees/employee.interface';
-import {EmployeesComponent} from './employees/employees.component';
+import {Employee, ResponseListOfEmployees} from './employee.interface';
+import {EmployeesComponent} from './employees.component';
 import {inNextTick} from 'ng-zorro-antd/core/util';
 
 
@@ -12,12 +12,12 @@ function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
 
 @Injectable({providedIn: 'root'})
 export class EmployeeBackendService {
+  private baseUrl = "https://restaurantapi.bssoln.com"
   private httpClientService = inject(HttpClient);
   isSendingRequest = signal(false);
   triggerRefresh = signal(false);
-  private baseUrl = "https://restaurantapi.bssoln.com"
   listOfEmployees = signal<Employee[]>([]);
-
+  totalEmployees = signal(10);
 
 
   getListOFEmployees(sortBy: string, page: string, per_page: string, search: string){
@@ -35,8 +35,8 @@ export class EmployeeBackendService {
             case HttpEventType.Response:
               if ((data.status) === 200){
                 this.listOfEmployees.set(getSanitizedListOfEmployee(data.body));
+                this.totalEmployees.set(data.body!.totalRecords);
                 this.isSendingRequest.set(false);
-
               }
               break;
             case HttpEventType.Sent:
@@ -47,6 +47,8 @@ export class EmployeeBackendService {
         error: (err) => {
           this.isSendingRequest.set(false);
         },
+        complete: () => {
+        }
       });
   }
 
