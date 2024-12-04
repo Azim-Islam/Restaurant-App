@@ -1,5 +1,6 @@
 <div class="main-wrapper p-4">
   <div class="bg-white drop-shadow-lg rounded-lg pt-3">
+    <ng-template #indicatorTemplate><span class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></span></ng-template>
     <nz-table
       nzShowSizeChanger
       nzSize="small"
@@ -9,7 +10,8 @@
       nzTableLayout="auto"
       [nzData]="listOfEmployees()"
       [nzFrontPagination]="false"
-      [nzLoading]="backendService.isSendingRequest()"
+      [nzLoading]=backendService.isSendingRequest()
+      [nzLoadingIndicator]="indicatorTemplate"
       [nzTotal]="backendService.totalEmployees()"
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
@@ -48,17 +50,21 @@
             <td>{{ data.user.phoneNumber }}</td>
             <td>
               <div class="d-flex justify-content-center">
-                <button  class="drop-down-button drop-shadow-md" nz-dropdown nzTrigger="click"  nz-button [nzDropdownMenu]="menu" nzPlacement="bottomRight">
-                  <span nz-icon nzType="ellipsis"></span>
+                <button class="drop-down-button drop-shadow-md">
+                  <span nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
-                <nz-dropdown-menu #menu="nzDropdownMenu">
-                  <ul nz-menu >
-                    <button (click)="deleteUser(data.id)" class="btn delete-button w-100">
-                      <span nz-icon nzType="delete" nzTheme="outline"></span>
-                      <span> Delete</span>
-                    </button>
-                  </ul>
-                </nz-dropdown-menu>
+
+<!--                <button  class="drop-down-button drop-shadow-md" nz-dropdown nzTrigger="click"  nz-button [nzDropdownMenu]="menu" nzPlacement="bottomRight">-->
+<!--                  <span nz-icon nzType="ellipsis"></span>-->
+<!--                </button>-->
+<!--                <nz-dropdown-menu #menu="nzDropdownMenu">-->
+<!--                  <ul nz-menu >-->
+<!--                    <button (click)="deleteUser(data.id)" class="btn delete-button w-100">-->
+<!--                      <span nz-icon nzType="delete" nzTheme="outline"></span>-->
+<!--                      <span> Delete</span>-->
+<!--                    </button>-->
+<!--                  </ul>-->
+<!--                </nz-dropdown-menu>-->
               </div>
             </td>
           </tr>
