@@ -1,4 +1,4 @@
-import {Component, inject, signal} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
 import {NzBreadCrumbComponent} from 'ng-zorro-antd/breadcrumb';
 import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from 'ng-zorro-antd/menu';
@@ -10,7 +10,7 @@ import {TablesComponent} from './tables/tables.component';
 import {NewOrderComponent} from './new-order/new-order.component';
 import {OrdersComponent} from './orders/orders.component';
 import {FoodsComponent} from './foods/foods.component';
-
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 
 
@@ -35,7 +35,7 @@ import {FoodsComponent} from './foods/foods.component';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   sideBarItems = [
@@ -65,7 +65,17 @@ export class DashboardComponent {
   ]
   currentComponent = signal('Employees'); // Hardcoded initial value
   isCollapsed = false;
+  responsive = inject(BreakpointObserver);
 
+    ngOnInit() {
+      this.responsive.observe([Breakpoints.Large, ])
+        .subscribe(result => {
+          this.isCollapsed = true;
+          if (result.matches) {
+            this.isCollapsed = false;
+          }
+        });
+    }
 
 
   onLogout() {
@@ -75,5 +85,15 @@ export class DashboardComponent {
 
   setComponent(menuItemName: string) {
     this.currentComponent.set(menuItemName);
+  }
+
+  protected readonly ondragover = ondragover;
+
+  showSider() {
+    this.isCollapsed = false;
+  }
+
+  hideSider() {
+    this.isCollapsed = true;
   }
 }
