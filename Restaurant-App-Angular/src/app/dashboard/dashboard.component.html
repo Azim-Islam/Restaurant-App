@@ -1,5 +1,5 @@
 <nz-layout class="vh-100">
-  <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzWidth]="250">
+  <nz-sider (mouseenter)="showSider()" (mouseleave)="hideSider()" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null" [nzWidth]="250">
     <div class="d-flex vh-100 flex-col justify-content-between">
       <div>
         <div class="logo"></div>
