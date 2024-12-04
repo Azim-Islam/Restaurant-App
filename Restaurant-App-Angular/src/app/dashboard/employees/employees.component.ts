@@ -3,12 +3,16 @@ import {EmployeeBackendService} from '../employee-backend.service';
 import {NzTableModule, NzTableQueryParams} from 'ng-zorro-antd/table';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
+import {NzButtonComponent} from 'ng-zorro-antd/button';
+import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
+import {NzMenuDirective, NzMenuItemComponent} from 'ng-zorro-antd/menu';
+import {NzIconDirective} from 'ng-zorro-antd/icon';
 
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [NzTableModule, NzAvatarComponent],
+  imports: [NzTableModule, NzAvatarComponent, NzButtonComponent, NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, NzIconDirective],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
