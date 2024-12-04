@@ -1,5 +1,5 @@
 import {Component, computed, effect, inject, OnInit, signal} from '@angular/core';
-import {EmployeeBackendService} from '../employee-backend.service';
+import {EmployeeBackendService} from './employee-backend.service';
 import {NzTableModule, NzTableQueryParams} from 'ng-zorro-antd/table';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
@@ -23,20 +23,19 @@ export class EmployeesComponent implements OnInit {
   imageBaseUrl = 'https://restaurantapi.bssoln.com/images/user/'
 
   ngOnInit() {
-    this.loadDataFromServer(1, 10);
+    this.loadDataFromServer(this.pageIndex, this.backendService.totalEmployees());
   }
 
-  total = 1;
   pageSize = 10;
   pageIndex = 1;
   filterDesignation = [
-    { text: 'Manager', value: 'Manager' },
-    { text: 'Chef', value: 'Chef' },
-    { text: 'Cleaner', value: 'Cleaner' },
+    {text: 'Manager', value: 'Manager'},
+    {text: 'Chef', value: 'Chef'},
+    {text: 'Cleaner', value: 'Cleaner'},
   ];
 
   constructor() {
-    effect( () => {
+    effect(() => {
       if (this.backendService.triggerRefresh()) {
         this.ngOnInit();
         this.backendService.triggerRefresh.set(false);
@@ -45,11 +44,9 @@ export class EmployeesComponent implements OnInit {
     }, {allowSignalWrites: true});
   }
 
-
-
   onQueryParamsChange(params: NzTableQueryParams): void {
     console.log(params);
-    const { pageSize, pageIndex, sort, filter } = params;
+    const {pageSize, pageIndex, sort, filter} = params;
     this.loadDataFromServer(pageIndex, pageSize);
   }
 
@@ -67,7 +64,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   getImageUrl(imageUrl: string) {
-    return this.imageBaseUrl+"/"+imageUrl;
+    return this.imageBaseUrl + "/" + imageUrl;
   }
 }
 
