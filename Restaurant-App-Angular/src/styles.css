@@ -14,6 +14,9 @@
     background: #c8e6c9;
   }
   transition: all 0.3s ease-in-out;
+  ::-webkit-scrollbar {
+    width: 2px;               /* width of the entire scrollbar */
+  }
 }
 
 :root {
@@ -31,6 +34,20 @@
   --bg-warning-300: #e57373;
   --bg-warning-400: #ef5350;
   --bg-warning-600: #e53935;
+}
+
+.drop-down-button{
+  background-color: white;
+  border-radius: 8px;
+  height: 40px;
+  width: 40px;
+  border: none;
+  span{
+    color: var(--text-dark-primary);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+  }
 }
 
 
