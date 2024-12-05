@@ -2,6 +2,7 @@ import {Router, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
 import {inject} from '@angular/core';
 import {AuthService} from './login/auth.service';
+import {NzModalService} from 'ng-zorro-antd/modal';
 
 function canVisitDashboard(){
   const authService = inject(AuthService);
@@ -34,7 +35,7 @@ export const routes: Routes = [
       {
         path: 'employees',
         loadComponent: () => import('./dashboard/employees/employees.component')
-          .then(c => c.EmployeesComponent)
+          .then(c => c.EmployeesComponent),
       },
       {
         path: 'tables',

@@ -1,0 +1,148 @@
+<nz-modal
+  [(nzVisible)]="backendService.showAddModal"
+  nzTitle="Add New Employee"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="backendService.isSendingRequest()"
+  nzWidth="80vw"
+>
+  <ng-container *nzModalContent>
+    <div class="form-wrapper">
+      <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <div class="row">
+          <div class="col-6">
+            <!--      //First Name-->
+            <nz-form-item class="row gap-4">
+              <div class="col">
+                <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">First Name</nz-form-label>
+                <nz-form-control class="mt-0" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                  <input nz-input formControlName="firstName" placeholder="First Name" />
+                  <ng-template #firstNameErrorTmpl let-control>
+                    @if (control.errors?.['required']) {
+                      This field is required!
+                    }
+                    @if (control.errors?.['notAplhaNum']) {
+                      Field can only contain letters (A-Z)
+                    }
+                  </ng-template>
+                </nz-form-control>
+              </div>
+            </nz-form-item>
+            <!--      //Middle Name-->
+            <nz-form-item>
+              <nz-form-label  nzNoColon nzLabelAlign="left" nzSpan="24">Middle Name</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="middleNameError">
+                <input nz-input formControlName="middleName" placeholder="Middle Name" />
+                <ng-template #middleNameError let-control>
+                  @if (control.errors?.['notAplhaNum']) {
+                    Name can only contain letters (A-Z)
+                  }
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+            <!--      //Last Name-->
+            <nz-form-item>
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Last Name</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="lastName" placeholder="Last Name" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div class="col-6">
+            <div class="w-100 h-100 d-flex align-items-center justify-content-center file-upload">
+              <nz-upload
+                nzAction="null"
+                nzListType="picture-card"
+                [(nzFileList)]="fileList"
+                [nzShowButton]="fileList.length < 1"
+                [nzPreview]="handlePreview"
+                [nzBeforeUpload]="beforeUpload"
+              >
+                <div class="card p-10 d-flex align-items-center justify-content-center">
+                  <span nz-icon nzType="plus"></span>
+                  <div style="margin-top: 8px">Upload</div>
+                </div>
+              </nz-upload>
+              <nz-modal
+                [nzVisible]="previewVisible"
+                [nzContent]="modalContent"
+                [nzFooter]="null"
+                (nzOnCancel)="previewVisible = false"
+              >
+                <ng-template #modalContent>
+                  <img [src]="previewImage" style="width: 100%" />
+                </ng-template>
+              </nz-modal>
+            </div>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 d-flex flex-wrap justify-content-between">
+            <!--      //Spouse Name-->
+            <nz-form-item class="w-1/3 pe-2 max-xl:w-full">
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Spouse Name</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="spouseName" placeholder="Spouse Name" />
+              </nz-form-control>
+            </nz-form-item>
+            <!--      //Designation-->
+            <nz-form-item class="w-1/3 pe-2 max-xl:w-full">
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Designation</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="designation" placeholder="Designation" />
+              </nz-form-control>
+            </nz-form-item>
+
+            <!--      //Father Name-->
+            <nz-form-item class="w-1/3 max-xl:w-full">
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Father's Name</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="fatherName" placeholder="Father's Name" />
+              </nz-form-control>
+            </nz-form-item>
+            <!--      //Email-->
+            <nz-form-item class="w-1/3 pe-2 max-xl:w-full">
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Email Address</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="emailErrorTmpl">
+                <input nz-input formControlName="email" placeholder="Email Address" />
+              </nz-form-control>
+              <ng-template #emailErrorTmpl let-control>
+                @if (control.errors?.['required']) {
+                  This field is required!
+                }
+                @if (control.errors?.['email']){
+                  Enter a valid email!
+                }
+              </ng-template>
+            </nz-form-item>
+            <!--      //Mother Name-->
+            <nz-form-item class="w-1/3 pe-2 max-xl:w-full">
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Mother's Name</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="motherName" placeholder="Mother's Name" />
+              </nz-form-control>
+            </nz-form-item>
+            <!--      //Phone Number-->
+            <nz-form-item class="w-1/3 pe-2 max-xl:w-full">
+              <nz-form-label nzRequired nzNoColon nzLabelAlign="left" nzSpan="24">Phone Number</nz-form-label>
+              <nz-form-control [nzSpan]="24" nzHasFeedback [nzErrorTip]="firstNameErrorTmpl">
+                <input nz-input formControlName="phoneNumber" placeholder="Phone Number" />
+              </nz-form-control>
+            </nz-form-item>
+
+          </div>
+        </div>
+        <!--      //Gender -->
+        <!--      //Date of Birth-->
+        <!--      //Joining Date-->
+        <!--      //NID Number-->
+      </form>
+    </div>
+  </ng-container>
+
+
+  <div *nzModalFooter>
+    <button class="drop-shadow-md" nz-button nzDanger nzType="default" (click)="handleCancel()">Cancel Operation</button>
+    <button class="drop-shadow-md" nz-button nzType="primary" (click)="handleOk()" [nzLoading]="backendService.isSendingRequest()">Add New Employee</button>
+  </div>
+</nz-modal>

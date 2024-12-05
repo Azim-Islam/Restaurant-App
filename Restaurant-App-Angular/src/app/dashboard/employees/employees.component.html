@@ -26,7 +26,7 @@
         <th class="custom-table-title" nzColumnKey="joindate">Join Date</th>
         <th class="custom-table-title" nzColumnKey="phone">Phone</th>
         <th class="custom-table-title-button" nzColumnKey="action">
-          <button class="add-employee-button">
+          <button class="add-employee-button" (click)="backendService.showAddModal.set(true)">
             <span nz-icon nzType="user-add" nzTheme="outline"></span>
             <span>
               Add Employee
@@ -51,7 +51,7 @@
             <td>
               <div class="d-flex justify-content-center">
                 <button class="drop-down-button drop-shadow-md">
-                  <span nz-icon nzType="delete" nzTheme="outline"></span>
+                  <span (click)="deleteUser(data.id)" nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
 
 <!--                <button  class="drop-down-button drop-shadow-md" nz-dropdown nzTrigger="click"  nz-button [nzDropdownMenu]="menu" nzPlacement="bottomRight">-->
@@ -74,4 +74,4 @@
   </div>
 </div>
 
-
+<app-add-employee></app-add-employee>

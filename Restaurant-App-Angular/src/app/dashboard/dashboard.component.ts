@@ -6,6 +6,7 @@ import {AuthService} from '../login/auth.service';
 import {Router, RouterOutlet} from '@angular/router';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {NgClass} from '@angular/common';
+import {AddEmployeeComponent} from './employees/add-employee/add-employee.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +21,7 @@ import {NgClass} from '@angular/common';
     NzIconDirective,
     NgClass,
     RouterOutlet,
+    AddEmployeeComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

@@ -72,3 +72,9 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.file-upload{
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+}

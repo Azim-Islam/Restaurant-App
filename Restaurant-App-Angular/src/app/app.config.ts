@@ -6,7 +6,6 @@ import {provideHttpClient} from '@angular/common/http';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
-import { FormsModule } from '@angular/forms';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {provideNzIcons} from 'ng-zorro-antd/icon';
 
@@ -32,7 +31,9 @@ import {
   PoweroffOutline,
   UserAddOutline,
   LoadingOutline,
+  PlusOutline,
 } from '@ant-design/icons-angular/icons';
+import {FormsModule} from '@angular/forms';
 
 const icons: IconDefinition[] = [
   AccountBookFill,
@@ -53,7 +54,7 @@ const icons: IconDefinition[] = [
   PoweroffOutline,
   UserAddOutline,
   LoadingOutline,
-
+  PlusOutline,
 ];
 
 export const appConfig: ApplicationConfig = {

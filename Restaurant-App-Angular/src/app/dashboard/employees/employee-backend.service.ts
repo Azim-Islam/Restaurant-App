@@ -1,4 +1,4 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
 import {Employee, ResponseListOfEmployees} from './employee.interface';
 import {EmployeesComponent} from './employees.component';
@@ -18,7 +18,13 @@ export class EmployeeBackendService {
   triggerRefresh = signal(false);
   listOfEmployees = signal<Employee[]>([]);
   totalEmployees = signal(10);
+  showAddModal = signal(false);
 
+  constructor() {
+    effect(() => {
+      console.log(this.showAddModal());
+    });
+  }
 
   getListOFEmployees(sortBy: string, page: string, per_page: string, search: string){
     let params = new HttpParams()

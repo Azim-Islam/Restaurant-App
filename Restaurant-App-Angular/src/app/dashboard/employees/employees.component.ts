@@ -1,18 +1,16 @@
-import {Component, computed, effect, inject, OnInit, signal} from '@angular/core';
+import {Component, effect, inject, OnInit} from '@angular/core';
 import {EmployeeBackendService} from './employee-backend.service';
 import {NzTableModule, NzTableQueryParams} from 'ng-zorro-antd/table';
-import {HttpClient, HttpParams} from '@angular/common/http';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
-import {NzButtonComponent} from 'ng-zorro-antd/button';
-import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
-import {NzMenuDirective, NzMenuItemComponent} from 'ng-zorro-antd/menu';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-
+import {AddEmployeeComponent} from './add-employee/add-employee.component';
+import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [NzTableModule, NzAvatarComponent, NzButtonComponent, NzDropDownDirective, NzDropdownMenuComponent, NzMenuDirective, NzMenuItemComponent, NzIconDirective],
+  providers: [NzModalService],
+  imports: [NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent, NzModalComponent],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
@@ -27,12 +25,6 @@ export class EmployeesComponent implements OnInit {
 
   pageSize = 10;
   pageIndex = 1;
-  filterDesignation = [
-    {text: 'Manager', value: 'Manager'},
-    {text: 'Chef', value: 'Chef'},
-    {text: 'Cleaner', value: 'Cleaner'},
-  ];
-
   constructor() {
     effect(() => {
       if (this.backendService.triggerRefresh()) {
@@ -45,7 +37,7 @@ export class EmployeesComponent implements OnInit {
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     console.log(params);
-    const {pageSize, pageIndex, sort, filter} = params;
+    const {pageSize, pageIndex} = params;
     this.loadDataFromServer(pageIndex, pageSize);
   }
 
