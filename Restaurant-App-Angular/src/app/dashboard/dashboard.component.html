@@ -16,7 +16,7 @@
               </li>
             } @else{
               <li nz-menu-item (click)="setComponent(menuItem.ItemName)">
-                <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"  ></span>
+                <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
                 <span>{{ menuItem.ItemName }}</span>
               </li>
             }
@@ -61,30 +61,12 @@
           @case ('Orders'){
             <p>Order Management</p>
           }
-
         }
       </div>
 
     </nz-header>
     <nz-content>
-      @switch (currentComponent()){
-        @case ('Employees'){
-          <app-employees></app-employees>
-        }
-        @case ('Tables'){
-          <app-tables></app-tables>
-        }
-        @case ('Foods'){
-          <app-foods></app-foods>
-        }
-        @case ('New Order'){
-          <app-new-order></app-new-order>
-        }
-        @case ('Orders'){
-          <app-orders></app-orders>
-        }
-
-      }
+      <router-outlet></router-outlet>
     </nz-content>
   </nz-layout>
 </nz-layout>
