@@ -1,20 +1,11 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
-import {NzBreadCrumbComponent} from 'ng-zorro-antd/breadcrumb';
-import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from 'ng-zorro-antd/menu';
+import {NzMenuDirective, NzMenuItemComponent} from 'ng-zorro-antd/menu';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AuthService} from '../login/auth.service';
-import {Router} from '@angular/router';
-import {EmployeesComponent} from './employees/employees.component';
-import {TablesComponent} from './tables/tables.component';
-import {NewOrderComponent} from './new-order/new-order.component';
-import {OrdersComponent} from './orders/orders.component';
-import {FoodsComponent} from './foods/foods.component';
+import {Router, RouterOutlet} from '@angular/router';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {NgClass} from '@angular/common';
-
-
-
 
 @Component({
   selector: 'app-dashboard',
@@ -27,12 +18,8 @@ import {NgClass} from '@angular/common';
     NzMenuDirective,
     NzMenuItemComponent,
     NzIconDirective,
-    EmployeesComponent,
-    TablesComponent,
-    NewOrderComponent,
-    OrdersComponent,
-    FoodsComponent,
     NgClass,
+    RouterOutlet,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -71,6 +58,7 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
       this.isCollapsed = true;
+      this.router.navigate(['dashboard/employees']);
       this.responsive.observe([Breakpoints.Large, ])
         .subscribe(result => {
           this.isCollapsed = true;
@@ -88,6 +76,23 @@ export class DashboardComponent implements OnInit {
 
   setComponent(menuItemName: string) {
     this.currentComponent.set(menuItemName);
+    switch (this.currentComponent()){
+      case 'Employees':
+        this.router.navigate(['dashboard/employees']);
+        break;
+      case 'Tables':
+        this.router.navigate(['dashboard/tables']);
+        break;
+      case 'Foods':
+        this.router.navigate(['dashboard/foods']);
+        break;
+      case 'New Order':
+        this.router.navigate(['dashboard/new-order']);
+        break;
+      case 'Orders':
+        this.router.navigate(['dashboard/orders']);
+        break;
+    }
   }
 
   protected readonly ondragover = ondragover;
