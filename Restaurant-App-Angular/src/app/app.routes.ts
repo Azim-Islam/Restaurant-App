@@ -1,6 +1,5 @@
 import {Router, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
 import {inject} from '@angular/core';
 import {AuthService} from './login/auth.service';
 
@@ -28,8 +27,34 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent,
+    loadComponent: () => import('./dashboard/dashboard.component')
+      .then(c => c.DashboardComponent),
     canActivate: [canVisitDashboard],
-
+    children: [
+      {
+        path: 'employees',
+        loadComponent: () => import('./dashboard/employees/employees.component')
+          .then(c => c.EmployeesComponent)
+      },
+      {
+        path: 'tables',
+        loadComponent: () => import('./dashboard/tables/tables.component')
+          .then(c => c.TablesComponent)
+      },
+      {
+        path: 'foods',
+        loadComponent: () => import('./dashboard/foods/foods.component')
+          .then(c => c.FoodsComponent)
+      },      {
+        path: 'new-order',
+        loadComponent: () => import('./dashboard/new-order/new-order.component')
+          .then(c => c.NewOrderComponent)
+      },
+      {
+        path: 'orders',
+        loadComponent: () => import('./dashboard/orders/orders.component')
+          .then(c => c.OrdersComponent)
+      }
+    ]
   }
 ];
