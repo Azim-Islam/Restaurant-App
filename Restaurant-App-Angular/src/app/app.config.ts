@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
-import {provideRouter, withComponentInputBinding} from '@angular/router';
+import {provideRouter, withComponentInputBinding, withRouterConfig} from '@angular/router';
 
 import { routes } from './app.routes';
 import {provideHttpClient} from '@angular/common/http';
@@ -61,7 +61,9 @@ export const appConfig: ApplicationConfig = {
     [
       provideNzIcons(icons),
       provideZoneChangeDetection({ eventCoalescing: true }),
-      provideRouter(routes, withComponentInputBinding()),
+      provideRouter(routes, withComponentInputBinding(), withRouterConfig({
+        paramsInheritanceStrategy: 'always',
+      })),
       provideHttpClient(), provideNzI18n(en_US), importProvidersFrom(FormsModule), provideAnimationsAsync(), provideHttpClient(), provideAnimationsAsync(),
     ]
 };
