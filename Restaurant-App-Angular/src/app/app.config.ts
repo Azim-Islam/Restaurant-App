@@ -32,6 +32,7 @@ import {
   UserAddOutline,
   LoadingOutline,
   PlusOutline,
+  PictureTwoTone,
 } from '@ant-design/icons-angular/icons';
 import {FormsModule} from '@angular/forms';
 
@@ -55,6 +56,7 @@ const icons: IconDefinition[] = [
   UserAddOutline,
   LoadingOutline,
   PlusOutline,
+  PictureTwoTone,
 ];
 
 export const appConfig: ApplicationConfig = {
