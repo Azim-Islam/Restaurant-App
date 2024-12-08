@@ -18,8 +18,11 @@ import {
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzInputDirective, } from 'ng-zorro-antd/input';
 import {Observable, Observer, Subject, } from 'rxjs';
-import {NzUploadComponent, NzUploadFile} from 'ng-zorro-antd/upload';
+import {NzUploadChangeParam, NzUploadComponent, NzUploadFile} from 'ng-zorro-antd/upload';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
+import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
+import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
+import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -52,6 +55,9 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
     FormsModule,
     NzUploadComponent,
     NzIconDirective,
+    NzDatePickerComponent,
+    NzSelectComponent,
+    NzOptionComponent,
   ],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css'
@@ -60,14 +66,45 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 export class AddEmployeeComponent {
 
   backendService = inject(EmployeeBackendService);
-  // isVisible = computed(() => this.backendService.showAddModal);
+  responsive = inject(BreakpointObserver);
+
+  modalWidth = "80vw"
 
   handleOk(): void {
-    this.backendService.isSendingRequest.set(true);
-    setTimeout(() => {
-      this.backendService.isSendingRequest.set(false);
-      this.handleCancel();
-    }, 3000);
+    if (this.validateForm.status === "INVALID"){
+      for(const i in this.validateForm.controls){
+        this.validateForm.controls[i as keyof typeof this.validateForm.controls].markAsDirty();
+        this.validateForm.controls[i as keyof typeof this.validateForm.controls].updateValueAndValidity();
+      }
+      this.validateForm.controls.firstName.markAsDirty();
+    }
+    if(this.validateForm.status === "VALID"){
+      this.backendService.isSendingRequest.set(true);
+      console.log(this.validateForm.value);
+      let POST_VALUES = {
+        "designation": this.validateForm.controls.designation.value,
+        "joinDate": this.validateForm.controls.doj.value,
+        "email": this.validateForm.controls.email.value,
+        "phoneNumber": this.validateForm.controls.phoneNumber.value,
+        "firstName": this.validateForm.controls.firstName.value,
+        "middleName": this.validateForm.controls.middleName.value,
+        "lastName": this.validateForm.controls.lastName.value,
+        "fatherName": this.validateForm.controls.fatherName.value,
+        "motherName": this.validateForm.controls.motherName.value,
+        "spouseName": this.validateForm.controls.spouseName.value,
+        "dob": this.validateForm.controls.dob.value,
+        "nid": this.validateForm.controls.nidCardNumber.value,
+        "genderId": this.validateForm.controls.gender.value === "Male" ? 1 : this.validateForm.controls.gender.value === "Female" ? 2 : 3,
+        "image": this.image,
+        "base64": this.imageB64,
+      }
+      console.log(POST_VALUES);
+      setTimeout(() => {
+        this.backendService.isSendingRequest.set(false);
+        this.handleCancel();
+      }, 3000);
+    }
+
   }
 
   handleCancel() {
@@ -87,6 +124,11 @@ export class AddEmployeeComponent {
     motherName: this.fb.control('', [Validators.required], [this.nameValidator]),
     designation: this.fb.control('', [Validators.required], [this.nameValidator]),
     email: this.fb.control('', [Validators.required, Validators.email]),
+    phoneNumber: this.fb.control('', [Validators.required], [this.phoneNumberValidator]),
+    nidCardNumber: this.fb.control('', [Validators.required], [this.nidNumberValidator]),
+    dob: this.fb.control('', [Validators.required]),
+    doj: this.fb.control('', [Validators.required]),
+    gender: this.fb.control('', [Validators.required]),
   });
 
   ngOnDestroy(): void {
@@ -95,9 +137,14 @@ export class AddEmployeeComponent {
   }
 
   ngOnInit() {
-    this.validateForm.markAsTouched();
-    this.validateForm.markAsPending();
-    this.validateForm.markAsDirty()
+    this.responsive.observe([Breakpoints.Large, ])
+      .subscribe(result => {
+        this.modalWidth = "100vw";
+        if (result.matches) {
+          this.modalWidth = "80vw";
+        }
+      });
+
   }
 
   // Validators
@@ -126,6 +173,34 @@ export class AddEmployeeComponent {
     });
   }
 
+  phoneNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+    return new Observable((observer: Observer<ValidationErrors | null>) => {
+      setTimeout(() => {
+        if (!/^(?:\+8801[3-9]|01[3-9])\d{8}$/.test(control.value)) {
+          observer.next({ error: true, isNotNumeric: true });
+        }
+        else {
+          observer.next(null);
+        }
+        observer.complete();
+      }, 500);
+    });
+  }
+
+  nidNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
+    return new Observable((observer: Observer<ValidationErrors | null>) => {
+      setTimeout(() => {
+        if (!/^\d{4,}$/.test(control.value)) {
+          observer.next({ error: true, isNotNumeric: true });
+        }
+        else {
+          observer.next(null);
+        }
+        observer.complete();
+      }, 500);
+    });
+  }
+
 
   submitForm() {
 
@@ -133,31 +208,56 @@ export class AddEmployeeComponent {
 
 
   //File Upload Section
-
+  image = ''
+  imageB64 = ''
   fileList: NzUploadFile[] = [];
   previewImage: string | undefined = '';
   previewVisible = false;
 
-  beforeUpload =  (file: NzUploadFile) => {
-    this.fileList = this.fileList.concat([file]);
-    const myReader = new FileReader();
-    myReader.readAsDataURL(file as any);
-    myReader.onloadend = (e) => {
-      if (!file['preview']) {
-        file['preview'] = myReader.result;
-        this.previewImage = file['preview'];
-      }
-    };
-    return false;
-  };
 
   handlePreview = async (file: NzUploadFile): Promise<void> => {
-    console.log(file);
-    if (!file['preview']) {
-
-      file['preview'] = await getBase64(file.originFileObj!);
+    if (!file.url && !file['preview']) {
+      file['preview'] = await this.getBase64(file.originFileObj!);
     }
-    this.previewImage = file['preview'];
+    this.previewImage = file.url || file['preview'];
     this.previewVisible = true;
   };
+
+  getBase64 = (file: File): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  date: any;
+
+
+
+  beforeUpload(file: NzUploadFile, fileList: NzUploadFile[]): boolean{
+    return true;
+  }
+
+  onChange(event: NzUploadChangeParam){
+    const reader = new FileReader();
+    if (event.file.originFileObj){
+      reader.onloadend = () => {
+        this.imageB64 = reader.result as string;
+        this.image = event.file.uid;
+      }
+      reader.readAsDataURL(event.file.originFileObj);
+    }
+
+    if (event.type !== 'removed') {
+      this.image="";
+      this.imageB64 = "";
+    }
+
+    if(event.type === "error"){
+      event.file.error.statusText = "Employee Image";
+      event.file.error.status = "200";
+    }
+  }
+
+  protected readonly toString = toString;
 }
