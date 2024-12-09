@@ -1,11 +1,11 @@
-<div class="main-wrapper p-4">
+<div class="main-wrapper p-4 pb-0">
   <div class="bg-white drop-shadow-lg rounded-lg pt-3">
     <ng-template #indicatorTemplate><span class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></span></ng-template>
     <nz-table
       nzShowSizeChanger
       nzSize="small"
       nzPaginationType='default'
-      [nzScroll]="{ y: '70vh', x: '992px '}"
+      [nzScroll]="{ y: '68vh', x: '992px '}"
       [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
       nzTableLayout="auto"
       [nzData]="listOfEmployees()"
