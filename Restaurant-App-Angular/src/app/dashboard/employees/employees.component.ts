@@ -30,13 +30,11 @@ export class EmployeesComponent implements OnInit {
       if (this.backendService.triggerRefresh()) {
         this.ngOnInit();
         this.backendService.triggerRefresh.set(false);
-        console.log(this.backendService.triggerRefresh());
       }
     }, {allowSignalWrites: true});
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    console.log(params);
     const {pageSize, pageIndex} = params;
     this.loadDataFromServer(pageIndex, pageSize);
   }
@@ -46,7 +44,6 @@ export class EmployeesComponent implements OnInit {
     pageSize: number,
   ): void {
     this.backendService.getListOFEmployees('', pageIndex.toString(), pageSize.toString(), '');
-    console.log(this.backendService.listOfEmployees())
   }
 
   deleteUser(id: string) {
