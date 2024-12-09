@@ -1,8 +1,6 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
-import {Employee, ResponseListOfEmployees} from './employee.interface';
-import {EmployeesComponent} from './employees.component';
-import {inNextTick} from 'ng-zorro-antd/core/util';
+import {CreateEmployee, Employee, ResponseListOfEmployees} from './employee.interface';
 
 
 function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
@@ -85,7 +83,30 @@ export class EmployeeBackendService {
 
   }
 
-  addNewEmployee(){
+  addNewEmployee(postData: CreateEmployee) {
+    this.httpClientService.post(this.baseUrl+`/api/Employee/create`, postData, {observe: 'events'})
+      .pipe(
+      )
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 200){
+                this.isSendingRequest.set(false);
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+          this.isSendingRequest.set(false);
+        },
+        complete: () => {
+          this.isSendingRequest.set(false);
+        }
+      })
 
   }
 
