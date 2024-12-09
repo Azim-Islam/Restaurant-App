@@ -80,7 +80,6 @@ export class AddEmployeeComponent {
     }
     if(this.validateForm.status === "VALID"){
       this.backendService.isSendingRequest.set(true);
-      console.log(this.validateForm.value);
       let POST_VALUES = {
         "designation": this.validateForm.controls.designation.value,
         "joinDate": this.validateForm.controls.doj.value,
@@ -99,6 +98,7 @@ export class AddEmployeeComponent {
         "base64": this.imageB64,
       }
       console.log(POST_VALUES);
+
       setTimeout(() => {
         this.backendService.isSendingRequest.set(false);
         this.handleCancel();
@@ -108,6 +108,9 @@ export class AddEmployeeComponent {
   }
 
   handleCancel() {
+    this.fileList = [];
+    this.image = '';
+    this.imageB64 = '';
     this.validateForm.reset();
     this.backendService.showAddModal.set(false);
   }
@@ -137,11 +140,14 @@ export class AddEmployeeComponent {
   }
 
   ngOnInit() {
-    this.responsive.observe([Breakpoints.Large, ])
+    this.responsive.observe([Breakpoints.Large, Breakpoints.XLarge])
       .subscribe(result => {
         this.modalWidth = "100vw";
         if (result.matches) {
           this.modalWidth = "80vw";
+        }
+        else{
+          this.modalWidth = "100vw";
         }
       });
 
@@ -243,7 +249,7 @@ export class AddEmployeeComponent {
     if (event.file.originFileObj){
       reader.onloadend = () => {
         this.imageB64 = reader.result as string;
-        this.image = event.file.uid;
+        this.image = event.file.uid + event.file.name;
       }
       reader.readAsDataURL(event.file.originFileObj);
     }
