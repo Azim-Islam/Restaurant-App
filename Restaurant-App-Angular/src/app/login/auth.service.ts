@@ -5,6 +5,7 @@ import {HttpClient, HttpEventType} from '@angular/common/http';
 export class AuthService {
   private httpClientService = inject(HttpClient);
   loginStatus = signal('');
+  authToken = signal('');
   isSendingRequest = signal(false);
 
   constructor() {
@@ -14,9 +15,11 @@ export class AuthService {
     effect(() => {
       if (this.loginStatus() === 'valid') {
         localStorage.setItem('loginStatus', 'valid');
+        localStorage.setItem('authToken', this.authToken());
       }
       else if (this.loginStatus() === 'invalid') {
         localStorage.removeItem('loginStatus');
+        localStorage.removeItem('authToken');
       }
     });
   }
@@ -31,6 +34,9 @@ export class AuthService {
             switch (data.type){
               case HttpEventType.Response:
                 if ((data.status) === 200){
+                  if("token" in data.body! && typeof (data.body.token) === 'string'){
+                    this.authToken.set(data.body.token);
+                  }
                   this.isSendingRequest.set(false);
                   this.loginStatus.set('valid');
                 }
