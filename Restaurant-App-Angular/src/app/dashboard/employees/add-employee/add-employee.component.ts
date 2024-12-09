@@ -23,6 +23,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
+import {CreateEmployee} from '../employee.interface';
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -32,6 +33,8 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
+
+
 
 
 
@@ -80,7 +83,7 @@ export class AddEmployeeComponent {
     }
     if(this.validateForm.status === "VALID"){
       this.backendService.isSendingRequest.set(true);
-      let POST_VALUES = {
+      let POST_VALUES: CreateEmployee = {
         "designation": this.validateForm.controls.designation.value,
         "joinDate": this.validateForm.controls.doj.value,
         "email": this.validateForm.controls.email.value,
@@ -97,12 +100,12 @@ export class AddEmployeeComponent {
         "image": this.image,
         "base64": this.imageB64,
       }
-      console.log(POST_VALUES);
-
+      this.backendService.addNewEmployee(POST_VALUES);
       setTimeout(() => {
         this.backendService.isSendingRequest.set(false);
         this.handleCancel();
-      }, 3000);
+        this.backendService.triggerRefresh.set(true);
+      }, 1000);
     }
 
   }
