@@ -22,7 +22,6 @@ export class EmployeeBackendService {
 
   constructor() {
     effect(() => {
-      console.log(this.showAddModal());
     });
   }
 
@@ -83,6 +82,10 @@ export class EmployeeBackendService {
         }
       })
     ;
+
+  }
+
+  addNewEmployee(){
 
   }
 
