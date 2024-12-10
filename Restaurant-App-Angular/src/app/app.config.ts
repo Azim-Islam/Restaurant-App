@@ -2,7 +2,7 @@ import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } fr
 import {provideRouter, withComponentInputBinding, withRouterConfig} from '@angular/router';
 
 import { routes } from './app.routes';
-import {provideHttpClient} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { en_US, provideNzI18n } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
@@ -37,6 +37,7 @@ import {
   PlusCircleOutline,
 } from '@ant-design/icons-angular/icons';
 import {FormsModule} from '@angular/forms';
+import {AuthInterceptorService} from './authInterceptor.service';
 
 const icons: IconDefinition[] = [
   AccountBookFill,
@@ -71,6 +72,12 @@ export const appConfig: ApplicationConfig = {
       provideRouter(routes, withComponentInputBinding(), withRouterConfig({
         paramsInheritanceStrategy: 'always',
       })),
-      provideHttpClient(), provideNzI18n(en_US), importProvidersFrom(FormsModule), provideAnimationsAsync(), provideHttpClient(), provideAnimationsAsync(),
+      provideHttpClient(
+        withInterceptorsFromDi(),
+      ),
+      {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
+      provideNzI18n(en_US),
+      importProvidersFrom(FormsModule),
+      provideAnimationsAsync(),
     ]
 };
