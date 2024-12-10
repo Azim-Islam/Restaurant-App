@@ -1,4 +1,4 @@
-export interface ResponseFoodList {
+export interface ResponseTableList {
   pageNumber: number
   current_page: number
   per_page: number
@@ -11,20 +11,24 @@ export interface ResponseFoodList {
   total: number
   from: number
   to: number
-  next_page_url: string
+  next_page_url: any
   prev_page_url: any
-  data: FoodItem[]
+  data: Table[]
 }
 
-export interface FoodItem {
+export interface Table {
   id: number
-  name: string
-  description: string
-  price: number
-  discountType: string
-  discount: number
-  discountPrice: number
+  tableNumber: string
+  numberOfSeats: number
+  isOccupied: boolean
   image: string
+  employees: Employee[]
+}
+
+export interface Employee {
+  employeeTableId: number
+  employeeId: string
+  name: string
 }
 
 export interface CreateFood {
