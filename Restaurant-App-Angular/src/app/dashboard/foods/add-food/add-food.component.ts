@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {NzModalComponent, NzModalContentDirective, NzModalFooterDirective, NzModalService} from 'ng-zorro-antd/modal';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {
@@ -23,7 +23,8 @@ import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {FoodBackendService} from '../food-backend.service';
-import {CreateEmployee} from '../food.interface';
+import {CreateFood} from '../food.interface';
+import {toNumber} from 'ng-zorro-antd/core/util';
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -65,8 +66,8 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 export class AddFoodComponent {
   backendService = inject(FoodBackendService);
   responsive = inject(BreakpointObserver);
-
   modalWidth = "80vw"
+  discType = signal("");
 
   handleOk(): void {
     if (this.validateForm.status === "INVALID") {
@@ -76,6 +77,19 @@ export class AddFoodComponent {
       }
     }
     if (this.validateForm.status === "VALID") {
+      let POST_VALUES: CreateFood = {
+        name: this.validateForm.controls.foodName.value,
+        description: this.validateForm.controls.description.value,
+        price: this.validateForm.controls.price.value,
+        discountType: this.validateForm.controls.discountType.value === "None" ? 0 : this.validateForm.controls.discountType.value === "Flat" ? 1 : 2,
+        discount: this.validateForm.controls.discountAmount.value,
+        discountPrice: this.validateForm.controls.discountedPrice.value,
+        image: this.image,
+        base64: this.imageB64,
+      }
+
+      console.log(POST_VALUES);
+
       this.backendService.isSendingRequest.set(true);
       setTimeout(() => {
         this.backendService.isSendingRequest.set(false);
@@ -100,7 +114,7 @@ export class AddFoodComponent {
   validateForm = this.fb.group({
     foodName: this.fb.control('', [Validators.required], [this.nameValidator]),
     description: this.fb.control('', [Validators.required], [this.fakeVal]),
-    price: this.fb.control('', [Validators.required], [this.middleNameValidator]),
+    price: this.fb.control('', [Validators.required], [this.isNumberValidator]),
     discountType: this.fb.control({value: 'None', disabled: false}, [Validators.nullValidator]),
     discountAmount: this.fb.control({value: '0', disabled: true}, [Validators.nullValidator], [this.isNumberValidator]),
     discountedPrice: this.fb.control({value: '0', disabled: true}, [Validators.nullValidator], [this.isNumberValidator]),
@@ -111,11 +125,54 @@ export class AddFoodComponent {
     this.destroy$.complete();
   }
 
+  recalculateDiscountedPrice(){
+    if (this.validateForm.controls.discountType.value === 'Flat' && this.validateForm.controls.discountAmount.valid) {
+      let p = toNumber(this.validateForm.controls.price.value);
+      let o = toNumber(this.validateForm.controls.discountAmount.value);
+      this.validateForm.controls.discountedPrice.setValue(String(p - o));
+    }
+    if (this.validateForm.controls.discountType.value === 'Percentage' && this.validateForm.controls.discountAmount.valid) {
+      let p = toNumber(this.validateForm.controls.price.value);
+      let o = toNumber(this.validateForm.controls.discountAmount.value);
+      this.validateForm.controls.discountedPrice.setValue(String(p - (o/100)*p));
+    }
+  }
 
   ngOnInit() {
-    // this.validateForm.controls.discountType.setValue('None');
-    // this.validateForm.controls.discountAmount.disable();
-    // this.validateForm.controls.discountedPrice.disable();
+    this.validateForm.controls.price.statusChanges.subscribe(
+      (value: any) => {
+        if (value === "VALID") {
+          this.recalculateDiscountedPrice();
+        }
+    })
+
+    this.validateForm.controls.discountAmount.statusChanges.subscribe(
+      (value: any) => {
+        if (value === "VALID") {
+          this.recalculateDiscountedPrice();
+        }
+      })
+
+    this.validateForm.controls.discountType.valueChanges.subscribe(
+      (value) => {
+        if (value === 'None') {
+          this.validateForm.controls.discountAmount.disable();
+          this.validateForm.controls.discountAmount.setValue('0');
+          this.validateForm.controls.discountedPrice.disable();
+          this.validateForm.controls.discountedPrice.setValue('0');
+        } else {
+          if (value === 'Flat') {
+            this.discType.set(" ৳")
+          }
+          else if (value === 'Percentage') {
+            this.discType.set(" %");
+          }
+          this.validateForm.controls.discountAmount.enable();
+          this.validateForm.controls.discountedPrice.enable();
+        }
+      }
+    )
+
 
     this.responsive.observe([Breakpoints.Large, Breakpoints.XLarge])
       .subscribe(result => {
@@ -126,20 +183,6 @@ export class AddFoodComponent {
           this.modalWidth = "100vw";
         }
       });
-    this.validateForm.controls.discountType.valueChanges.subscribe(
-      (value) => {
-        if (value === 'None') {
-          this.validateForm.controls.discountAmount.disable();
-          this.validateForm.controls.discountedPrice.disable();
-        } else {
-          if (value === 'Flat') {
-            this.validateForm.controls.discountAmount.
-          }
-          this.validateForm.controls.discountAmount.enable();
-          this.validateForm.controls.discountedPrice.enable();
-        }
-      }
-    )
   }
 
   // Validators
