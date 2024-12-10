@@ -1,1 +1,79 @@
-<p>tables works!</p>
+<div class="main-wrapper p-4 pb-0">
+  <div class="bg-white drop-shadow-lg rounded-lg pt-3">
+    <ng-template #indicatorTemplate><span class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></span></ng-template>
+    <nz-table
+      nzShowSizeChanger
+      nzSize="small"
+      nzPaginationType='default'
+      [nzScroll]="{ y: '68vh', x: '992px '}"
+      [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
+      nzTableLayout="auto"
+      [nzData]="listOfFood()"
+      [nzFrontPagination]="false"
+      [nzLoading]=backendService.isSendingRequest()
+      [nzLoadingIndicator]="indicatorTemplate"
+      [nzTotal]="backendService.totalFood()"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+      (nzQueryParams)="onQueryParamsChange($event)"
+    >
+      <thead>
+      <tr>
+        <th class="custom-table-title" nzColumnKey="image"></th>
+        <th class="custom-table-title" nzColumnKey="name">Name</th>
+        <th class="custom-table-title" nzColumnKey="price">Price</th>
+        <th class="custom-table-title" nzColumnKey="designation">Discount Type</th>
+        <th class="custom-table-title" nzColumnKey="joindate">Discount</th>
+        <th class="custom-table-title" nzColumnKey="phone">Discounted Price</th>
+        <th class="custom-table-title-button" nzColumnKey="action">
+          <button class="add-food-button" (click)="backendService.showAddModal.set(true)">
+            <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
+            <span>
+              Add Food Item
+            </span>
+          </button>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (data of listOfFood(); track data.id) {
+          <tr class="custom-table-row">
+            <td>
+              <div class="d-flex justify-content-center">
+                <nz-avatar [nzSize]="52" nzIcon="warning" [nzSrc]=getImageUrl(data.image)></nz-avatar>
+              </div>
+            </td>
+            <td>{{ data.name }}</td>
+            <td >{{ data.price }}</td>
+            <td>{{ data.discountType }}</td>
+            <td>{{ data.discount }}</td>
+            <td>{{ data.discountPrice }}</td>
+            <td>
+              <div class="d-flex justify-content-center">
+                <button (click)="deleteFood(data.id)" class="drop-down-button drop-shadow-md">
+                  <span nz-icon nzType="delete" nzTheme="outline"></span>
+                </button>
+
+                <!--                <button  class="drop-down-button drop-shadow-md" nz-dropdown nzTrigger="click"  nz-button [nzDropdownMenu]="menu" nzPlacement="bottomRight">-->
+                <!--                  <span nz-icon nzType="ellipsis"></span>-->
+                <!--                </button>-->
+                <!--                <nz-dropdown-menu #menu="nzDropdownMenu">-->
+                <!--                  <ul nz-menu >-->
+                <!--                    <button (click)="deleteUser(data.id)" class="btn delete-button w-100">-->
+                <!--                      <span nz-icon nzType="delete" nzTheme="outline"></span>-->
+                <!--                      <span> Delete</span>-->
+                <!--                    </button>-->
+                <!--                  </ul>-->
+                <!--                </nz-dropdown-menu>-->
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<!--<app-add-food></app-add-food>-->
+
+
