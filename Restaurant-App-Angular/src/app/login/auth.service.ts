@@ -11,17 +11,19 @@ export class AuthService {
   constructor() {
     if (localStorage.getItem('loginStatus') === 'valid') {
       this.loginStatus.set('valid');
+      this.authToken.set(localStorage.getItem('authToken')!);
     }
     effect(() => {
       if (this.loginStatus() === 'valid') {
         localStorage.setItem('loginStatus', 'valid');
         localStorage.setItem('authToken', this.authToken());
       }
-      else if (this.loginStatus() === 'invalid') {
+      else if (localStorage.getItem('loginStatus') === 'invalid') {
         localStorage.removeItem('loginStatus');
         localStorage.removeItem('authToken');
+        this.authToken.set('');
       }
-    });
+    }, {allowSignalWrites: true});
   }
 
   sendLoginRequest(formData: { userName: string | null | undefined; password: string | null | undefined }) {
@@ -56,6 +58,12 @@ export class AuthService {
 
   logOutAdmin() {
     localStorage.removeItem('loginStatus');
+    localStorage.removeItem('authToken');
     this.loginStatus.set('');
+    this.authToken.set('');
+  }
+
+  getAuthToken() {
+    return localStorage.getItem('authToken');
   }
 }
