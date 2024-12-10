@@ -1,34 +1,41 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
-import {CreateFood, FoodItem, ResponseFoodList} from './table.interface';
+import {CreateFood, ResponseTableList, Table} from './table.interface';
+import {Employee, ResponseListOfEmployees} from '../employees/employee.interface';
 
 
-function getSanitizedListOfEmployee(data: ResponseFoodList | null) {
+function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
+  return data!.data;
+}
+
+function getSanitizedListOfTable(data: ResponseTableList | null) {
   return data!.data;
 }
 
 @Injectable({providedIn: 'root'})
-export class FoodBackendService {
+export class TableBackendService {
   private baseUrl = "https://restaurantapi.bssoln.com"
   private httpClientService = inject(HttpClient);
   isSendingRequest = signal(false);
   triggerRefresh = signal(false);
-  listOfFood = signal<FoodItem[]>([]);
-  totalFood = signal(10);
+  listOfTable = signal<Table[]>([]);
+  listOfEmployees = signal<Employee[]>([]);
+  totalTable = signal(10);
   showAddModal = signal(false);
+
 
   constructor() {
     effect(() => {
     });
   }
 
-  getListOFFood(sortBy: string, page: string, per_page: string, search: string){
+  getListOfTables(sortBy: string, page: string, per_page: string, search: string){
     let params = new HttpParams()
       .append('Sort', sortBy)
       .append('Page', page)
       .append('Per_Page', per_page)
 
-    this.httpClientService.get<ResponseFoodList>(this.baseUrl+`/api/Food/datatable/`, {observe: 'events', params: params})
+    this.httpClientService.get<ResponseTableList>(this.baseUrl+`/api/Table/datatable`, {observe: 'events', params: params})
       .pipe(
       )
       .subscribe( {
@@ -36,8 +43,8 @@ export class FoodBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 200){
-                this.listOfFood.set(getSanitizedListOfEmployee(data.body));
-                this.totalFood.set(data.body!.totalRecords);
+                this.listOfTable.set(getSanitizedListOfTable(data.body));
+                this.totalTable.set(data.body!.totalRecords);
                 this.isSendingRequest.set(false);
               }
               break;
@@ -52,6 +59,38 @@ export class FoodBackendService {
         complete: () => {
         }
       });
+  }
+
+  loadFullListOfEmployee(){
+    let params = new HttpParams()
+      .append('Sort', '')
+      .append('Page', 1)
+      .append('Per_Page', 10000)
+
+    this.httpClientService.get<ResponseListOfEmployees>(this.baseUrl+`/api/Employee/datatable/`, {observe: 'events', params: params})
+      .pipe(
+      )
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 200){
+                this.listOfEmployees.set(getSanitizedListOfEmployee(data.body));
+                this.isSendingRequest.set(false);
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+          this.isSendingRequest.set(false);
+        },
+        complete: () => {
+        }
+      });
+
   }
 
   deleteFood(id: Number) {
