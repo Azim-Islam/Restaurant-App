@@ -1,6 +1,6 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
-import {CreateEmployee, FoodItem, ResponseFoodList} from './food.interface';
+import {CreateFood, FoodItem, ResponseFoodList} from './food.interface';
 
 
 function getSanitizedListOfEmployee(data: ResponseFoodList | null) {
@@ -81,7 +81,7 @@ export class FoodBackendService {
 
   }
 
-  addNewEmployee(postData: CreateEmployee) {
+  addNewEmployee(postData: CreateFood) {
     this.httpClientService.post(this.baseUrl+`/api/Employee/create`, postData, {observe: 'events'})
       .pipe(
       )
