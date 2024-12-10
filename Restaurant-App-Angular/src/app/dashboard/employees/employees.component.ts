@@ -10,7 +10,7 @@ import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
   selector: 'app-employees',
   standalone: true,
   providers: [NzModalService],
-  imports: [NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent, NzModalComponent],
+  imports: [NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
@@ -35,8 +35,9 @@ export class EmployeesComponent implements OnInit {
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    const {pageSize, pageIndex} = params;
-    this.loadDataFromServer(pageIndex, pageSize);
+    this.pageIndex = params.pageIndex;
+    this.pageSize = params.pageSize;
+    this.loadDataFromServer(this.pageIndex, this.pageSize);
   }
 
   loadDataFromServer(
@@ -48,7 +49,9 @@ export class EmployeesComponent implements OnInit {
 
   deleteUser(id: string) {
     this.backendService.deleteUser(id);
-
+    if (this.backendService.listOfEmployees().length <= 1) {
+      this.pageIndex = Math.max(1, this.pageIndex - 1);
+    }
   }
 
   getImageUrl(imageUrl: string) {
