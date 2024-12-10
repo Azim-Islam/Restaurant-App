@@ -38,20 +38,23 @@ export class FoodsComponent {
   }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
-    const {pageSize, pageIndex} = params;
-    this.loadDataFromServer(pageIndex, pageSize);
+    this.pageIndex = params.pageIndex;
+    this.pageSize = params.pageSize;
+    this.loadDataFromServer(this.pageIndex, this.pageSize);
   }
 
   loadDataFromServer(
     pageIndex: number,
     pageSize: number,
   ): void {
-    this.backendService.getListOFFood('', pageIndex.toString(), pageSize.toString(), '');
+    this.backendService.getListOFFood('', this.pageIndex.toString(), this.pageSize.toString(), '');
   }
 
   deleteFood(id: number) {
     this.backendService.deleteFood(id);
-
+    if (this.backendService.listOfFood().length <= 1) {
+      this.pageIndex = Math.max(1, this.pageIndex - 1);
+    }
   }
 
   getImageUrl(imageUrl: string) {
