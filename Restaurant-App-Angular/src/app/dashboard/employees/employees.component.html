@@ -13,8 +13,8 @@
       [nzLoading]=backendService.isSendingRequest()
       [nzLoadingIndicator]="indicatorTemplate"
       [nzTotal]="backendService.totalEmployees()"
-      [nzPageSize]="pageSize"
-      [nzPageIndex]="pageIndex"
+      [nzPageSize]="this.pageSize"
+      [nzPageIndex]="this.pageIndex"
       (nzQueryParams)="onQueryParamsChange($event)"
     >
       <thead>
