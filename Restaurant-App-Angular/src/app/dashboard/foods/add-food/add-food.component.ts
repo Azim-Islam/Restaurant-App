@@ -1,5 +1,5 @@
 import {Component, inject, signal} from '@angular/core';
-import {NzModalComponent, NzModalContentDirective, NzModalFooterDirective, NzModalService} from 'ng-zorro-antd/modal';
+import {NzModalComponent, NzModalContentDirective, NzModalFooterDirective} from 'ng-zorro-antd/modal';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {
   NzFormControlComponent,
@@ -19,23 +19,12 @@ import {NzInputDirective,} from 'ng-zorro-antd/input';
 import {Observable, Observer, Subject,} from 'rxjs';
 import {NzUploadChangeParam, NzUploadComponent, NzUploadFile} from 'ng-zorro-antd/upload';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
-import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {FoodBackendService} from '../food-backend.service';
 import {CreateFood} from '../food.interface';
 import {toNumber} from 'ng-zorro-antd/core/util';
-
-
-const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-
-
+import {toObservable} from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-add-food',
   standalone: true,
@@ -55,7 +44,6 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
     FormsModule,
     NzUploadComponent,
     NzIconDirective,
-    NzDatePickerComponent,
     NzSelectComponent,
     NzOptionComponent,
   ],
@@ -88,11 +76,9 @@ export class AddFoodComponent {
         base64: this.imageB64,
       }
 
-      console.log(POST_VALUES);
-
-      this.backendService.isSendingRequest.set(true);
+      this.backendService.addNewFood(POST_VALUES);
       setTimeout(() => {
-        this.backendService.isSendingRequest.set(false);
+      this.backendService.triggerRefresh.set(false);
         this.handleCancel();
         this.backendService.triggerRefresh.set(true);
       }, 1000);
@@ -120,10 +106,6 @@ export class AddFoodComponent {
     discountedPrice: this.fb.control({value: '0', disabled: true}, [Validators.nullValidator], [this.isNumberValidator]),
   });
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   recalculateDiscountedPrice(){
     if (this.validateForm.controls.discountType.value === 'Flat' && this.validateForm.controls.discountAmount.valid) {
@@ -136,6 +118,9 @@ export class AddFoodComponent {
       let o = toNumber(this.validateForm.controls.discountAmount.value);
       this.validateForm.controls.discountedPrice.setValue(String(p - (o/100)*p));
     }
+  }
+
+  constructor() {
   }
 
   ngOnInit() {
@@ -185,6 +170,11 @@ export class AddFoodComponent {
       });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   // Validators
   fakeVal(control: AbstractControl): Observable<ValidationErrors | null> {
     return new Observable((observer: Observer<ValidationErrors | null>) => {
@@ -195,19 +185,6 @@ export class AddFoodComponent {
     });
   }
 
-  // Validators
-  middleNameValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    return new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (control.value.length > 0 && !/^[a-zA-Z ]+$/.test(control.value)) {
-          observer.next({error: true, notAplhaNum: true});
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 500);
-    });
-  }
 
   isNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
     return new Observable((observer: Observer<ValidationErrors | null>) => {
@@ -227,32 +204,6 @@ export class AddFoodComponent {
       setTimeout(() => {
         if (!/^[a-zA-Z ]+$/.test(control.value)) {
           observer.next({error: true, notAplhaNum: true});
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 500);
-    });
-  }
-
-  phoneNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    return new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (!/^(?:\+8801[3-9]|01[3-9])\d{8}$/.test(control.value)) {
-          observer.next({error: true, isNotNumeric: true});
-        } else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 500);
-    });
-  }
-
-  nidNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    return new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (!/^\d{4,}$/.test(control.value)) {
-          observer.next({error: true, isNotNumeric: true});
         } else {
           observer.next(null);
         }
@@ -318,5 +269,4 @@ export class AddFoodComponent {
     }
   }
 
-  protected readonly toString = toString;
 }
