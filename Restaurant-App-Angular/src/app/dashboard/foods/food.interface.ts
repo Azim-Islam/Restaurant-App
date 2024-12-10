@@ -27,21 +27,13 @@ export interface FoodItem {
   image: string
 }
 
-
-export interface CreateEmployee {
-  designation: string;
-  joinDate: string;
-  email: string;
-  phoneNumber: string;
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  fatherName: string;
-  motherName: string;
-  spouseName: string;
-  dob: string;
-  nid: string;
-  genderId: number;
-  image: string;
-  base64: string;
+export interface CreateFood {
+  name: string
+  description: string
+  price: string
+  discountType: number
+  discount: string
+  discountPrice: string
+  image: string
+  base64: string
 }
