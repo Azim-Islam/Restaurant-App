@@ -81,8 +81,8 @@ export class FoodBackendService {
 
   }
 
-  addNewEmployee(postData: CreateFood) {
-    this.httpClientService.post(this.baseUrl+`/api/Employee/create`, postData, {observe: 'events'})
+  addNewFood(postData: CreateFood) {
+    this.httpClientService.post(this.baseUrl+`/api/Food/create`, postData, {observe: 'events'})
       .pipe(
       )
       .subscribe( {
