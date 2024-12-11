@@ -83,3 +83,18 @@ td{
 
 .main-wrapper{
 }
+
+.add-employee-to-table-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--bg-primary-400);
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  cursor: pointer;
+  background: var(--bg-ternary-light);
+  &:hover{
+    background: var(--bg-secondary-light-100);
+  }
+}
