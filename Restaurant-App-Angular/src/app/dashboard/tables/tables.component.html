@@ -25,7 +25,7 @@
         <th class="custom-table-title" nzColumnKey="bookingstatus">Booking Status</th>
         <th class="custom-table-title" nzColumnKey="employees">Assigned Employees</th>
         <th class="custom-table-title-button" nzColumnKey="action">
-          <button class="add-food-button" (click)="backendService.showAddModal.set(true)">
+          <button class="add-food-button">
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
             <span>
               Add Food Item
@@ -45,14 +45,19 @@
             <td>{{ data.tableNumber }}</td>
             <td >{{ data.numberOfSeats }}</td>
             <td>{{ !data.isOccupied ? "Available": "Not Available" }}</td>
-            <td class="d-flex gap-1 flex-wrap">
-              @for (employee of data.employees; track employee.employeeId) {
-                <app-avatar-tool-tip [employeeName]="employee.name" [employeeId]="employee.employeeId" [employeeList]="listOfEmployees()"></app-avatar-tool-tip>
-              }
+            <td >
+              <div class="d-flex gap-1 flex-wrap">
+                @for (employee of data.employees; track employee.employeeId) {
+                    <app-avatar-tool-tip [tableName]="data.tableNumber" [employeeName]="employee.name" [employeeId]="employee.employeeId" [employeeTableId]="employee.employeeTableId.toString()" [employeeList]="listOfEmployees()"></app-avatar-tool-tip>
+                }
+                <div (click)="showAssignModal(data.tableNumber, data.image, data.numberOfSeats)" class="add-employee-to-table-button">
+                  <span style="color:#2e7d32" class="add-employee-to-table-button" nz-icon nzType="plus" nzTheme="outline"></span>
+                </div>
+              </div>
             </td>
             <td>
               <div class="d-flex justify-content-center">
-                <button (click)="deleteFood(data.id)" class="drop-down-button drop-shadow-md">
+                <button (click)="deleteTable(data.id)" class="drop-down-button drop-shadow-md">
                   <span nz-icon nzType="delete" nzTheme="outline"></span>
                 </button>
 
@@ -75,7 +80,7 @@
     </nz-table>
   </div>
 </div>
-
+<app-add-to-table></app-add-to-table>
 <!--<app-add-food></app-add-food>-->
 
 
