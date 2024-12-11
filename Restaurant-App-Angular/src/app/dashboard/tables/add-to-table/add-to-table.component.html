@@ -1,0 +1,62 @@
+<ng-template #modalTitle>
+  <span nz-icon nzType="user-add" nzTheme="outline"></span>
+  <span> Assign Employee</span>
+</ng-template>
+<nz-modal
+  [(nzVisible)]="backendService.showAssignModal"
+  [nzTitle]="modalTitle"
+  (nzOnCancel)="handleCancel()"
+  (nzOnOk)="handleOk()"
+  [nzOkLoading]="backendService.isSendingRequest()"
+  [nzWidth]="modalWidth"
+>
+  <ng-container *nzModalContent>
+    <div class="row">
+      <div class="col-6">
+        <img [src]="backendService.assignTableImage()" alt="">
+      </div>
+      <div class="col-6">
+<!--      SEARCH START-->
+        <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
+          <input
+            placeholder="input here"
+            nz-input
+            [(ngModel)]="inputValue"
+            (input)="onChange($event)"
+            [nzAutocomplete]="auto"
+          />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+          <button nz-button nzType="primary" nzSize="large" nzSearch>
+            <span nz-icon nzType="search" nzTheme="outline"></span>
+          </button>
+        </ng-template>
+        <nz-autocomplete #auto>
+          @for (emp of listOfAvailableEmployees; track emp) {
+            <nz-auto-option (click)="employeeSelected(emp.id)"  class="search-item" [nzValue]='emp.user.firstName + " " + emp.user.middleName + " " + emp.user.lastName'>
+              <div class="row h-11">
+                <div class="col-4 pe-1 d-flex justify-content-center align-items-center">
+                  <nz-avatar [nzSize]="38" nzIcon="warning" [nzSrc]="'https://restaurantapi.bssoln.com/images/user/' + '/' + emp.user.image"></nz-avatar>
+                </div>
+                <div class="col-8 ps-0 d-flex justify-content-start align-items-center">
+                  {{emp.user.firstName}} {{emp.user.middleName}} {{emp.user.lastName}}
+                </div>
+              </div>
+            </nz-auto-option>
+          }
+        </nz-autocomplete>
+
+      </div>
+    </div>
+  </ng-container>
+
+  <div *nzModalFooter>
+    <button class="drop-shadow-md" nz-button nzDanger nzType="default" (click)="handleCancel()">Cancel Operation
+    </button>
+    <button class="drop-shadow-md" nz-button nzType="primary" (click)="handleOk()"
+            [nzLoading]="backendService.isSendingRequest()">Assign Employee
+    </button>
+  </div>
+</nz-modal>
+
+
