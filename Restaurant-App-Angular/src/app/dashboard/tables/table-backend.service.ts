@@ -22,6 +22,11 @@ export class TableBackendService {
   listOfEmployees = signal<Employee[]>([]);
   totalTable = signal(10);
   showAddModal = signal(false);
+  showAssignModal = signal(false);
+
+  assignTableNumber = signal('');
+  assignTableImage = signal('');
+  assignTableSeats = signal(0);
 
 
   constructor() {
@@ -93,8 +98,8 @@ export class TableBackendService {
 
   }
 
-  deleteFood(id: Number) {
-      this.httpClientService.delete(this.baseUrl+`/api/Food/delete/${id}`, {observe: 'events'})
+  deleteTable(id: Number) {
+      this.httpClientService.delete(this.baseUrl+`/api/Table/delete/${id}`, {observe: 'events'})
       .pipe()
       .subscribe( {
         next: (data) => {
@@ -115,8 +120,7 @@ export class TableBackendService {
         complete: () => {
           this.triggerRefresh.set(true);
         }
-      })
-    ;
+      });
 
   }
 
@@ -147,5 +151,29 @@ export class TableBackendService {
 
   }
 
+  removeEmployeeFromTable(employeeTableId: string) {
+    this.httpClientService.delete(this.baseUrl+`/api/EmployeeTable/delete/${employeeTableId}`, {observe: 'events'})
+      .pipe()
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 204){
+                this.isSendingRequest.set(false);
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+          this.isSendingRequest.set(false);
+        },
+        complete: () => {
+          this.triggerRefresh.set(true);
+        }
+      });
+  }
 }
 
