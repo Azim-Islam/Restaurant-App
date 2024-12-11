@@ -1,4 +1,4 @@
-import {Component, effect, inject} from '@angular/core';
+import {Component, effect, inject, ViewContainerRef} from '@angular/core';
 import {NzAvatarComponent} from "ng-zorro-antd/avatar";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {
@@ -8,10 +8,11 @@ import {
   NzThAddOnComponent, NzTheadComponent,
   NzThMeasureDirective, NzTrDirective
 } from "ng-zorro-antd/table";
-import {FoodBackendService} from '../foods/food-backend.service';
-import {NzModalService} from 'ng-zorro-antd/modal';
 import {TableBackendService} from './table-backend.service';
 import {AvatarToolTipComponent} from './avatar-tool-tip/avatar-tool-tip.component';
+import {AddToTableComponent} from './add-to-table/add-to-table.component';
+import {NzModalService} from 'ng-zorro-antd/modal';
+
 
 @Component({
   selector: 'app-tables',
@@ -26,7 +27,8 @@ import {AvatarToolTipComponent} from './avatar-tool-tip/avatar-tool-tip.componen
     NzThMeasureDirective,
     NzTheadComponent,
     NzTrDirective,
-    AvatarToolTipComponent
+    AvatarToolTipComponent,
+    AddToTableComponent,
   ],
   providers: [NzModalService],
   templateUrl: './tables.component.html',
@@ -34,6 +36,8 @@ import {AvatarToolTipComponent} from './avatar-tool-tip/avatar-tool-tip.componen
 })
 export class TablesComponent {
   protected backendService = inject(TableBackendService);
+  modal = inject(NzModalService);
+  viewContainerRef = inject(ViewContainerRef);
   listOfTable = this.backendService.listOfTable;
   listOfEmployees = this.backendService.listOfEmployees;
   imageBaseUrl = 'https://restaurantapi.bssoln.com/images/table/'
@@ -45,6 +49,7 @@ export class TablesComponent {
 
   pageSize = 10;
   pageIndex = 1;
+
   constructor() {
     this.loadDataFromServer(this.pageIndex, this.backendService.totalTable());
     effect(() => {
@@ -69,8 +74,8 @@ export class TablesComponent {
     this.backendService.loadFullListOfEmployee();
   }
 
-  deleteFood(id: number) {
-    this.backendService.deleteFood(id);
+  deleteTable(id: number) {
+    this.backendService.deleteTable(id);
     if (this.backendService.listOfTable().length <= 1) {
       this.pageIndex = Math.max(1, this.pageIndex - 1);
     }
@@ -80,4 +85,10 @@ export class TablesComponent {
     return this.imageBaseUrl + "/" + imageUrl;
   }
 
+  showAssignModal(tableNumber: string, image: string, numberOfSeats: number) {
+    this.backendService.assignTableNumber.set(tableNumber);
+    this.backendService.assignTableImage.set(this.getImageUrl(image));
+    this.backendService.assignTableSeats.set(numberOfSeats);
+    this.backendService.showAssignModal.set(true);
+  }
 }
