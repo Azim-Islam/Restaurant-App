@@ -1,10 +1,11 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
+import {Component, effect, inject, Injector, OnInit} from '@angular/core';
 import {EmployeeBackendService} from './employee-backend.service';
 import {NzTableModule, NzTableQueryParams} from 'ng-zorro-antd/table';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AddEmployeeComponent} from './add-employee/add-employee.component';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-employees',
@@ -18,6 +19,7 @@ export class EmployeesComponent implements OnInit {
   protected backendService = inject(EmployeeBackendService);
   listOfEmployees = this.backendService.listOfEmployees;
   imageBaseUrl = 'https://restaurantapi.bssoln.com/images/user/'
+  private injector = inject(Injector);
 
   ngOnInit() {
     this.loadDataFromServer(this.pageIndex, this.backendService.totalEmployees());
