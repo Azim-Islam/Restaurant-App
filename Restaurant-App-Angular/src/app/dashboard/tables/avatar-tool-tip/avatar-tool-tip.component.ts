@@ -1,4 +1,4 @@
-import {Component, inject, Input, input, InputSignal} from '@angular/core';
+import {Component, inject, Injector, Input, input, InputSignal} from '@angular/core';
 import {NzButtonComponent} from 'ng-zorro-antd/button';
 import {NzTooltipDirective} from 'ng-zorro-antd/tooltip';
 import {Employee, ResponseListOfEmployees} from '../../employees/employee.interface';
@@ -9,6 +9,7 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzContextMenuService, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 import {NzMenuDirective, NzMenuItemComponent, NzSubMenuComponent} from 'ng-zorro-antd/menu';
 import {TableBackendService} from '../table-backend.service';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -38,6 +39,20 @@ export class AvatarToolTipComponent {
   backendService = inject(TableBackendService);
   employeeTableId = input.required<string>() ;
   tableName = input.required<string>();
+  private injector = inject(Injector);
+
+  constructor() {
+
+    toObservable(this.backendService.listOfEmployees, {
+      injector: this.injector
+    }).subscribe(
+      value => {
+        if (value){
+          this.ngOnInit();
+        }
+      }
+    )
+  }
 
   ngOnInit(): void {
     this.employeeList().forEach((employee: Employee) => {
