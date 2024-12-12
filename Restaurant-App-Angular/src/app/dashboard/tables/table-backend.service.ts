@@ -1,6 +1,6 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
-import {CreateFood, ResponseAvailableEmployees, ResponseTableList, Table} from './table.interface';
+import {CreateTable, ResponseAvailableEmployees, ResponseTableList, Table} from './table.interface';
 import {Employee, ResponseListOfEmployees} from '../employees/employee.interface';
 
 
@@ -143,8 +143,8 @@ export class TableBackendService {
 
   }
 
-  addNewFood(postData: CreateFood) {
-    this.httpClientService.post(this.baseUrl+`/api/Food/create`, postData, {observe: 'events'})
+  addNewTable(postData: CreateTable) {
+    this.httpClientService.post(this.baseUrl+`/api/Table/create`, postData, {observe: 'events'})
       .pipe(
       )
       .subscribe( {
@@ -153,6 +153,7 @@ export class TableBackendService {
             case HttpEventType.Response:
               if ((data.status) === 200){
                 this.isSendingRequest.set(false);
+                this.triggerRefresh.set(true);
               }
               break;
             case HttpEventType.Sent:
