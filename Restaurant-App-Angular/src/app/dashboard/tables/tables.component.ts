@@ -13,6 +13,7 @@ import {AvatarToolTipComponent} from './avatar-tool-tip/avatar-tool-tip.componen
 import {AddToTableComponent} from './add-to-table/add-to-table.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {toObservable} from '@angular/core/rxjs-interop';
+import {AddTableComponent} from './add-table/add-table.component';
 
 
 @Component({
@@ -30,6 +31,7 @@ import {toObservable} from '@angular/core/rxjs-interop';
     NzTrDirective,
     AvatarToolTipComponent,
     AddToTableComponent,
+    AddTableComponent,
   ],
   providers: [NzModalService],
   templateUrl: './tables.component.html',
