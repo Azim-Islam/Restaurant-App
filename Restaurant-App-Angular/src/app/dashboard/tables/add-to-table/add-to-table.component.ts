@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, effect, inject, Injector} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -20,6 +20,7 @@ import {
 } from 'ng-zorro-antd/auto-complete';
 import {Employee} from '../../employees/employee.interface';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-to-table',
@@ -56,11 +57,45 @@ export class AddToTableComponent {
   backendService = inject(TableBackendService);
   modalWidth = "600px";
   inputValue?: string;
-  listOfAvailableEmployees : Employee[] = this.backendService.listOfEmployees();
+  listOfAvailableEmployees : Employee[] = this.backendService.listOfAvailableEmployees();
+  private injector = inject(Injector);
+  selectedEmployee = '';
+
+  ngOnInit(): void {
+  }
+
+  constructor() {
+    toObservable(this.backendService.showAssignModal, {
+      injector: this.injector
+    }).subscribe(
+      value => {
+        if (value){
+          this.backendService.loadListOfAvailableEmployees(this.backendService.assignTableNumber());
+        }
+      }
+    )
+
+    toObservable(this.backendService.listOfAvailableEmployees, {
+      injector: this.injector
+    }).subscribe(
+      value => {
+        this.listOfAvailableEmployees = value;
+      }
+    )
+
+    toObservable(this.backendService.assignTableNumber, {
+      injector: this.injector
+    }).subscribe(
+      value => {
+        console.log(this.backendService.assignTableNumber(), value);
+      }
+    )
+
+  }
 
   onChange(e: Event): void {
     const value = (e.target as HTMLInputElement).value;
-    this.listOfAvailableEmployees = this.backendService.listOfEmployees().filter((emp) => {
+    this.listOfAvailableEmployees = this.backendService.listOfAvailableEmployees().filter((emp) => {
       if ((emp.user.firstName.toLowerCase() +  emp.user.middleName.toLowerCase() + emp.user.lastName.toLowerCase()).includes(value.toLowerCase())) {
         return emp;
       }
@@ -75,13 +110,26 @@ export class AddToTableComponent {
 
   handleCancel() {
     this.backendService.showAssignModal.set(false);
+    this.inputValue = "";
+    this.selectedEmployee = '';
   }
 
   handleOk() {
-    this.handleCancel();
+    if (this.selectedEmployee !== '') {
+      this.backendService.assignEmployeeToTable(this.selectedEmployee, this.backendService.assignTableNumber());
+      setTimeout(() => {
+        this.backendService.triggerRefresh.set(false);
+        this.handleCancel();
+        this.backendService.triggerRefresh.set(true);
+      }, 1000);
+    }
+    else{
+
+    }
   }
 
   employeeSelected(id: string) {
-    console.log(id);
+    this.selectedEmployee = id;
+    console.log(this.selectedEmployee);
   }
 }
