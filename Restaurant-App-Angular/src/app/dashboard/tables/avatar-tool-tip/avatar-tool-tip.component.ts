@@ -76,7 +76,8 @@ export class AvatarToolTipComponent {
       nzOkText: 'Confirm Remove',
       nzOnOk: () => this.removeEmployeeFromTable(),
       nzCancelText: 'Cancel Operation',
-      nzOnCancel: () => {}
+      nzOnCancel: () => {},
+      nzCentered: true,
     });
   }
 }
