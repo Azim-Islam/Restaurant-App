@@ -9,6 +9,7 @@
   (nzOnOk)="handleOk()"
   [nzOkLoading]="backendService.isSendingRequest()"
   [nzWidth]="modalWidth"
+  nzCentered
 >
   <ng-container *nzModalContent>
     <div class="row">
@@ -19,7 +20,8 @@
 <!--      SEARCH START-->
         <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
           <input
-            placeholder="input here"
+            height="48px"
+            placeholder="Search Employee..."
             nz-input
             [(ngModel)]="inputValue"
             (input)="onChange($event)"
@@ -33,7 +35,7 @@
         </ng-template>
         <nz-autocomplete #auto>
           @for (emp of listOfAvailableEmployees; track emp) {
-            <nz-auto-option (click)="employeeSelected(emp.id)"  class="search-item" [nzValue]='emp.user.firstName + " " + emp.user.middleName + " " + emp.user.lastName'>
+            <nz-auto-option (click)="employeeSelected(emp.id)"  class="search-item" [nzValue]='emp.user.firstName.trim() + " " + emp.user.middleName.trim() + " " + emp.user.lastName.trim()'>
               <div class="row h-11">
                 <div class="col-4 pe-1 d-flex justify-content-center align-items-center">
                   <nz-avatar [nzSize]="38" nzIcon="warning" [nzSrc]="'https://restaurantapi.bssoln.com/images/user/' + '/' + emp.user.image"></nz-avatar>
