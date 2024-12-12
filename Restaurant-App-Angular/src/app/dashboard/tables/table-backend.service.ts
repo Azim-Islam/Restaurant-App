@@ -1,6 +1,6 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
-import {CreateFood, ResponseTableList, Table} from './table.interface';
+import {CreateFood, ResponseAvailableEmployees, ResponseTableList, Table} from './table.interface';
 import {Employee, ResponseListOfEmployees} from '../employees/employee.interface';
 
 
@@ -10,6 +10,20 @@ function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
 
 function getSanitizedListOfTable(data: ResponseTableList | null) {
   return data!.data;
+}
+
+function getAvailableEmployee(data: ResponseAvailableEmployees[] | null, listOfEmployees: Employee[]): Employee[] {
+  let employees: Employee[] = [];
+  listOfEmployees.forEach(employee => {
+      if (data){
+        data.forEach(item => {
+          if (item.employeeId == employee.id) {
+            employees.push(employee);
+          }
+        })
+      }
+  })
+  return employees;
 }
 
 @Injectable({providedIn: 'root'})
@@ -24,9 +38,12 @@ export class TableBackendService {
   showAddModal = signal(false);
   showAssignModal = signal(false);
 
+  listOfAvailableEmployees = signal<Employee[]>([]);
   assignTableNumber = signal('');
   assignTableImage = signal('');
   assignTableSeats = signal(0);
+  isLoadingEmployees = signal(false);
+  isLoadingTables = signal(false);
 
 
   constructor() {
@@ -50,18 +67,19 @@ export class TableBackendService {
               if ((data.status) === 200){
                 this.listOfTable.set(getSanitizedListOfTable(data.body));
                 this.totalTable.set(data.body!.totalRecords);
-                this.isSendingRequest.set(false);
               }
               break;
             case HttpEventType.Sent:
               this.isSendingRequest.set(true);
+              this.isLoadingTables.set(true);
               break;
           }
         },
         error: (err) => {
-          this.isSendingRequest.set(false);
+          this.isLoadingTables.set(false);
         },
         complete: () => {
+          this.isLoadingTables.set(false);
         }
       });
   }
@@ -81,18 +99,19 @@ export class TableBackendService {
             case HttpEventType.Response:
               if ((data.status) === 200){
                 this.listOfEmployees.set(getSanitizedListOfEmployee(data.body));
-                this.isSendingRequest.set(false);
               }
               break;
             case HttpEventType.Sent:
               this.isSendingRequest.set(true);
+              this.isLoadingEmployees.set(true);
               break;
           }
         },
         error: (err) => {
-          this.isSendingRequest.set(false);
+          this.isLoadingEmployees.set(false);
         },
         complete: () => {
+          this.isLoadingEmployees.set(false);
         }
       });
 
@@ -174,6 +193,60 @@ export class TableBackendService {
           this.triggerRefresh.set(true);
         }
       });
+  }
+
+  loadListOfAvailableEmployees(tableId: string) {
+    this.httpClientService.get<ResponseAvailableEmployees[]>(this.baseUrl+`/api/Employee/non-assigned-employees/${tableId}`, {observe: 'events'})
+      .pipe(
+      )
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 200){
+                this.listOfAvailableEmployees.set(getAvailableEmployee(data.body, this.listOfEmployees()));
+              }
+              break;
+            case HttpEventType.Sent:
+              break;
+          }
+        },
+        error: (err) => {
+        },
+        complete: () => {
+        }
+      });
+
+  }
+
+  assignEmployeeToTable(selectedEmployee: string, s: string) {
+    let postData = {
+      employeeId: selectedEmployee,
+      tableId: s,
+    }
+    this.httpClientService.post(this.baseUrl+`/api/EmployeeTable/create`, postData, {observe: 'events'})
+      .pipe(
+      )
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 200){
+                this.isSendingRequest.set(false);
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+          this.isSendingRequest.set(false);
+        },
+        complete: () => {
+          this.isSendingRequest.set(false);
+        }
+      })
   }
 }
 
