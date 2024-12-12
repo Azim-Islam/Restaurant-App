@@ -29,10 +29,10 @@
         <th class="custom-table-title" nzColumnKey="bookingstatus">Booking Status</th>
         <th class="custom-table-title" nzColumnKey="employees">Assigned Employees</th>
         <th class="custom-table-title-button" nzColumnKey="action">
-          <button class="add-food-button">
+          <button (click)="backendService.showAddModal.set(true)" class="add-food-button">
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
             <span>
-              Add Food Item
+              Add New Table
             </span>
           </button>
         </th>
@@ -87,6 +87,5 @@
   </div>
 </div>
 <app-add-to-table></app-add-to-table>
-<!--<app-add-food></app-add-food>-->
-
+<app-add-table></app-add-table>
 
