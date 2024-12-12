@@ -91,6 +91,7 @@ export class FoodBackendService {
             case HttpEventType.Response:
               if ((data.status) === 200){
                 this.isSendingRequest.set(false);
+                this.triggerRefresh.set(true);
               }
               break;
             case HttpEventType.Sent:
