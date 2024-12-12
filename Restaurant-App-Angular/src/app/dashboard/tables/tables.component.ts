@@ -1,4 +1,4 @@
-import {Component, effect, inject, ViewContainerRef} from '@angular/core';
+import {Component, effect, inject, Injector, ViewContainerRef} from '@angular/core';
 import {NzAvatarComponent} from "ng-zorro-antd/avatar";
 import {NzIconDirective} from "ng-zorro-antd/icon";
 import {
@@ -12,6 +12,7 @@ import {TableBackendService} from './table-backend.service';
 import {AvatarToolTipComponent} from './avatar-tool-tip/avatar-tool-tip.component';
 import {AddToTableComponent} from './add-to-table/add-to-table.component';
 import {NzModalService} from 'ng-zorro-antd/modal';
+import {toObservable} from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -41,6 +42,7 @@ export class TablesComponent {
   listOfTable = this.backendService.listOfTable;
   listOfEmployees = this.backendService.listOfEmployees;
   imageBaseUrl = 'https://restaurantapi.bssoln.com/images/table/'
+  private injector = inject(Injector);
 
 
   ngOnInit() {
@@ -51,11 +53,14 @@ export class TablesComponent {
   pageIndex = 1;
 
   constructor() {
-    this.loadDataFromServer(this.pageIndex, this.backendService.totalTable());
+    this.backendService.isSendingRequest.set(true);
     effect(() => {
       if (this.backendService.triggerRefresh()) {
         this.ngOnInit();
         this.backendService.triggerRefresh.set(false);
+      }
+      if (!this.backendService.isLoadingTables() && !this.backendService.isLoadingEmployees()) {
+        this.backendService.isSendingRequest.set(false);
       }
     }, {allowSignalWrites: true});
   }
@@ -91,4 +96,6 @@ export class TablesComponent {
     this.backendService.assignTableSeats.set(numberOfSeats);
     this.backendService.showAssignModal.set(true);
   }
+
+  protected readonly String = String;
 }
