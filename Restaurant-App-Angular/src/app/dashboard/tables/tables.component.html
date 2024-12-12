@@ -1,6 +1,10 @@
 <div class="main-wrapper p-4 pb-0">
   <div class="bg-white drop-shadow-lg rounded-lg pt-3">
-    <ng-template #indicatorTemplate><span class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></span></ng-template>
+    <ng-template #indicatorTemplate>
+      <div class="h-100 w-100 d-flex justify-content-center align-items-center">
+        <div class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></div>
+      </div>
+    </ng-template>
     <nz-table
       nzShowSizeChanger
       nzSize="small"
@@ -35,6 +39,7 @@
       </tr>
       </thead>
       <tbody>
+      @if (true){
         @for (data of listOfTable(); track data.id) {
           <tr class="custom-table-row">
             <td>
@@ -48,9 +53,9 @@
             <td >
               <div class="d-flex gap-1 flex-wrap">
                 @for (employee of data.employees; track employee.employeeId) {
-                    <app-avatar-tool-tip [tableName]="data.tableNumber" [employeeName]="employee.name" [employeeId]="employee.employeeId" [employeeTableId]="employee.employeeTableId.toString()" [employeeList]="listOfEmployees()"></app-avatar-tool-tip>
+                  <app-avatar-tool-tip [tableName]="String(data.id)" [employeeName]="employee.name" [employeeId]="employee.employeeId" [employeeTableId]="employee.employeeTableId.toString()" [employeeList]="listOfEmployees()"></app-avatar-tool-tip>
                 }
-                <div (click)="showAssignModal(data.tableNumber, data.image, data.numberOfSeats)" class="add-employee-to-table-button">
+                <div (click)="showAssignModal(String(data.id), data.image, data.numberOfSeats)" class="add-employee-to-table-button">
                   <span style="color:#2e7d32" class="add-employee-to-table-button" nz-icon nzType="plus" nzTheme="outline"></span>
                 </div>
               </div>
@@ -76,6 +81,7 @@
             </td>
           </tr>
         }
+      }
       </tbody>
     </nz-table>
   </div>
