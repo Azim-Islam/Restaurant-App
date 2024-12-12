@@ -31,13 +31,9 @@ export interface Employee {
   name: string
 }
 
-export interface CreateFood {
-  name: string
-  description: string
-  price: string
-  discountType: number
-  discount: string
-  discountPrice: string
+export interface CreateTable {
+  tableNumber: string
+  numberOfSeats: string
   image: string
   base64: string
 }
