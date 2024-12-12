@@ -41,3 +41,9 @@ export interface CreateFood {
   image: string
   base64: string
 }
+
+
+export interface ResponseAvailableEmployees {
+  employeeId: string
+  name: string
+}
