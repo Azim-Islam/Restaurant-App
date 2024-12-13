@@ -5,7 +5,7 @@
       nzShowSizeChanger
       nzSize="small"
       nzPaginationType='default'
-      [nzScroll]="{ y: '68vh', x: '992px '}"
+      [nzScroll]="{ y: '68vh', x: '768px'}"
       [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
       nzTableLayout="auto"
       [nzData]="listOfEmployees()"
@@ -19,12 +19,12 @@
     >
       <thead>
       <tr>
-        <th class="custom-table-title" nzColumnKey="image"></th>
-        <th class="custom-table-title" nzColumnKey="name">Name</th>
-        <th class="custom-table-title" nzColumnKey="email">Email</th>
-        <th class="custom-table-title" nzColumnKey="designation">Designation</th>
-        <th class="custom-table-title" nzColumnKey="joindate">Join Date</th>
-        <th class="custom-table-title" nzColumnKey="phone">Phone</th>
+        <th nzTooltipTitle="" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="image"></th>
+        <th nzTooltipTitle="Name" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="name">Name</th>
+        <th nzTooltipTitle="Email" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="email">Email</th>
+        <th nzTooltipTitle="Designation" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="designation">Designation</th>
+        <th nzTooltipTitle="Join Date" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="joindate">Join Date</th>
+        <th nzTooltipTitle="Phone" nzTooltipPlacement="topLeft" nz-tooltip class="truncate custom-table-title" nzColumnKey="phone">Phone</th>
         <th class="custom-table-title-button" nzColumnKey="action">
           <button class="add-employee-button" (click)="backendService.showAddModal.set(true)">
             <span nz-icon nzType="user-add" nzTheme="outline"></span>
@@ -43,11 +43,16 @@
                 <nz-avatar [nzSize]="52" nzIcon="user" [nzSrc]=getImageUrl(data.user.image)></nz-avatar>
               </div>
             </td>
-            <td>{{ data.user.firstName }} {{ data.user.middleName }} {{ data.user.lastName }}</td>
-            <td >{{ data.user.email }}</td>
-            <td>{{ data.designation }}</td>
-            <td>{{ data.joinDate }}</td>
-            <td>{{ data.user.phoneNumber }}</td>
+            <td>
+              <div class="d-flex justify-content-between">
+                <p nzTooltipTitle="{{ data.user.firstName }} {{ data.user.middleName }} {{ data.user.lastName }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.user.firstName }} {{ data.user.middleName }} {{ data.user.lastName }}</p>
+                <span nz-icon  nzType="star" [nzTheme]=starMarked (click)="toggleStar()"  nzTwotoneColor="orange" style="color: orange"></span>
+              </div>
+            </td>
+            <td nzTooltipTitle="{{ data.user.email }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.user.email }}</td>
+            <td nzTooltipTitle="{{ data.designation }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.designation }}</td>
+            <td nzTooltipTitle="{{ data.joinDate }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.joinDate }}</td>
+            <td nzTooltipTitle="{{ data.user.phoneNumber }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.user.phoneNumber }}</td>
             <td>
               <div class="d-flex justify-content-center">
                 <button (click)="deleteUser(data.id)" class="drop-down-button drop-shadow-md">
