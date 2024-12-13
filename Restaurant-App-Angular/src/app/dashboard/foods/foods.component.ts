@@ -6,13 +6,15 @@ import { NzTableModule, NzTableQueryParams } from "ng-zorro-antd/table";
 import {NzModalService} from 'ng-zorro-antd/modal';
 import {FoodBackendService} from './food-backend.service';
 import {AddFoodComponent} from './add-food/add-food.component';
+import {NzTooltipDirective} from "ng-zorro-antd/tooltip";
+import {NgStyleInterface} from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'app-foods',
   standalone: true,
-  imports: [
-    NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent, AddFoodComponent
-  ],
+    imports: [
+        NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent, AddFoodComponent, NzTooltipDirective
+    ],
   providers: [NzModalService],
   templateUrl: './foods.component.html',
   styleUrl: './foods.component.css'
