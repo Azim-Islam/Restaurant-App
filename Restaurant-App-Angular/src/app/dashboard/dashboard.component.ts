@@ -7,6 +7,7 @@ import {Router, RouterOutlet} from '@angular/router';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {NgClass} from '@angular/common';
 import {AddEmployeeComponent} from './employees/add-employee/add-employee.component';
+import {NgStyleInterface} from 'ng-zorro-antd/core/types';
 
 @Component({
   selector: 'app-dashboard',
@@ -56,6 +57,7 @@ export class DashboardComponent implements OnInit {
   ]
   currentComponent = signal('Employees'); // Hardcoded initial value
   isCollapsed = true;
+
   responsive = inject(BreakpointObserver);
 
     ngOnInit() {
