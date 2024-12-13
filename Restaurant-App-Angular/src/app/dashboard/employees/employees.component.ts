@@ -6,12 +6,13 @@ import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AddEmployeeComponent} from './add-employee/add-employee.component';
 import {NzModalComponent, NzModalService} from 'ng-zorro-antd/modal';
 import {toObservable} from '@angular/core/rxjs-interop';
-
+import {NzTooltipDirective} from 'ng-zorro-antd/tooltip';
+export type ThemeType = "fill" | "outline" | "twotone"
 @Component({
   selector: 'app-employees',
   standalone: true,
   providers: [NzModalService],
-  imports: [NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent],
+  imports: [NzTableModule, NzAvatarComponent, NzIconDirective, AddEmployeeComponent, NzTooltipDirective],
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.css'
 })
@@ -27,6 +28,8 @@ export class EmployeesComponent implements OnInit {
 
   pageSize = 10;
   pageIndex = 1;
+  starMarked: ThemeType = 'twotone';
+
   constructor() {
     effect(() => {
       if (this.backendService.triggerRefresh()) {
@@ -58,6 +61,15 @@ export class EmployeesComponent implements OnInit {
 
   getImageUrl(imageUrl: string) {
     return this.imageBaseUrl + "/" + imageUrl;
+  }
+
+  toggleStar() {
+    if (this.starMarked === 'fill') {
+      this.starMarked = 'twotone';
+    }
+    else{
+      this.starMarked = 'fill';
+    }
   }
 }
 
