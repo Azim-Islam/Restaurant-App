@@ -5,7 +5,7 @@
       nzShowSizeChanger
       nzSize="small"
       nzPaginationType='default'
-      [nzScroll]="{ y: '68vh', x: '992px '}"
+      [nzScroll]="{ y: '68vh', x: '768px'}"
       [nzWidthConfig]="['120px', 'auto', 'auto', 'auto', 'auto', 'auto', '180px']"
       nzTableLayout="auto"
       [nzData]="listOfFood()"
@@ -19,12 +19,12 @@
     >
       <thead>
       <tr>
-        <th class="custom-table-title" nzColumnKey="image"></th>
-        <th class="custom-table-title" nzColumnKey="name">Name</th>
-        <th class="custom-table-title" nzColumnKey="price">Price</th>
-        <th class="custom-table-title" nzColumnKey="designation">Discount Type</th>
-        <th class="custom-table-title" nzColumnKey="joindate">Discount</th>
-        <th class="custom-table-title" nzColumnKey="phone">Discounted Price</th>
+        <th nzColumnKey="image"></th>
+        <th nzTooltipTitle="Name" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="name">Name</th>
+        <th nzTooltipTitle="Price" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="price">Price</th>
+        <th nzTooltipTitle="Discount Type" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="designation">Discount Type</th>
+        <th nzTooltipTitle="Discount" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="joindate">Discount</th>
+        <th nzTooltipTitle="Discounted Price" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="phone">Discounted Price</th>
         <th class="custom-table-title-button" nzColumnKey="action">
           <button class="add-food-button" (click)="backendService.showAddModal.set(true)">
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
@@ -43,11 +43,11 @@
                 <nz-avatar [nzSize]="52" nzIcon="warning" [nzSrc]=getImageUrl(data.image)></nz-avatar>
               </div>
             </td>
-            <td>{{ data.name }}</td>
-            <td >{{ data.price }}</td>
-            <td>{{ data.discountType }}</td>
-            <td>{{ data.discount }}</td>
-            <td>{{ data.discountPrice }}</td>
+            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.name }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.name }}</td>
+            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.price }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.price }}</td>
+            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discountType }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discountType }}</td>
+            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discount }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discount }}</td>
+            <td [nzTooltipOverlayStyle]=" { 'min-width': '40px' }" nzTooltipTitle="{{ data.discountPrice }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.discountPrice }}</td>
             <td>
               <div class="d-flex justify-content-center">
                 <button (click)="deleteFood(data.id)" class="drop-down-button drop-shadow-md">
