@@ -9,8 +9,8 @@
       nzShowSizeChanger
       nzSize="small"
       nzPaginationType='default'
-      [nzScroll]="{ y: '68vh', x: '992px '}"
-      [nzWidthConfig]="['120px', '150px', '120px', '180px', 'auto', '180px']"
+      [nzScroll]="{ y: '68vh', x: '768px'}"
+      [nzWidthConfig]=tableWidthConfig
       nzTableLayout="auto"
       [nzData]="listOfTable()"
       [nzFrontPagination]="false"
@@ -24,10 +24,10 @@
       <thead>
       <tr>
         <th class="custom-table-title" nzColumnKey="image"></th>
-        <th class="custom-table-title" nzColumnKey="name">Table Number</th>
-        <th class="custom-table-title" nzColumnKey="seats">Total Seats</th>
-        <th class="custom-table-title" nzColumnKey="bookingstatus">Booking Status</th>
-        <th class="custom-table-title" nzColumnKey="employees">Assigned Employees</th>
+        <th nzTooltipTitle="Table Number" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="name">Table Number</th>
+        <th nzTooltipTitle="Total Seats" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="seats">Total Seats</th>
+        <th nzTooltipTitle="Booking Status" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="bookingstatus">Booking Status</th>
+        <th nzTooltipTitle="Assigned Employees" nzTooltipPlacement="topLeft" nz-tooltip class="custom-table-title truncate" nzColumnKey="employees">Assigned Employees</th>
         <th class="custom-table-title-button" nzColumnKey="action">
           <button (click)="backendService.showAddModal.set(true)" class="add-food-button">
             <span nz-icon nzType="plus-circle" nzTheme="outline"></span>
@@ -47,10 +47,10 @@
                 <nz-avatar [nzSize]="52" nzIcon="warning" [nzSrc]=getImageUrl(data.image)></nz-avatar>
               </div>
             </td>
-            <td>{{ data.tableNumber }}</td>
-            <td >{{ data.numberOfSeats }}</td>
-            <td>{{ !data.isOccupied ? "Available": "Not Available" }}</td>
-            <td >
+            <td nzTooltipTitle="{{ data.tableNumber }}" nzTooltipPlacement="topLeft" nz-tooltip class="truncate">{{ data.tableNumber }}</td>
+            <td>{{ data.numberOfSeats }}</td>
+            <td class="truncate">{{ !data.isOccupied ? "Available": "Not Available" }}</td>
+            <td>
               <div class="d-flex gap-1 flex-wrap">
                 @for (employee of data.employees; track employee.employeeId) {
                   <app-avatar-tool-tip [tableName]="String(data.id)" [employeeName]="employee.name" [employeeId]="employee.employeeId" [employeeTableId]="employee.employeeTableId.toString()" [employeeList]="listOfEmployees()"></app-avatar-tool-tip>
