@@ -37,6 +37,7 @@ import {
   PlusCircleOutline,
   CloseCircleOutline,
   PlusCircleTwoTone,
+  StarTwoTone,
 } from '@ant-design/icons-angular/icons';
 import {FormsModule} from '@angular/forms';
 import {AuthInterceptorService} from './authInterceptor.service';
@@ -66,6 +67,7 @@ const icons: IconDefinition[] = [
   PlusCircleOutline,
   CloseCircleOutline,
   PlusCircleTwoTone,
+  StarTwoTone,
 ];
 
 export const appConfig: ApplicationConfig = {
