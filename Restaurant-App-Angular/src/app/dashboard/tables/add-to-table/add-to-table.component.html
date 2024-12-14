@@ -23,37 +23,31 @@
         </div>
       </div>
       <div class="col-12 col-md-6">
-<!--      SEARCH START-->
-        <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
-          <input
-            height="48px"
-            placeholder="Search Employee..."
-            nz-input
-            [(ngModel)]="inputValue"
-            (input)="onChange($event)"
-            [nzAutocomplete]="auto"
-          />
-        </nz-input-group>
-        <ng-template #suffixIconButton>
-          <button nz-button nzType="primary" nzSize="large" nzSearch>
-            <span nz-icon nzType="search" nzTheme="outline"></span>
-          </button>
-        </ng-template>
-        <nz-autocomplete #auto>
-          @for (emp of listOfAvailableEmployees; track emp) {
-            <nz-auto-option (click)="employeeSelected(emp.id)"  class="search-item" [nzValue]='emp.user.firstName.trim() + " " + emp.user.middleName.trim() + " " + emp.user.lastName.trim()'>
+        <nz-select
+          [nzMaxTagCount]="3"
+          [nzMaxTagPlaceholder]="tagPlaceHolder"
+          nzMode="multiple"
+          nzPlaceHolder="Please select employees"
+          [(ngModel)]="listOfSelectedEmployees"
+          class="w-100"
+          nzAllowClear
+          nzSize = 'large'
+          (click)="checkAndStyleElement()"
+        >
+          @for (emp of listOfAvailableEmployees; track emp.id) {
+            <nz-option nzCustomContent [nzLabel]="emp.user.firstName" [nzValue]="emp">
               <div class="row h-11">
-                <div class="col-4 pe-1 d-flex justify-content-center align-items-center">
+                <div class="col-3 pe-0 d-flex justify-content-start align-items-center">
                   <nz-avatar [nzSize]="38" nzIcon="warning" [nzSrc]="'https://restaurantapi.bssoln.com/images/user/' + '/' + emp.user.image"></nz-avatar>
                 </div>
-                <div class="col-8 ps-0 d-flex justify-content-start align-items-center">
+                <div class="col-9 ps-0 d-flex justify-content-start align-items-center">
                   {{emp.user.firstName}} {{emp.user.middleName}} {{emp.user.lastName}}
                 </div>
               </div>
-            </nz-auto-option>
+            </nz-option>
           }
-        </nz-autocomplete>
-
+        </nz-select>
+        <ng-template #tagPlaceHolder let-selectedList>and {{ selectedList.length }} more selected</ng-template>
       </div>
     </div>
   </ng-container>
