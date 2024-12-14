@@ -1,4 +1,4 @@
-import {Component, effect, inject, Injector} from '@angular/core';
+import {AfterViewInit, Component, effect, ElementRef, inject, Injector, ViewChild} from '@angular/core';
 import {
   FormsModule,
   ReactiveFormsModule,
@@ -60,8 +60,12 @@ export class AddToTableComponent {
   listOfAvailableEmployees : Employee[] = this.backendService.listOfAvailableEmployees();
   private injector = inject(Injector);
   selectedEmployee = '';
+  listOfSelectedEmployees : Employee[] = [];
 
   ngOnInit(): void {
+  }
+  checkAndStyleElement() {
+
   }
 
   constructor() {
@@ -87,7 +91,7 @@ export class AddToTableComponent {
       injector: this.injector
     }).subscribe(
       value => {
-        console.log(this.backendService.assignTableNumber(), value);
+        // console.log(this.backendService.assignTableNumber(), value);
       }
     )
 
@@ -111,12 +115,12 @@ export class AddToTableComponent {
   handleCancel() {
     this.backendService.showAssignModal.set(false);
     this.inputValue = "";
-    this.selectedEmployee = '';
+    this.listOfSelectedEmployees = [];
   }
 
   handleOk() {
-    if (this.selectedEmployee !== '') {
-      this.backendService.assignEmployeeToTable(this.selectedEmployee, this.backendService.assignTableNumber());
+    if (this.listOfSelectedEmployees.length > 0) {
+      this.backendService.assignEmployeeToTable(this.listOfSelectedEmployees, this.backendService.assignTableNumber());
       setTimeout(() => {
         this.backendService.triggerRefresh.set(false);
         this.handleCancel();
@@ -132,4 +136,5 @@ export class AddToTableComponent {
     this.selectedEmployee = id;
     console.log(this.selectedEmployee);
   }
+
 }
