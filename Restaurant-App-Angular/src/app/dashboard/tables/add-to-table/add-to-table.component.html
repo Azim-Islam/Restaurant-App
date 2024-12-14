@@ -1,6 +1,8 @@
 <ng-template #modalTitle>
-  <span nz-icon nzType="user-add" nzTheme="outline"></span>
-  <span> Assign Employee</span>
+  <div class="d-flex gap-1">
+    <span nz-icon nzType="user-add" nzTheme="outline"></span>
+    <span>Assign Employee</span>
+  </div>
 </ng-template>
 <nz-modal
   [(nzVisible)]="backendService.showAssignModal"
@@ -12,11 +14,15 @@
   nzCentered
 >
   <ng-container *nzModalContent>
-    <div class="row">
-      <div class="col-6">
-        <img [src]="backendService.assignTableImage()" alt="">
+    <div class="row gx-3 gy-3">
+      <div class="col-12 col-md-6">
+        <div class="d-flex flex-col">
+          <span class="text-lg mb-3">Table Number - {{backendService.assignTableName()}}</span>
+          <span class="text-lg mb-3">Number of Seats - {{backendService.assignTableSeats()}}</span>
+          <img class="rounded-lg shadow-md" [src]="backendService.assignTableImage()" alt="">
+        </div>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
 <!--      SEARCH START-->
         <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
           <input

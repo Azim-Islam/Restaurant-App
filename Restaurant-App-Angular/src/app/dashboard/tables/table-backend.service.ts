@@ -40,6 +40,7 @@ export class TableBackendService {
 
   listOfAvailableEmployees = signal<Employee[]>([]);
   assignTableNumber = signal('');
+  assignTableName = signal('');
   assignTableImage = signal('');
   assignTableSeats = signal(0);
   isLoadingEmployees = signal(false);

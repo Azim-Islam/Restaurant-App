@@ -55,7 +55,7 @@
                 @for (employee of data.employees; track employee.employeeId) {
                   <app-avatar-tool-tip [tableName]="String(data.id)" [employeeName]="employee.name" [employeeId]="employee.employeeId" [employeeTableId]="employee.employeeTableId.toString()" [employeeList]="listOfEmployees()"></app-avatar-tool-tip>
                 }
-                <div (click)="showAssignModal(String(data.id), data.image, data.numberOfSeats)" class="add-employee-to-table-button">
+                <div (click)="showAssignModal(String(data.id), data.tableNumber, data.image, data.numberOfSeats)" class="add-employee-to-table-button">
                   <span style="color:#2e7d32" class="add-employee-to-table-button" nz-icon nzType="plus" nzTheme="outline"></span>
                 </div>
               </div>

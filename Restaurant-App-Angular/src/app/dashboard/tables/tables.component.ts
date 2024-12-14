@@ -105,10 +105,11 @@ export class TablesComponent {
     return this.imageBaseUrl + "/" + imageUrl;
   }
 
-  showAssignModal(tableNumber: string, image: string, numberOfSeats: number) {
+  showAssignModal(tableNumber: string, tableName: string, image: string, numberOfSeats: number) {
     this.backendService.assignTableNumber.set(tableNumber);
     this.backendService.assignTableImage.set(this.getImageUrl(image));
     this.backendService.assignTableSeats.set(numberOfSeats);
+    this.backendService.assignTableName.set(tableName);
     this.backendService.showAssignModal.set(true);
   }
 
