@@ -221,12 +221,12 @@ export class TableBackendService {
 
   }
 
-  assignEmployeeToTable(selectedEmployee: string, s: string) {
-    let postData = {
-      employeeId: selectedEmployee,
-      tableId: s,
-    }
-    this.httpClientService.post(this.baseUrl+`/api/EmployeeTable/create`, postData, {observe: 'events'})
+  assignEmployeeToTable(selectedEmployee: Employee[], s: string) {
+    let listOfEmployees: { employeeId: string; tableId: string; }[] = []
+    selectedEmployee.forEach(emp => {
+      listOfEmployees.push({employeeId: emp.id, tableId: s});
+    })
+    this.httpClientService.post(this.baseUrl+`/api/EmployeeTable/create-range`, JSON.stringify(listOfEmployees), {observe: 'events'})
       .pipe(
       )
       .subscribe( {
