@@ -462,7 +462,7 @@
 @input-number-handler-active-bg: #f4f4f4;
 @input-number-handler-hover-bg: #F1FAF5;
 @input-number-handler-bg: @component-background;
-@input-number-handler-border-color: @border-color-base;
+@input-number-handler-border-color: @input-hover-border-color;
 @input-addon-bg: @background-color-light;
 @input-hover-border-color: #66bb6a;
 @input-disabled-bg: @disabled-bg;
@@ -1427,4 +1427,30 @@
   color: #66bb6a;
   display: flex;
   align-items: center;
+}
+
+img.ant-image-preview-img { display: inline-block; }
+
+.ant-image-preview-img { display: inline-block; }
+
+.ant-input-number-focused{
+  outline: none;
+}
+
+.ant-input-number{
+  border-color: #66bb6a;
+  outline: none;
+}
+
+
+.ant-input-number:focus{
+  border:none !important;
+  border-color: #66bb6a;
+  outline: none;
+
+}
+
+.ant-input:focus {
+  border-color: #66bb6a;
+  outline: none;
 }
