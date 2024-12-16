@@ -9,17 +9,10 @@
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline">
           @for (menuItem of sideBarItems; track  menuItem){
-            @if (menuItem.ItemName === "Employees") {
-              <li nz-menu-item nzSelected (click)="setComponent(menuItem.ItemName)">
-                <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"  ></span>
-                <span>{{ menuItem.ItemName }}</span>
-              </li>
-            } @else{
-              <li nz-menu-item (click)="setComponent(menuItem.ItemName)">
-                <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
-                <span>{{ menuItem.ItemName }}</span>
-              </li>
-            }
+            <li nz-menu-item [nzSelected]="currentComponent() === menuItem.ItemName" (click)="setComponent(menuItem.ItemName)">
+              <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
+              <span>{{ menuItem.ItemName }}</span>
+            </li>
           }
         </ul>
       </div>
