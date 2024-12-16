@@ -1,0 +1,59 @@
+.new-order-container{
+  height: calc(100vh - 150px);
+}
+
+.left-col{
+  border-right: darkgrey solid 1px;
+}
+
+.table-card{
+  width: 100%;
+  height: 200px;
+  &:hover{
+    background: var(--bg-ternary-light);
+    cursor: pointer;
+  }
+}
+
+.active{
+  background: var(--bg-ternary-light);
+  border: 2px solid var(--bg-primary-700) !important;
+  transition: none !important;
+}
+
+.table-image{
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.food-image{
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+img.ant-image-preview-img {
+  display: inline-block !important;
+}
+
+.food-card{
+  height: 250px;
+  &:hover{
+    background: var(--bg-ternary-light);
+  }
+}
+
+.add-to-cart-button{
+  cursor: pointer;
+  height: 52px;
+  width: 150px;
+  border-radius: 6px;
+  color: white;
+  background: var(--bg-primary-600);
+  align-content: center;
+  &:hover{
+    background: var(--bg-primary-700);
+  }
+}
