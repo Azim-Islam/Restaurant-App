@@ -3,11 +3,12 @@ import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderCompone
 import {NzMenuDirective, NzMenuItemComponent} from 'ng-zorro-antd/menu';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AuthService} from '../login/auth.service';
-import {Router, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router, RouterEvent, RouterOutlet} from '@angular/router';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {NgClass} from '@angular/common';
 import {AddEmployeeComponent} from './employees/add-employee/add-employee.component';
 import {NgStyleInterface} from 'ng-zorro-antd/core/types';
+import {filter} from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -55,22 +56,52 @@ export class DashboardComponent implements OnInit {
 
 
   ]
-  currentComponent = signal('Employees'); // Hardcoded initial value
+  currentComponent = signal('');
   isCollapsed = true;
 
   responsive = inject(BreakpointObserver);
 
-    ngOnInit() {
-      this.isCollapsed = true;
-      this.router.navigate(['dashboard/employees']);
-      this.responsive.observe([Breakpoints.Large, ])
-        .subscribe(result => {
-          this.isCollapsed = true;
-          if (result.matches) {
-            this.isCollapsed = false;
-          }
-        });
+  constructor(private activatedRoute: ActivatedRoute) {
+  }
+
+  ngOnInit() {
+    let childRoute = this.activatedRoute.firstChild;
+    if (childRoute) {
+      console.log('Activated Child Route:', childRoute.snapshot.routeConfig?.path);
+      if (childRoute.snapshot.routeConfig?.path) {
+        switch (childRoute.snapshot.routeConfig?.path){
+          case 'employees':
+            this.currentComponent.set('Employees');
+            break;
+          case 'tables':
+            this.currentComponent.set('Tables');
+            break;
+          case 'new-order':
+            this.currentComponent.set('New Order');
+            break;
+          case 'foods':
+            this.currentComponent.set('Foods');
+            break;
+          case 'orders':
+            this.currentComponent.set('Orders');
+            break;
+        }
+      }
     }
+    else{
+      this.currentComponent.set('Employees');
+      this.router.navigate(['dashboard/employees']);
+    }
+
+    this.isCollapsed = true;
+    this.responsive.observe([Breakpoints.Large, ])
+      .subscribe(result => {
+        this.isCollapsed = true;
+        if (result.matches) {
+          this.isCollapsed = false;
+        }
+      });
+  }
 
 
   onLogout() {
