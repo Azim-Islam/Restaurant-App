@@ -38,6 +38,8 @@ import {
   CloseCircleOutline,
   PlusCircleTwoTone,
   StarTwoTone,
+  CloseOutline,
+  ShoppingCartOutline
 } from '@ant-design/icons-angular/icons';
 import {FormsModule} from '@angular/forms';
 import {AuthInterceptorService} from './authInterceptor.service';
@@ -68,6 +70,8 @@ const icons: IconDefinition[] = [
   CloseCircleOutline,
   PlusCircleTwoTone,
   StarTwoTone,
+  CloseOutline,
+  ShoppingCartOutline
 ];
 
 export const appConfig: ApplicationConfig = {
