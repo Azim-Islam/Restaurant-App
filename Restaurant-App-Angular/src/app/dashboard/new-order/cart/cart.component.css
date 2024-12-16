@@ -1,0 +1,33 @@
+.food-image{
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.cart-item{
+  width: 100%;
+  height: 120px;
+}
+
+.sub-total-container{
+  height: 200px;
+  background: var(--bg-ternary-light)
+}
+
+.sub-total{
+  height: auto;
+}
+
+.submit-button{
+  cursor: pointer;
+  height: 58px;
+  width: 100%;
+  border-radius: 6px;
+  color: white;
+  background: var(--bg-primary-600);
+  align-content: center;
+  &:hover{
+    background: var(--bg-primary-700);
+  }
+}
