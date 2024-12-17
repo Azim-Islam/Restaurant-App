@@ -6,13 +6,13 @@
 </ng-template>
 
 
-<div class="main-wrapper p-4">
+<div class="main-wrapper p-4 pb-0">
   <div class="bg-white drop-shadow-lg rounded-lg new-order-container">
     <div class="container-fluid h-100">
       <nz-spin class="position-absolute h-100 w-100" nzSimple="false" [nzSpinning]="backendService.isSendingRequest()" [nzIndicator]="indicatorTemplate" [class.d-none]="!backendService.isSendingRequest()">
       </nz-spin>
-      <div class="row h-100">
-        <div class="col-4 h-100 overflow-auto border-0 border-green-100 search-results "
+      <div class="d-none d-xxl-flex row h-100">
+        <div class="col-12 col-xxl-3 h-100 overflow-auto border-0 border-green-100 search-results "
              infiniteScroll
              [infiniteScrollDistance]="2"
              [infiniteScrollThrottle]="50"
@@ -21,68 +21,184 @@
           <div class="sticky-top d-flex align-items-center bg-white mt-3 h-12">
             <div class="text-xl text-center w-100">SELECT A TABLE ({{backendService.totalTable()}})</div>
           </div>
-          <div class="d-flex flex-column justify-content-center gap-3 p-4 pt-0">
+          <div class="d-flex flex-row flex-xxl-column justify-content-center gap-3 p-4 pt-0 overflow-auto">
 <!--            Table Card-->
               @for (table of backendService.listOfTable(); track table.id) {
-                <div class="table-card border-1 border-green-500 rounded-md shadow-md" (click)="onTableSelect(table)" [class.active]="String(table.id) === backendService.selectedTableId()">
-                  <div class="row h-100 p-3">
-                    <div class="col-4 h-100 d-flex justify-content-center align-items-center">
+                <div class="table-card d-flex flex-column justify-content-center align-items-center border-1 border-green-500 rounded-md shadow-md" (click)="onTableSelect(table)" [class.active]="String(table.id) === backendService.selectedTableId()">
+                    <div class="table-image-container d-flex justify-content-center">
                       <img nz-image class="table-image rounded-lg drop-shadow-lg" [nzSrc]="getTableImage(table.image)" alt="" [nzFallback]="fallbackImage">
                     </div>
-                    <div class="col-8 h-100">
-                      <div class="text-xl text-end">Table Number - {{table.tableNumber}}</div>
-                      <div class="text-lg text-end">Number of seats - {{table.numberOfSeats}}</div>
-                    </div>
-                  </div>
+                    <div class="text-xl text-center mt-2">{{table.tableNumber}}<span class="text-lg text-center"> ({{table.numberOfSeats}} Seats)</span></div>
+
                 </div>
               }
           </div>
         </div>
-        <div class="col-8 h-100 overflow-auto border-0 border-green-100 search-results "
+        <div class="col-12 col-xxl h-100 overflow-auto border-0 border-green-100 search-results position-relative p-0"
              infiniteScroll
              [infiniteScrollDistance]="2"
              [infiniteScrollThrottle]="50"
              (scrolled)="onFoodScroll()"
              [scrollWindow]="false">
-          <div class="sticky-top d-flex align-items-center bg-white mt-3 h-12">
-            <div class="text-xl text-start ps-4">ADD FOOD TO CART ({{backendService.totalFood()}})</div>
-          </div>
-          <div class="d-flex flex-column justify-content-center gap-3 p-4 pt-0">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartOffCanvas" aria-controls="cartOffCanvas">
-              Button with data-bs-target
-            </button>
-            <!--            Food Card-->
+          @if (!backendService.selectedTableId()) {
+            <div class="h-100 warning-table-banner position-relative rounded-lg d-flex flex-col justify-content-center align-items-center z-1">
+              <div class="mt-3 text-4xl text-gray-700">
+                Select A Table First!
+              </div>
+              <div class="text-gray-700 animate-pulse" style="font-size: 48px"><span nz-icon nzType="stop" nzTheme="outline"></span></div>
+            </div>
+          } @else {
+            <div class="sticky-top d-flex align-items-center justify-content-between bg-white mt-3 h-16">
+              <div class="text-xl text-start ps-4">ADD FOOD TO CART ({{backendService.totalFood()}})</div>
+              <div class="pe-4">
+                <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
+                  <input
+                    placeholder="Search Food"
+                    nz-input
+                    (input)="onSearchFoodInputChange()"
+                    [(ngModel)] = "searchFoodInput"
+                  />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                  <button nz-button nzType="primary" nzSize="large" nzSearch>
+                    <span nz-icon nzType="search" nzTheme="outline"></span>
+                  </button>
+                </ng-template>
+              </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center gap-3 p-4 pt-0">
+              <!-- Food Card -->
               @for (food of backendService.listOfFood(); track food.id) {
                 <div class="food-card w-100 border-1 border-green-500 rounded-md shadow-md p-4">
-                    <div class="d-flex gap-4 flex-row align-items-center h-100">
+                  <div class="d-flex gap-4 flex-row align-items-center h-100">
+                    <div class="food-image-container">
                       <img nz-image class="food-image rounded-lg drop-shadow-lg" [nzSrc]="getFoodImage(food.image)" alt="" [nzFallback]="fallbackImage">
-                      <div class="d-flex h-100 flex-col justify-content-between pt-2 pb-3 w-100">
+                    </div>
+                    <div class="d-flex h-100 flex-col justify-content-between pt-2 pb-3 w-100">
+                      <div>
+                        <div class="text-2xl text-start font-semibold"> {{food.name}} </div>
+                        <div class="text-lg text-start font-medium"> {{food.description}} </div>
+                      </div>
+                      <div class="d-flex flex-row w-100 justify-between">
                         <div>
-                          <div class="text-2xl text-start font-semibold"> {{food.name}} </div>
-                          <div class="text-lg text-start font-medium"> {{food.description}} </div>
+                          @if (food.discountType === 'None') {
+                            <div class="text-2xl">Price - {{food.price}}৳</div>
+                          } @else {
+                            <div class="text-xl line-through text-rose-800">Price - {{food.price}}৳</div>
+                            <div class="text-2xl text-green-800">Price - {{food.discountPrice}}৳!</div>
+                          }
                         </div>
-                        <div class="d-flex flex-row w-100 justify-between">
-                          <div>
-                            @if (food.discountType === 'None') {
-                              <div class="text-2xl">Price - {{food.price}}৳</div>
-                            } @else {
-                              <div class="text-xl line-through text-rose-800">Price - {{food.price}}৳</div>
-                              <div class="text-2xl text-green-800">Price - {{food.discountPrice}}৳!</div>
-                            }
-                          </div>
-                          <div>
-                            <button class="add-to-cart-button text-center" (click)="addToCart(food, backendService.selectedTableId())">Add To Cart</button>
-                          </div>
+                        <div>
+                          <button class="add-to-cart-button text-center" (click)="addToCart(food, backendService.selectedTableId())">Add To Cart</button>
                         </div>
                       </div>
                     </div>
+                  </div>
                 </div>
               }
+            </div>
+          }
+        </div>
+      </div>
+<!--      MOBILE-->
+      <div class="d-flex d-xxl-none row h-100">
+        <div class="col-12 border-0 border-green-100 search-results "
+             infiniteScroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onTableScroll()"
+             [scrollWindow]="false">
+          <div class="sticky-top d-flex align-items-center bg-white mt-3 h-12">
+            <div class="text-lg text-center w-100">SELECT A TABLE ({{backendService.totalTable()}})</div>
           </div>
+          <div class="d-flex flex-row gap-3 p-4 pt-0 overflow-auto">
+            <!--            Table Card-->
+            @for (table of backendService.listOfTable(); track table.id) {
+              <div class="table-card d-flex flex-column justify-content-center align-items-center border-1 border-green-500 rounded-md shadow-md" (click)="onTableSelect(table)" [class.active]="String(table.id) === backendService.selectedTableId()">
+                <div class="table-image-container d-flex justify-content-center">
+                  <img nzDisablePreview nz-image class="table-image rounded-lg drop-shadow-lg" [nzSrc]="getTableImage(table.image)" alt="" [nzFallback]="fallbackImage">
+                </div>
+                <div class="text-md text-center mt-2">{{table.tableNumber}}</div>
+
+              </div>
+            }
+          </div>
+        </div>
+        <div class="col-12 col-xxl h-100 overflow-auto border-0 border-green-100 search-results position-relative p-0"
+             infiniteScroll
+             [infiniteScrollDistance]="2"
+             [infiniteScrollThrottle]="50"
+             (scrolled)="onFoodScroll()"
+             [scrollWindow]="false">
+          @if (!backendService.selectedTableId()) {
+            <div class="h-100 warning-table-banner position-relative rounded-lg d-flex flex-col justify-content-center align-items-center z-1">
+              <div class="mt-3 text-2xl text-gray-700">
+                Select A Table First!
+              </div>
+              <div class="text-gray-700 animate-pulse" style="font-size: 48px"><span nz-icon nzType="stop" nzTheme="outline"></span></div>
+            </div>
+          } @else {
+            <div class="sticky-top d-flex align-items-center justify-content-between bg-white mt-3 h-16">
+              <div class="text-lg text-start ps-4">ADD FOOD TO CART ({{backendService.totalFood()}})</div>
+              <div class="pe-4">
+                <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixIconButton">
+                  <input
+                    placeholder="Search Food"
+                    nz-input
+                    (input)="onSearchFoodInputChange()"
+                    [(ngModel)] = "searchFoodInput"
+                  />
+                </nz-input-group>
+                <ng-template #suffixIconButton>
+                  <button nz-button nzType="primary" nzSize="large" nzSearch>
+                    <span nz-icon nzType="search" nzTheme="outline"></span>
+                  </button>
+                </ng-template>
+              </div>
+            </div>
+            <div class="d-flex flex-column justify-content-center gap-3 p-4 pt-0">
+              <!-- Food Card -->
+              @for (food of backendService.listOfFood(); track food.id) {
+                <div class="food-card w-100 border-1 border-green-500 rounded-md shadow-md p-4">
+                  <div class="d-flex gap-4 flex-row align-items-center h-100">
+                    <div class="food-image-container">
+                      <img nzDisablePreview nz-image class="food-image rounded-lg drop-shadow-lg" [nzSrc]="getFoodImage(food.image)" alt="" [nzFallback]="fallbackImage">
+                    </div>
+                    <div class="d-flex h-100 flex-col justify-content-between pt-2 pb-3 w-100">
+                      <div>
+                        <div class="text-xl text-start font-semibold"> {{food.name}} </div>
+                        <div class="text-md text-start font-medium"> {{food.description}} </div>
+                      </div>
+                      <div class="d-flex flex-row w-100 justify-between">
+                        <div>
+                          @if (food.discountType === 'None') {
+                            <div class="text-xl">Price - {{food.price}}৳</div>
+                          } @else {
+                            <div class="text-lg line-through text-rose-800">Price - {{food.price}}৳</div>
+                            <div class="text-xl text-green-800">Price - {{food.discountPrice}}৳!</div>
+                          }
+                        </div>
+                        <div>
+                          <button class="add-to-cart-button text-center" (click)="addToCart(food, backendService.selectedTableId())">Add To Cart</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="cart-button-wrapper">
+  <button class="cart-button position-relative drop-shadow-md" data-bs-toggle="offcanvas" data-bs-target="#cartOffCanvas">
+    <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
+    <div class="absolute inline-flex items-center justify-center w-7 h-7 text-xs text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{{backendService.cartFood().length}}</div>
+  </button>
 </div>
 
 <app-cart></app-cart>
