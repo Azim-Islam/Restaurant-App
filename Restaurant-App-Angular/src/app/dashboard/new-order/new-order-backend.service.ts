@@ -3,6 +3,7 @@ import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
 import {CreateFood, FoodItem, ResponseFoodList} from '../foods/food.interface';
 import {ResponseTableList, Table} from '../tables/table.interface';
 import {CartFoodItem, PostOrder} from './new-order.interface';
+import {MessageService} from '../../message.service';
 
 
 function getSanitizedListOfTable(data: ResponseTableList | null) {
@@ -17,6 +18,7 @@ function getSanitizedListOfFood(data: ResponseFoodList | null) {
 export class NewOrderBackendService {
   private baseUrl = "https://restaurantapi.bssoln.com"
   private httpClientService = inject(HttpClient);
+  private messageService = inject(MessageService);
   isSendingRequest = signal(false);
   triggerRefresh = signal(false);
   listOfFood = signal<FoodItem[]>([]);
@@ -37,6 +39,7 @@ export class NewOrderBackendService {
       .append('Sort', sortBy)
       .append('Page', page)
       .append('Per_Page', per_page)
+      .append('Search', search);
 
     this.httpClientService.get<ResponseFoodList>(this.baseUrl+`/api/Food/datatable/`, {observe: 'events', params: params})
       .pipe(
@@ -108,15 +111,19 @@ export class NewOrderBackendService {
             case HttpEventType.Response:
               if ((data.status) === 200){
                 this.isSendingRequest.set(false);
+                this.cartFood.set([]);
+                this.messageService.createMessage('success', 'Order Created Successfully!');
               }
               break;
             case HttpEventType.Sent:
               this.isSendingRequest.set(true);
+              this.messageService.createMessage('info', 'Order Placed.');
               break;
           }
         },
         error: (err) => {
           this.isSendingRequest.set(false);
+          this.messageService.createMessage('error', 'Error Creating Order');
         },
         complete: () => {
           this.isSendingRequest.set(false);
