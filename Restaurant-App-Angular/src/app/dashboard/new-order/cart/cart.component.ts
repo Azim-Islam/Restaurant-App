@@ -63,7 +63,6 @@ export class CartComponent {
 
   confirmOrder() {
     let items: PostOrderItem[] = [];
-
     this.backendService.cartFood().forEach((item) => {
       items.push({
         foodId: item.food.id,
@@ -73,7 +72,6 @@ export class CartComponent {
         totalPrice: item.quantity*item.amount,
       })
     })
-
     let POST_DATA: PostOrder = {
       "tableId": Number(this.backendService.selectedTableId()),
       "orderNumber": new Date().toLocaleString(),
