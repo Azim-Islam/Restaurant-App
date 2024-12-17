@@ -1,5 +1,5 @@
 .new-order-container{
-  height: calc(100vh - 150px);
+  height: calc(100vh - 130px);
 }
 
 .left-col{
@@ -8,7 +8,8 @@
 
 .table-card{
   width: 100%;
-  height: 200px;
+  min-width: 200px;
+  height: 230px;
   &:hover{
     background: var(--bg-ternary-light);
     cursor: pointer;
@@ -22,15 +23,31 @@
 }
 
 .table-image{
+  height: 100%;
   width: 100%;
-  height: 150px;
+  max-width: 180px;
   object-fit: cover;
 }
 
-.food-image{
+.table-image-container{
+  height: 150px;
+  width: 80%;
+}
+
+.food-image-container{
   height: 200px;
-  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
   border-radius: 50%;
+  cursor: pointer;
+  &:hover{
+    transform: scale(1.1);
+  }
+}
+
+.food-image{
+  height: 100%;
+  width: 100%;
   object-fit: cover;
 }
 
@@ -56,4 +73,73 @@ img.ant-image-preview-img {
   &:hover{
     background: var(--bg-primary-700);
   }
+}
+
+.warning-table-banner{
+  background: var(--bg-ternary-light);
+  border: 2px dashed var(--bg-ternary-light);
+}
+
+.cart-button-wrapper{
+  position: absolute;
+  top: 50%;
+  right: 2%;
+}
+
+.cart-button{
+  height: 50px;
+  width: 50px;
+  background: white;
+  border: 1px solid var(--bg-ternary-light);
+  border-radius: 8px;
+  font-size: 32px;
+  color: #00230b;
+}
+
+@media screen and (max-width: 1400px){
+  .table-card{
+    width: 100%;
+    min-width: 100px;
+    height: 120px;
+    &:hover{
+      background: var(--bg-ternary-light);
+      cursor: pointer;
+    }
+  }
+  .table-image{
+    height: 100%;
+    width: 100%;
+    max-width: 90px;
+    object-fit: cover;
+  }
+
+  .table-image-container{
+    height: 70px;
+    width: 80%;
+  }
+
+  .food-image-container{
+    height: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    &:hover{
+      transform: scale(1.1);
+    }
+  }
+
+  .food-image{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .food-card{
+    height: 150px;
+    &:hover{
+      background: var(--bg-ternary-light);
+    }
+  }
+
 }
