@@ -1,5 +1,6 @@
 .food-image{
-  width: 92px;
+  min-width: 92px;
+  max-width: 92px;
   height: 92px;
   object-fit: cover;
   border-radius: 50%;
