@@ -8,14 +8,30 @@
 
 <div class="main-wrapper pb-0">
   <div class="order-container overflow-auto h-100">
-    <div class="container-fluid order-item-container p-4">
+    <div class="container-fluid order-item-container p-4 pt-0">
       <nz-spin class="position-absolute w-100" nzSimple="false" [nzSpinning]="backendService.isSendingRequest()" [nzIndicator]="indicatorTemplate" [class.d-none]="!backendService.isSendingRequest()">
       </nz-spin>
-
+      <div class="d-flex justify-content-end align-items-center w-100 h-20">
+        <button class="drop-down-filter" nz-dropdown [nzDropdownMenu]="menu">
+          Filter Orders
+          <span nz-icon nzType="down"></span>
+        </button>
+      </div>
+    <nz-dropdown-menu #menu="nzDropdownMenu">
+      <ul nz-menu nzSelectable>
+        <li nz-menu-item (click)="onChangeFilter('All')">All</li>
+        <li nz-menu-item (click)="onChangeFilter('Pending')">Pending</li>
+        <li nz-menu-item (click)="onChangeFilter('Confirmed')">Confirmed</li>
+        <li nz-menu-item (click)="onChangeFilter('Preparing')">Preparing</li>
+        <li nz-menu-item (click)="onChangeFilter('Prepared To Serve')">Prepared To Serve</li>
+        <li nz-menu-item (click)="onChangeFilter('Served')">Served</li>
+        <li nz-menu-item (click)="onChangeFilter('Paid')">Paid</li>
+      </ul>
+    </nz-dropdown-menu>
     <!--Main Content Start-->
-      <div class="row g-5 gy-0">
+      <div class="row g-3 g-md-3 g-xl-4 gy-0">
         @for (orderData of backendService.listOfOrder(); track orderData.id) {
-          <div class="col-12 col-md-6 col-xl-4">
+          <div class="col-12 col-xl-6 col-xxl-4">
             <div class="order-card bg-white shadow rounded-md">
               <div class="row order-card-header d-flex p-4 pb-2">
                 <div class="col-8 p-0">
@@ -23,7 +39,18 @@
                   <div class="text-lg text-gray-700 text-opacity-70">{{orderData.orderTime}}</div>
                 </div>
                 <div class="col-4 d-flex gap-2 justify-content-end">
-                  <button class="edit-button drop-shadow-md">
+                  <nz-dropdown-menu #clickMenu="nzDropdownMenu">
+                    <ul nz-menu nzSelectable>
+                      <li nz-menu-item (click)="changeOrderStatus(orderData, 'Pending')">Pending</li>
+                      <li nz-menu-item (click)="changeOrderStatus(orderData, 'Confirmed')">Confirmed</li>
+                      <li nz-menu-item (click)="changeOrderStatus(orderData, 'Preparing')">Preparing</li>
+                      <li nz-menu-item (click)="changeOrderStatus(orderData, 'Prepared To Serve')">Prepared To Serve</li>
+                      <li nz-menu-item (click)="changeOrderStatus(orderData, 'Served')">Served</li>
+                      <li nz-menu-item (click)="changeOrderStatus(orderData, 'Paid')">Paid</li>
+                    </ul>
+                  </nz-dropdown-menu>
+
+                  <button class="edit-button drop-shadow-md" nzTrigger="click" nz-dropdown [nzDropdownMenu]="clickMenu">
                     <span nz-icon nzType="edit" nzTheme="outline"></span>
                   </button>
                   <button class="drop-down-button drop-shadow-md">
@@ -39,21 +66,61 @@
                       <img nz-image nzDisablePreview class="food-image rounded-lg drop-shadow-lg" [nzSrc]="getFoodImage(foodItem.food.image)" alt="" [nzFallback]="fallbackImage">
                     </div>
                     <div class="d-flex flex-column w-100">
-                      <div class="text-xl text-slate-800 text-opacity-90">{{foodItem.food.name}}</div>
+                      <div class="text-lg text-slate-800 text-opacity-90">{{foodItem.food.name}}</div>
                       <div class="d-flex justify-content-between w-100">
-                        <div class="text-lg text-slate-800 text-opacity-70">{{foodItem.totalPrice}} ৳</div>
-                        <div class="text-lg text-slate-800 text-opacity-70">QTY. {{foodItem.quantity}}</div>
+                        <div class="text-md text-slate-800 text-opacity-70">{{foodItem.totalPrice}} ৳</div>
+                        <div class="text-md text-slate-800 text-opacity-70">QTY. {{foodItem.quantity}}</div>
                       </div>
                     </div>
                   </div>
                 }
               </div>
-              <div class="sticky-bottom d-flex justify-content-between p-2 ps-3 pe-3">
+              <div class="d-flex justify-content-between p-2 ps-3 pe-3">
                 <div class="d-flex flex-column">
-                  <div class="text-lg text-slate-800 text-opacity-70">Total Quantity: <span class="font-bold text-lg">{{orderData.orderItems.length}}</span></div>
-                  <div class="text-xl text-slate-800 text-opacity-70">Total Amount (৳): <span class="font-bold text-xl underline decoration-sky-500/30">{{orderData.amount}}৳</span></div>
+                  <div class="text-md text-slate-800 text-opacity-70">Total Quantity: <span class="font-bold text-md md:text-lg">{{orderData.orderItems.length}}</span></div>
+                  <div class="text-md md:text-xl text-slate-800 text-opacity-70">Total Amount (৳): <span class="font-bold text-md md:text-xl underline decoration-sky-500/30">{{orderData.amount}}৳</span></div>
                 </div>
-                <div class="text-2xl text-slate-800 text-opacity-70">{{orderData.table.tableNumber}}</div>
+                <div class="d-flex flex-column align-items-end">
+                  <div class="text-sm md:text-md text-slate-800 text-opacity-70">
+                    @switch (orderData.orderStatus) {
+                      @case("Pending"){
+                        <div class="pe-1 text-amber-500">
+                          {{orderData.orderStatus}}
+                        </div>
+                      }
+                      @case("Confirmed"){
+                        <div class="pe-1 text-amber-600">
+                          {{orderData.orderStatus}}
+                        </div>
+                      }
+                      @case("Preparing"){
+                        <div class="pe-1 text-amber-500">
+                          {{orderData.orderStatus}}
+                        </div>
+                      }
+                      @case("PreparedToServe"){
+                        <div class="pe-1 text-teal-800">
+                          P.T.S
+                        </div>
+                      }
+                      @case("Served"){
+                        <div class="pe-1 text-green-700">
+                          {{orderData.orderStatus}}
+                        </div>
+                      }
+                      @case("Paid"){
+                        <div class="pe-1 text-green-700">
+                          {{orderData.orderStatus}}
+                        </div>
+                      }
+
+
+                    }
+                  </div>
+                  <div class="text-lg md:text-2xl text-slate-800 text-opacity-70">
+                    {{orderData.table.tableNumber}}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -71,3 +138,5 @@
     </div>
   </div>
 </div>
+
+
