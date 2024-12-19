@@ -1,5 +1,5 @@
-<div class="main-wrapper p-4 pb-0">
-  <div class="bg-white drop-shadow-lg rounded-lg pt-3">
+<div class="main-wrapper p-0 p-md-4 pb-md-0">
+  <div class="bg-white drop-shadow-lg md:rounded-lg rounded-none pt-0 pt-md-3">
     <ng-template #indicatorTemplate>
       <div class="h-100 w-100 d-flex justify-content-center align-items-center">
         <div class="h-100" style="font-size:50px; color: darkseagreen" nz-icon nzType="loading" nzTheme="outline"></div>
@@ -9,7 +9,7 @@
       nzShowSizeChanger
       nzSize="small"
       nzPaginationType='default'
-      [nzScroll]="{ y: '68vh', x: '768px'}"
+      [nzScroll]="{ y: 'calc(100vh - 300px)', x: '768px'}"
       [nzWidthConfig]=tableWidthConfig
       nzTableLayout="auto"
       [nzData]="listOfTable()"
