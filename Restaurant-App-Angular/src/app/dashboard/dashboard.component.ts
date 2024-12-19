@@ -1,5 +1,11 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {NzContentComponent, NzHeaderComponent, NzLayoutComponent, NzSiderComponent} from 'ng-zorro-antd/layout';
+import {
+  NzContentComponent,
+  NzFooterComponent,
+  NzHeaderComponent,
+  NzLayoutComponent,
+  NzSiderComponent
+} from 'ng-zorro-antd/layout';
 import {NzMenuDirective, NzMenuItemComponent} from 'ng-zorro-antd/menu';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {AuthService} from '../login/auth.service';
@@ -24,6 +30,7 @@ import {filter} from 'rxjs';
     NgClass,
     RouterOutlet,
     AddEmployeeComponent,
+    NzFooterComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -52,9 +59,6 @@ export class DashboardComponent implements OnInit {
       ItemName: "Orders",
       IconName: "ordered-list",
     },
-
-
-
   ]
   currentComponent = signal('');
   isCollapsed = true;
