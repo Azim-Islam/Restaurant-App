@@ -6,6 +6,7 @@
 .order-card{
   width: 100%;
   min-height: 420px;
+  border: 1px solid var(--bg-secondary-light-100);
 }
 
 .order-item-container{
@@ -29,6 +30,14 @@
 .order-card-body{
   min-height: 250px;
   max-height: 250px;
+}
+
+.drop-down-filter{
+  width: 155px;
+  height: 52px;
+  border-radius: 8px;
+  border: 1px solid var(--bg-secondary-light-100);
+  background-color: white;
 }
 
 @media screen and (max-width: 768px) {
