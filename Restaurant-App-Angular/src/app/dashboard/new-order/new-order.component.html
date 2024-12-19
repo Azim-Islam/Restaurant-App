@@ -6,8 +6,8 @@
 </ng-template>
 
 
-<div class="main-wrapper p-0 p-md-4 pb-0">
-  <div class="bg-white drop-shadow-lg rounded-lg new-order-container">
+<div class="main-wrapper p-0 p-md-4 pb-md-0">
+  <div class="bg-white drop-shadow-lg md:rounded-lg rounded-none new-order-container">
     <div class="container-fluid h-100">
       <nz-spin class="position-absolute h-100 w-100" nzSimple="false" [nzSpinning]="backendService.isSendingRequest()" [nzIndicator]="indicatorTemplate" [class.d-none]="!backendService.isSendingRequest()">
       </nz-spin>
@@ -186,7 +186,9 @@
                   </div>
                 </div>
               }
-            </div>
+                <div class="w-100 food-card p-10 d-flex gap-3 flex-row align-items-center border-0 border-green-500 rounded-md shadow-md">
+                </div>
+              </div>
           }
         </div>
       </div>
@@ -195,8 +197,8 @@
 </div>
 
 <div class="cart-button-wrapper">
-  <button class="cart-button position-relative drop-shadow-md" data-bs-toggle="offcanvas" data-bs-target="#cartOffCanvas">
-    <span nz-icon nzType="shopping-cart" nzTheme="outline"></span>
+  <button class="d-flex align-items-center justify-content-center cart-button position-relative drop-shadow-md" data-bs-toggle="offcanvas" data-bs-target="#cartOffCanvas">
+    <div class="w-100 h-100 d-flex align-items-center justify-content-center" nz-icon nzType="shopping-cart" nzTheme="outline"></div>
     <div class="absolute inline-flex items-center justify-center w-7 h-7 text-xs text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900">{{backendService.cartFood().length}}</div>
   </button>
 </div>
