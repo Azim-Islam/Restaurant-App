@@ -15,8 +15,8 @@
               <div class="d-flex w-100 align-items-center h-100 p-3">
                 <img nz-image class="food-image rounded-lg drop-shadow-md" [nzSrc]="getFoodImage(item.food.image)" alt="" [nzFallback]="fallbackImage">
                 <div class="h-100 w-100 d-flex justify-content-between">
-                  <div class="d-flex flex-column p-3 pt-0 pb-0 gap-2 pe-0">
-                    <div class="text-xl">{{item.food.name}}</div>
+                  <div class="d-flex flex-column justify-content-between p-3 pt-0 pb-0 gap-2 pe-0">
+                    <div class="text-lg md:text-xl">{{item.food.name}}</div>
                     <div>
                       <span class="text-lg me-1 d-none d-sm-inline-block">Qty. </span>
                       <nz-input-number (ngModelChange)="valueChange()" [(ngModel)]="item.quantity" [nzMin]="1" [nzMax]="10" [nzStep]="1" style="width: 100px"></nz-input-number>
@@ -26,7 +26,7 @@
                     <button (click)="removeFromCart(item.food.id)" class="drop-down-button drop-shadow-md mt-1">
                       <span nz-icon nzType="delete" nzTheme="outline"></span>
                     </button>
-                    <div class="text-lg md:text-lg mb-1"> Price: {{item.amount*item.quantity}} ৳</div>
+                    <div class="text-md md:text-lg"> Price: {{item.amount*item.quantity}} ৳</div>
                   </div>
                 </div>
               </div>
