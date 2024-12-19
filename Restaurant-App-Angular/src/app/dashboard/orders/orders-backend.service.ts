@@ -143,5 +143,34 @@ export class OrdersBackendService {
       });
   }
 
+  updateOrderStatus(id: string, ss: string) {
+    let params = {
+      status: ss,
+    }
+    this.httpClientService.put(this.baseUrl+`/api/Order/update-status/${id}`, params, {observe: 'events'})
+      .pipe(
+      )
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 200){
+                this.triggerRefresh.set(true);
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+          this.isSendingRequest.set(false);
+        },
+        complete: () => {
+          this.isSendingRequest.set(false);
+        }
+      });
+
+  }
 }
 
