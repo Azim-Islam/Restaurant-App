@@ -56,7 +56,7 @@ export class TablesComponent {
 
     this.responsive.observe([Breakpoints.Large, Breakpoints.XLarge])
       .subscribe(result => {
-        this.tableWidthConfig = ['70px', '100px', '100px', '110px', 'auto', '180px'];
+        this.tableWidthConfig = ['70px', '100px', '70px', '110px', 'auto', '180px'];
         if (result.matches) {
           this.tableWidthConfig = ['120px', '160px', '130px', '180px', 'auto', '180px'];
         }
