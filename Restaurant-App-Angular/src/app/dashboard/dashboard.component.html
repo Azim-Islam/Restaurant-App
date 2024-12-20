@@ -8,7 +8,7 @@
 
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline">
-          @for (menuItem of sideBarItems; track  menuItem){
+          @for (menuItem of sideBarItems; track menuItem){
             <li nz-menu-item [nzSelected]="currentComponent() === menuItem.ItemName" (click)="setComponent(menuItem.ItemName)">
               <span nz-icon [nzType]="menuItem.IconName" style="font-size: 18px;"></span>
               <span>{{ menuItem.ItemName }}</span>
