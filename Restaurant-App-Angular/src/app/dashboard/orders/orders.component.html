@@ -7,10 +7,10 @@
 
 
 <div class="main-wrapper pb-0">
-  <div class="order-container overflow-auto h-100">
+  <div class="order-container overflow-auto h-100 position-relative">
+    <nz-spin class="position-absolute w-100 h-100" nzSimple="false" [nzSpinning]="this.backendService.isSendingRequest()" [nzIndicator]="indicatorTemplate" [class.d-none]="!this.backendService.isSendingRequest()">
+    </nz-spin>
     <div class="container-fluid order-item-container p-4 pt-0">
-      <nz-spin class="position-absolute w-100" nzSimple="false" [nzSpinning]="backendService.isSendingRequest()" [nzIndicator]="indicatorTemplate" [class.d-none]="!backendService.isSendingRequest()">
-      </nz-spin>
       <div class="d-flex justify-content-end align-items-center w-100 h-20">
         <button class="drop-down-filter" nz-dropdown [nzDropdownMenu]="menu">
           Filter Orders
@@ -53,7 +53,7 @@
                   <button class="edit-button drop-shadow-md" nzTrigger="click" nz-dropdown [nzDropdownMenu]="clickMenu">
                     <span nz-icon nzType="edit" nzTheme="outline"></span>
                   </button>
-                  <button class="drop-down-button drop-shadow-md">
+                  <button (click)="deleteOrder(orderData)" class="drop-down-button drop-shadow-md">
                     <span nz-icon nzType="delete" nzTheme="outline"></span>
                   </button>
                 </div>
@@ -128,12 +128,14 @@
       </div>
     <!--Main Content End-->
     </div>
-    <div class="sticky-bottom bg-white d-flex justify-content-end mt-2">
+    <div class="d-none d-md-flex sticky-bottom d-flex justify-content-end mt-2 w-auto">
       <div class="p-3 pe-4">
-        <nz-pagination [nzResponsive]="'true'" [nzPageIndex]="pageIndex" [nzTotal]="backendService.totalOrder()" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"></nz-pagination>
-        <ng-template #rangeTemplate let-range="range" let-total>
-          {{ range[0] }}-{{ range[1] }} of {{ total }} items
-        </ng-template>
+        <div class="p-2 p-md-4 bg-white rounded-lg shadow-lg">
+          <nz-pagination (nzPageIndexChange)="onPageIndexChange($event)" (nzPageSizeChange)="onPageSizeChange($event)" [nzResponsive]="'true'" [nzPageIndex]="pageIndex" [nzTotal]="backendService.totalOrder()" [nzPageSize]="pageSize" [nzShowTotal]="rangeTemplate"></nz-pagination>
+          <ng-template #rangeTemplate let-range="range" let-total class="d-none d-md-block">
+            {{ range[0] }}-{{ range[1] }} of {{ total }} items
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
