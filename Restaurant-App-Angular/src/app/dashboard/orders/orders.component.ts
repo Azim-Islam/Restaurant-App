@@ -118,4 +118,18 @@ export class OrdersComponent {
     this.searchQuery = status.has(value) ? status.get(value)! : '';
     this.ngOnInit();
   }
+
+  deleteOrder(orderData: OrderData) {
+    this.backendService.deleteOrder(orderData.id);
+  }
+
+  onPageIndexChange(index: number) {
+    this.pageIndex = index;
+    this.ngOnInit();
+  }
+
+  onPageSizeChange(size: number) {
+    this.pageSize = size;
+    this.ngOnInit();
+  }
 }
