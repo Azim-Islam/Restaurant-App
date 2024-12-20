@@ -155,6 +155,7 @@ export class OrdersBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 200){
+                this.messageService.createMessage('success', 'Order status updated successfully.');
                 this.triggerRefresh.set(true);
               }
               break;
@@ -164,6 +165,7 @@ export class OrdersBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Order status was not updated. Try again later.');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -171,6 +173,33 @@ export class OrdersBackendService {
         }
       });
 
+  }
+
+  deleteOrder(id: string) {
+    this.httpClientService.delete(this.baseUrl+`/api/Order/delete/${id}`, {observe: 'events'})
+      .pipe()
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 204){
+                this.isSendingRequest.set(false);
+                this.messageService.createMessage('success', "Order deleted successfully.");
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+          this.messageService.createMessage('error', "Order could not be deleted. Try again later.");
+          this.isSendingRequest.set(false);
+        },
+        complete: () => {
+          this.triggerRefresh.set(true);
+        }
+      });
   }
 }
 
