@@ -15,6 +15,8 @@ import {NgClass} from '@angular/common';
 import {AddEmployeeComponent} from './employees/add-employee/add-employee.component';
 import {NgStyleInterface} from 'ng-zorro-antd/core/types';
 import {filter} from 'rxjs';
+import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
+import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,12 +33,15 @@ import {filter} from 'rxjs';
     RouterOutlet,
     AddEmployeeComponent,
     NzFooterComponent,
+    NzAvatarComponent,
+    NzDropDownDirective,
+    NzDropdownMenuComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  private authService = inject(AuthService);
+  protected authService = inject(AuthService);
   private router = inject(Router);
   sideBarItems = [
     {
@@ -97,6 +102,10 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['dashboard/employees']);
     }
 
+    if (this.authService.loginStatus() === 'valid'){
+      this.authService.getUserDetails();
+    }
+
     this.isCollapsed = true;
     this.responsive.observe([Breakpoints.Large, ])
       .subscribe(result => {
@@ -106,6 +115,7 @@ export class DashboardComponent implements OnInit {
         }
       });
   }
+
 
 
   onLogout() {
@@ -142,5 +152,9 @@ export class DashboardComponent implements OnInit {
 
   hideSider() {
     this.isCollapsed = true;
+  }
+
+  getUserImage(image: string) {
+    return 'https://restaurantapi.bssoln.com/images/user/' + '/' + image;
   }
 }
