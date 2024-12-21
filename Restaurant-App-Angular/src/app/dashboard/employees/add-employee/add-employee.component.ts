@@ -17,13 +17,14 @@ import {
 } from '@angular/forms';
 import {NzColDirective, NzRowDirective} from 'ng-zorro-antd/grid';
 import {NzInputDirective, } from 'ng-zorro-antd/input';
-import {Observable, Observer, Subject, } from 'rxjs';
+import {catchError, debounceTime, first, map, Observable, Observer, of, Subject, switchMap,} from 'rxjs';
 import {NzUploadChangeParam, NzUploadComponent, NzUploadFile} from 'ng-zorro-antd/upload';
 import {NzIconDirective} from 'ng-zorro-antd/icon';
 import {NzDatePickerComponent} from 'ng-zorro-antd/date-picker';
 import {NzOptionComponent, NzSelectComponent} from 'ng-zorro-antd/select';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {CreateEmployee} from '../employee.interface';
+import {HttpClient, HttpEventType} from '@angular/common/http';
 
 
 const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
@@ -67,7 +68,7 @@ const getBase64 = (file: File): Promise<string | ArrayBuffer | null> =>
 })
 
 export class AddEmployeeComponent {
-
+  httpClient = inject(HttpClient);
   backendService = inject(EmployeeBackendService);
   responsive = inject(BreakpointObserver);
 
@@ -130,7 +131,7 @@ export class AddEmployeeComponent {
     motherName: this.fb.control('', [Validators.required], [this.nameValidator]),
     designation: this.fb.control('', [Validators.required], [this.nameValidator]),
     email: this.fb.control('', [Validators.required, Validators.email]),
-    phoneNumber: this.fb.control('', [Validators.required], [this.phoneNumberValidator]),
+    phoneNumber: this.fb.control('', [Validators.required], [this.phoneNumberValidator.bind(this)]),
     nidCardNumber: this.fb.control('', [Validators.required], [this.nidNumberValidator]),
     dob: this.fb.control('', [Validators.required]),
     doj: this.fb.control('', [Validators.required]),
@@ -153,7 +154,6 @@ export class AddEmployeeComponent {
           this.modalWidth = "100vw";
         }
       });
-
   }
 
   // Validators
@@ -183,17 +183,14 @@ export class AddEmployeeComponent {
   }
 
   phoneNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
-    return new Observable((observer: Observer<ValidationErrors | null>) => {
-      setTimeout(() => {
-        if (!/^(?:\+8801[3-9]|01[3-9])\d{8}$/.test(control.value)) {
-          observer.next({ error: true, isNotNumeric: true });
-        }
-        else {
-          observer.next(null);
-        }
-        observer.complete();
-      }, 500);
-    });
+    if (!control.value) {
+      return of(null);
+    }
+    return this.httpClient.get<boolean>(`https://restaurantapi.bssoln.com/api/Auth/phoneNumberExist/${control.value}`)
+      .pipe(
+        map(isTaken => (isTaken ? { phoneNumberTaken: true } : null)),
+        catchError(() => of(null))
+      )
   }
 
   nidNumberValidator(control: AbstractControl): Observable<ValidationErrors | null> {
