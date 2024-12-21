@@ -75,7 +75,7 @@ export class NewOrderComponent {
 
   onFoodScroll() {
     this.currentFoodSize += 5;
-    this.backendService.getListOfTables('', '1', String(this.currentFoodSize), '');
+    this.backendService.getListOFFood('', '1', String(this.currentFoodSize), '');
   }
 
   getFoodImage(image: string) {
