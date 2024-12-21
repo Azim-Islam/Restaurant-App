@@ -15,6 +15,8 @@ import {NzPaginationComponent} from 'ng-zorro-antd/pagination';
 import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
 import {NzMenuDirective, NzMenuItemComponent} from 'ng-zorro-antd/menu';
 import {OrderData} from './orders.interface';
+import {NgClass} from '@angular/common';
+import {NzEmptyComponent} from 'ng-zorro-antd/empty';
 
 @Component({
   selector: 'app-orders',
@@ -33,7 +35,9 @@ import {OrderData} from './orders.interface';
     NzDropDownDirective,
     NzDropdownMenuComponent,
     NzMenuItemComponent,
-    NzMenuDirective
+    NzMenuDirective,
+    NgClass,
+    NzEmptyComponent
   ],
   providers: [NzImageService],
   templateUrl: './orders.component.html',
