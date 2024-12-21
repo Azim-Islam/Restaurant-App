@@ -42,6 +42,7 @@ import {
   ShoppingCartOutline,
   StopOutline,
   EditOutline,
+  LogoutOutline,
 } from '@ant-design/icons-angular/icons';
 import {FormsModule} from '@angular/forms';
 import {AuthInterceptorService} from './authInterceptor.service';
@@ -76,6 +77,7 @@ const icons: IconDefinition[] = [
   ShoppingCartOutline,
   StopOutline,
   EditOutline,
+  LogoutOutline,
 ];
 
 export const appConfig: ApplicationConfig = {
