@@ -32,3 +32,13 @@
     background: var(--bg-primary-700);
   }
 }
+
+@media screen and (max-width : 1024px) {
+  .food-image{
+    min-width: 64px;
+    max-width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
