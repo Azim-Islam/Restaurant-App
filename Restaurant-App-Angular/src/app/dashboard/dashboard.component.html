@@ -28,33 +28,50 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <div class="d-flex align-items-center">
+      <div class="d-flex justify-content-between align-items-center w-100 ps-0 pe-3 pe-md-4">
+        <div class="d-flex flex-row">
+          <div class="d-flex align-items-center">
         <span
-          class="trigger d-none d-md-block"
+          class="trigger d-none d-md-block text-xl ps-3 pe-3"
           nz-icon
           [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
           (click)="isCollapsed = !isCollapsed"
         ></span>
 
-      </div>
-      <div class="header-title ps-3 ps-md-0">
-        @switch (currentComponent()){
-          @case ('Employees'){
-            <p>Employee Management</p>
-          }
-          @case ('Tables'){
-            <p>Table Management</p>
-          }
-          @case ('Foods'){
-            <p>Food Item Management</p>
-          }
-          @case ('New Order'){
-            <p>Create New Order</p>
-          }
-          @case ('Orders'){
-            <p>Order Management</p>
-          }
-        }
+          </div>
+          <div class="header-title ps-3 pe-2 ps-md-0 truncate">
+            @switch (currentComponent()){
+              @case ('Employees'){
+                <p>Employee Management</p>
+              }
+              @case ('Tables'){
+                <p>Table Management</p>
+              }
+              @case ('Foods'){
+                <p>Food Item Management</p>
+              }
+              @case ('New Order'){
+                <p>Create New Order</p>
+              }
+              @case ('Orders'){
+                <p>Order Management</p>
+              }
+            }
+          </div>
+        </div>
+        <div class="d-flex w-auto justify-content-end gap-2">
+          <div class="d-none d-md-flex flex-col gap-1 justify-end">
+            <div class="text-sm text-end text-gray-700">{{authService.currentUserProfile().email}}</div>
+            <div class="text-xl font-semibold text-end text-gray-700">{{authService.currentUserProfile().fullName}}</div>
+          </div>
+          <nz-avatar nz-dropdown [nzDropdownMenu]="menu" [nzSize]="60" nzIcon="user" [nzSrc]="getUserImage(authService.currentUserProfile().image)" class="drop-shadow-md" style="background-color: #66bb6a"></nz-avatar>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu nzSelectable>
+              <li nz-menu-item class="h-11 text-lg"> <span nz-icon nzType="user" class="ps-1 pe-1" nzTheme="outline" style="color:#66bb6a"></span> Profile</li>
+              <li (click)="onLogout()" nz-menu-item class="h-11 text-lg"> <span nz-icon nzType="logout" class="ps-1 pe-1" nzTheme="outline" style="color:orangered"> </span> Logout</li>
+            </ul>
+          </nz-dropdown-menu>
+        </div>
       </div>
 
     </nz-header>
