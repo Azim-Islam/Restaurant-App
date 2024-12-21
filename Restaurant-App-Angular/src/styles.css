@@ -25,9 +25,9 @@
     /*text-decoration-color: white;*/
     background: #c8e6c9;
   }
-  transition: all 0.3s ease-in-out;
+  /*transition: all 0.3s ease-in-out;*/
   ::-webkit-scrollbar {
-    width: 2px;               /* width of the entire scrollbar */
+    width: 4px;               /* width of the entire scrollbar */
   }
 }
 
