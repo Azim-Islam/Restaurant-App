@@ -3,6 +3,7 @@
   <span> Add New Food Item</span>
 </ng-template>
 <nz-modal
+  nzCentered
   [(nzVisible)]="backendService.showAddModal"
   [nzTitle]="modalTitle"
   (nzOnCancel)="handleCancel()"
