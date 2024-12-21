@@ -1,5 +1,6 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType} from '@angular/common/http';
+import {UserProfile} from './auth.interface';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -7,6 +8,16 @@ export class AuthService {
   loginStatus = signal('');
   authToken = signal('');
   isSendingRequest = signal(false);
+  currentUserProfile = signal<UserProfile>(
+    {
+      id: '',
+      fullName: '',
+      email: '',
+      image: '',
+      userName: '',
+      phoneNumber: ''
+    }
+  );
 
   constructor() {
     if (localStorage.getItem('loginStatus') === 'valid') {
@@ -52,6 +63,9 @@ export class AuthService {
             this.isSendingRequest.set(false);
             this.loginStatus.set('invalid');
           },
+          complete: () => {
+            this.isSendingRequest.set(false);
+          }
         })
     }
   }
@@ -65,5 +79,31 @@ export class AuthService {
 
   getAuthToken() {
     return localStorage.getItem('authToken');
+  }
+
+  getUserDetails() {
+    this.httpClientService.get<UserProfile>('https://restaurantapi.bssoln.com/api/Auth/profile', {observe: 'events'})
+      .pipe(
+      )
+      .subscribe( {
+        next: (data) => {
+          switch (data.type){
+            case HttpEventType.Response:
+              if ((data.status) === 200){
+                this.currentUserProfile.set(data.body!);
+                console.log(data.body!);
+              }
+              break;
+            case HttpEventType.Sent:
+              this.isSendingRequest.set(true);
+              break;
+          }
+        },
+        error: (err) => {
+        },
+        complete: () => {
+          this.isSendingRequest.set(false);
+        }
+      })
   }
 }
