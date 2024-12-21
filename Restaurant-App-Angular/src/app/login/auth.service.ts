@@ -7,6 +7,7 @@ export class AuthService {
   private httpClientService = inject(HttpClient);
   loginStatus = signal('');
   authToken = signal('');
+  refreshToken = signal('');
   isSendingRequest = signal(false);
   currentUserProfile = signal<UserProfile>(
     {
@@ -23,16 +24,18 @@ export class AuthService {
     if (localStorage.getItem('loginStatus') === 'valid') {
       this.loginStatus.set('valid');
       this.authToken.set(localStorage.getItem('authToken')!);
+      this.refreshToken.set(localStorage.getItem('refreshToken')!);
     }
     effect(() => {
       if (this.loginStatus() === 'valid') {
         localStorage.setItem('loginStatus', 'valid');
         localStorage.setItem('authToken', this.authToken());
+        localStorage.setItem('refreshToken', this.refreshToken());
       }
       else if (localStorage.getItem('loginStatus') === 'invalid') {
         localStorage.removeItem('loginStatus');
         localStorage.removeItem('authToken');
-        this.authToken.set('');
+        localStorage.removeItem('refreshToken');
       }
     }, {allowSignalWrites: true});
   }
@@ -49,6 +52,9 @@ export class AuthService {
                 if ((data.status) === 200){
                   if("token" in data.body! && typeof (data.body.token) === 'string'){
                     this.authToken.set(data.body.token);
+                  }
+                  if("refreshToken" in data.body! && typeof (data.body.refreshToken) === 'string'){
+                    this.refreshToken.set(data.body.refreshToken);
                   }
                   this.isSendingRequest.set(false);
                   this.loginStatus.set('valid');
@@ -73,11 +79,17 @@ export class AuthService {
   logOutAdmin() {
     localStorage.removeItem('loginStatus');
     localStorage.removeItem('authToken');
+    localStorage.removeItem('refreshToken');
     this.loginStatus.set('');
     this.authToken.set('');
+    this.refreshToken.set('');
   }
 
   getAuthToken() {
+    return localStorage.getItem('authToken');
+  }
+
+  getRefreshToken() {
     return localStorage.getItem('authToken');
   }
 
@@ -105,5 +117,13 @@ export class AuthService {
           this.isSendingRequest.set(false);
         }
       })
+  }
+
+  refreshAccessToken() {
+    let refToken = this.getRefreshToken();
+    let formData = {
+      "refreshToken": refToken,
+    }
+    return this.httpClientService.post('https://restaurantapi.bssoln.com/api/Auth/refreshToken', formData, {observe: 'events'})
   }
 }
