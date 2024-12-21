@@ -107,5 +107,5 @@
 }
 
 .left-column{
-  background-color: #FAFFFB;
+  background: linear-gradient(270deg, #c8e6c9, #cbe7cc, #cee9cf, #d1ead2, #d4ecd5, #d6edd8, #d9eedb, #dcf0dd, #dff1e0, #e2f2e3, #e5f4e6, #e8f5e9);
 }
