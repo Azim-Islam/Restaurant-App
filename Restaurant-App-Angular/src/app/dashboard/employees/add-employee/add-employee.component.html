@@ -3,6 +3,7 @@
   <span> Add New Employee</span>
 </ng-template>
 <nz-modal
+  nzCentered
   [(nzVisible)]="backendService.showAddModal"
   [nzTitle]="modalTitle"
   (nzOnCancel)="handleCancel()"
@@ -77,6 +78,7 @@
                 [nzContent]="modalContent"
                 [nzFooter]="null"
                 (nzOnCancel)="previewVisible = false"
+                nzCentered
                 nzWidth="760px"
               >
                 <ng-template #modalContent>
@@ -145,6 +147,9 @@
                 }
                 @if (control.errors?.['isNotNumeric']) {
                   Enter a valid BD phone number.
+                }
+                @if (control.errors?.['phoneNumberTaken']) {
+                  This phone number already exists!
                 }
               </ng-template>
             </nz-form-item>
