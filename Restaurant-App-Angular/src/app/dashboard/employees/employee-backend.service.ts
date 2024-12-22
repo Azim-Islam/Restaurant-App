@@ -1,6 +1,7 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
 import {CreateEmployee, Employee, ResponseListOfEmployees} from './employee.interface';
+import {MessageService} from '../../message.service';
 
 
 function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
@@ -12,6 +13,7 @@ function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
 export class EmployeeBackendService {
   private baseUrl = "https://restaurantapi.bssoln.com"
   private httpClientService = inject(HttpClient);
+  private messageService = inject(MessageService);
   isSendingRequest = signal(false);
   triggerRefresh = signal(false);
   listOfEmployees = signal<Employee[]>([]);
@@ -48,6 +50,7 @@ export class EmployeeBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -64,7 +67,7 @@ export class EmployeeBackendService {
             case HttpEventType.Response:
               if ((data.status) === 204){
                 this.isSendingRequest.set(false);
-
+                this.messageService.createMessage('success', 'Employee Deleted Successfully')
               }
               break;
             case HttpEventType.Sent:
@@ -73,6 +76,7 @@ export class EmployeeBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -94,6 +98,7 @@ export class EmployeeBackendService {
               if ((data.status) === 200){
                 this.isSendingRequest.set(false);
                 this.triggerRefresh.set(true);
+                this.messageService.createMessage('success', 'Employee Added Successfully')
               }
               break;
             case HttpEventType.Sent:
@@ -103,6 +108,7 @@ export class EmployeeBackendService {
         },
         error: (err) => {
           this.isSendingRequest.set(false);
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
         },
         complete: () => {
           this.isSendingRequest.set(false);
