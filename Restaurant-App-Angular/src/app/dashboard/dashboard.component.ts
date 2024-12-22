@@ -17,6 +17,7 @@ import {NgStyleInterface} from 'ng-zorro-antd/core/types';
 import {filter} from 'rxjs';
 import {NzAvatarComponent} from 'ng-zorro-antd/avatar';
 import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdown';
+import {ProfileComponent} from './profile/profile.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,6 +37,7 @@ import {NzDropDownDirective, NzDropdownMenuComponent} from 'ng-zorro-antd/dropdo
     NzAvatarComponent,
     NzDropDownDirective,
     NzDropdownMenuComponent,
+    ProfileComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
