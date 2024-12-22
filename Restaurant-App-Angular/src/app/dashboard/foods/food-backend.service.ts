@@ -1,6 +1,7 @@
 import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
 import {CreateFood, FoodItem, ResponseFoodList} from './food.interface';
+import {MessageService} from '../../message.service';
 
 
 function getSanitizedListOfEmployee(data: ResponseFoodList | null) {
@@ -11,6 +12,7 @@ function getSanitizedListOfEmployee(data: ResponseFoodList | null) {
 export class FoodBackendService {
   private baseUrl = "https://restaurantapi.bssoln.com"
   private httpClientService = inject(HttpClient);
+  private messageService = inject(MessageService);
   isSendingRequest = signal(false);
   triggerRefresh = signal(false);
   listOfFood = signal<FoodItem[]>([]);
@@ -47,6 +49,7 @@ export class FoodBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -62,6 +65,7 @@ export class FoodBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 204){
+                this.messageService.createMessage('success', 'Food Item Removed Successfully!')
                 this.isSendingRequest.set(false);
               }
               break;
@@ -71,6 +75,7 @@ export class FoodBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -90,6 +95,7 @@ export class FoodBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 200){
+                this.messageService.createMessage('success', 'Food Item Added Successfully!')
                 this.isSendingRequest.set(false);
                 this.triggerRefresh.set(true);
               }
@@ -100,6 +106,7 @@ export class FoodBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
