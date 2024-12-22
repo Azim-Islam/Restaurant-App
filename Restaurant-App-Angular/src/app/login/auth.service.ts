@@ -90,7 +90,7 @@ export class AuthService {
   }
 
   getRefreshToken() {
-    return localStorage.getItem('authToken');
+    return localStorage.getItem('refreshToken');
   }
 
   getUserDetails() {

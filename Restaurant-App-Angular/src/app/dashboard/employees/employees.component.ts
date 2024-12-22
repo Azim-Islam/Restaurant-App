@@ -23,7 +23,7 @@ export class EmployeesComponent implements OnInit {
   private injector = inject(Injector);
 
   ngOnInit() {
-    this.loadDataFromServer(this.pageIndex, this.backendService.totalEmployees());
+    this.loadDataFromServer(this.pageIndex, this.pageSize);
   }
 
   pageSize = 10;
