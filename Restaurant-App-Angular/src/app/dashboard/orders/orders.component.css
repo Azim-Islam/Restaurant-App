@@ -1,3 +1,7 @@
+*{
+  transition: all 0.3s ease-in-out;
+}
+
 .order-container{
   min-height: calc(100vh - 85px);
   max-height: calc(100vh - 85px);
