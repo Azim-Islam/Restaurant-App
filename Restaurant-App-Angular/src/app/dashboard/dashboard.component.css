@@ -1,5 +1,5 @@
 * {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Overpass', sans-serif;
 }
 
 .header-title{
@@ -72,6 +72,7 @@ nz-footer {
 }
 
 .ant-menu-item{
+  font-family: 'inter', sans-serif !important;
   display: flex;
   align-items: center;
   height: 52px;
@@ -172,6 +173,7 @@ nz-footer {
 
 @media screen and (max-width: 768px) {
   .ant-menu-item{
+    font-family: 'inter', sans-serif !important;
     display: flex;
     justify-content: center;
     align-items: center;
