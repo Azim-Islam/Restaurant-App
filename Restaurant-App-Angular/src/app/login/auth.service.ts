@@ -19,6 +19,7 @@ export class AuthService {
       phoneNumber: ''
     }
   );
+  showProfile = signal(false);
 
   constructor() {
     if (localStorage.getItem('loginStatus') === 'valid') {
