@@ -2,6 +2,7 @@ import {effect, inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpEventType, HttpParams} from '@angular/common/http';
 import {CreateTable, ResponseAvailableEmployees, ResponseTableList, Table} from './table.interface';
 import {Employee, ResponseListOfEmployees} from '../employees/employee.interface';
+import {MessageService} from '../../message.service';
 
 
 function getSanitizedListOfEmployee(data: ResponseListOfEmployees | null) {
@@ -30,6 +31,7 @@ function getAvailableEmployee(data: ResponseAvailableEmployees[] | null, listOfE
 export class TableBackendService {
   private baseUrl = "https://restaurantapi.bssoln.com"
   private httpClientService = inject(HttpClient);
+  private messageService = inject(MessageService);
   isSendingRequest = signal(false);
   triggerRefresh = signal(false);
   listOfTable = signal<Table[]>([]);
@@ -77,6 +79,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isLoadingTables.set(false);
         },
         complete: () => {
@@ -109,6 +112,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isLoadingEmployees.set(false);
         },
         complete: () => {
@@ -126,6 +130,7 @@ export class TableBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 204){
+                this.messageService.createMessage('success', 'Table Removed Successfully!')
                 this.isSendingRequest.set(false);
               }
               break;
@@ -135,6 +140,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -153,6 +159,7 @@ export class TableBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 200){
+                this.messageService.createMessage('success', 'Table Added Successfully!')
                 this.isSendingRequest.set(false);
                 this.triggerRefresh.set(true);
               }
@@ -163,6 +170,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -180,6 +188,7 @@ export class TableBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 204){
+                this.messageService.createMessage('success', 'Employees Removed Successfully!')
                 this.isSendingRequest.set(false);
               }
               break;
@@ -189,6 +198,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
@@ -214,6 +224,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
         },
         complete: () => {
         }
@@ -234,6 +245,7 @@ export class TableBackendService {
           switch (data.type){
             case HttpEventType.Response:
               if ((data.status) === 200){
+                this.messageService.createMessage('success', 'Employees Assigned Successfully!')
                 this.isSendingRequest.set(false);
               }
               break;
@@ -243,6 +255,7 @@ export class TableBackendService {
           }
         },
         error: (err) => {
+          this.messageService.createMessage('error', 'Error Processing The Request. Please Try Again...');
           this.isSendingRequest.set(false);
         },
         complete: () => {
