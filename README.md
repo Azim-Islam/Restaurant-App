@@ -94,3 +94,9 @@ Follow these steps to set up and run the project locally:
      ```bash
      http://localhost:4200
      ```
+## 📬 Contact
+
+Feel free to reach out for any inquiries or feedback:
+
+- **Email**: azimislam5@gmail.com
+
