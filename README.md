@@ -1,4 +1,4 @@
-# 🍽️ BSS Restaurant [Live URL](https://restaurant.azimdev.me/)
+![7](https://github.com/user-attachments/assets/8c370468-cd62-4644-8798-73fcc7dd8c28)![7](https://github.com/user-attachments/assets/adc44a4e-98d8-41f7-b34b-6cb6d739713e)![7](https://github.com/user-attachments/assets/094af9a0-d802-43f9-a861-b02f01b838fa)# 🍽️ BSS Restaurant [Live URL](https://restaurant.azimdev.me/)
 
 Welcome to **BSS Restaurant**, a modern **Restaurant Management Dashboard** built with the latest and greatest features of **Angular 18**! 🚀 This application is designed to streamline and simplify the day-to-day operations of a restaurant, providing an intuitive user experience for employees and managers alike. 
 
