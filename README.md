@@ -91,6 +91,6 @@ Follow these steps to set up and run the project locally:
        npm install
     ```
 5. Open the app in your browser:
-  ```bash
-  http://localhost:4200
-  ```
+     ```bash
+     http://localhost:4200
+     ```
