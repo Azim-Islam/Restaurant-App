@@ -54,7 +54,7 @@ Here’s a quick peek at what **BSS Restaurant** looks like in action! 🎉
 ![Table Management](https://i.ibb.co.com/m8KK7JX/3.png)
 
 ### 🍔 Restaurant Food Management
-![Food Management](https://i.ibb.co.com/CwpYQjc/4.png)
+![Food Management](https://i.ibb.co.com/CwpYQjc/4.png==500x720)
 
 ### 🛒 Creating New Orders
 ![Create Orders](https://i.ibb.co.com/hWz4GvH/5.png)
