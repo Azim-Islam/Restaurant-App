@@ -63,7 +63,7 @@ Here’s a quick peek at what **BSS Restaurant** looks like in action! 🎉
 ![View Orders](https://i.ibb.co.com/jLzfq9x/6.png)
 
 ### 📱 Responsive Design
-![Responsive Design](https://i.ibb.co.com/dKjtpVG/7.png)
+![Responsive Design](https://i.ibb.co.com/dKjtpVG/7.png==500x720)
 
 
 ---
