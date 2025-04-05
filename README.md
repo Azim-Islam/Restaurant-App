@@ -2,7 +2,7 @@
 
 Welcome to **BSS Restaurant**, a modern **Restaurant Management Dashboard** built with the latest and greatest features of **Angular 18**! 🚀 This application is designed to streamline and simplify the day-to-day operations of a restaurant, providing an intuitive user experience for employees and managers alike. 
 
----
+--- 
 
 ## ✨ Features
 
